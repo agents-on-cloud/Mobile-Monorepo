@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "laser-avenue": "apps/laser-avenue",
+    "laser-avenue-e2e": "apps/laser-avenue-e2e"
+  }
+}
