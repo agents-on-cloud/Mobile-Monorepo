@@ -17,6 +17,7 @@ import ServicesLandingPage from '../Services/Screens/ServicesLandingPage'
 import SuppliersLandingPage from '../Suppliers/Screens/SuppliersLandingPage'
 import TasksLandingPage from '../Tasks/Screens/TasksLandingPage'
 import AppointmentLandingPage from '../Appointment/Screens/AppointmentLandingPage'
+import { Provider as PaperProvider } from 'react-native-paper';
 
 
 
@@ -26,6 +27,7 @@ import AppointmentLandingPage from '../Appointment/Screens/AppointmentLandingPag
 
 
     return (
+      <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator  >
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
@@ -53,6 +55,7 @@ import AppointmentLandingPage from '../Appointment/Screens/AppointmentLandingPag
 
         </Stack.Navigator>
       </NavigationContainer>
+      </PaperProvider>
     );
   }
 

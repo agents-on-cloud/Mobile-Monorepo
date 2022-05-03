@@ -15,6 +15,7 @@
     "react-native-screens": "*",
     "react-native-gesture-handler": "*",
     "react-native-safe-area-context": "*",
-    "fs": "*"
+    "fs": "*",
+    "react-native-paper": "*"
   }
 }
