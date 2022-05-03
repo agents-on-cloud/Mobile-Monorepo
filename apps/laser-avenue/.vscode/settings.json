@@ -1,0 +1,9 @@
+// Workspace settings
+{
+    "files.exclude": {
+        "**/package.json": true,
+        "**/node_modules": true,
+
+       
+    }
+}
