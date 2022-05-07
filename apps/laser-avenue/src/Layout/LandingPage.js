@@ -50,30 +50,7 @@ export const LandingPage = ({ navigation }) => {
             </View>
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.hero}>
-              <View style={styles.heroTitle}>
-                <Checkmark
-                  width={32}
-                  height={32}
-                  stroke="hsla(162, 47%, 50%, 1)"
-                />
-                <Text style={[styles.textLg, styles.heroTitleText]}>
-                  Knowledge Base 
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.whatsNextButton}
-                onPress={() => {
-                  navigation.navigate('KnowledgeBaseLandingPage')
-                }}
-              >
-                <Text style={[styles.textMd, styles.textCenter]}>
-                  GO
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          
 
           <View style={styles.section}>
             <View style={styles.hero}>
@@ -123,6 +100,58 @@ export const LandingPage = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
+
+          <View style={styles.section}>
+            <View style={styles.hero}>
+              <View style={styles.heroTitle}>
+                <Checkmark
+                  width={32}
+                  height={32}
+                  stroke="hsla(162, 47%, 50%, 1)"
+                />
+                <Text style={[styles.textLg, styles.heroTitleText]}>
+                  Appointment
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.whatsNextButton}
+                onPress={() => {
+                  navigation.navigate('AppointmentLandingPage')
+                }}
+              >
+                <Text style={[styles.textMd, styles.textCenter]}>
+                  GO
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <View style={styles.hero}>
+              <View style={styles.heroTitle}>
+                <Checkmark
+                  width={32}
+                  height={32}
+                  stroke="hsla(162, 47%, 50%, 1)"
+                />
+                <Text style={[styles.textLg, styles.heroTitleText]}>
+                  Billing
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.whatsNextButton}
+                onPress={() => {
+                  navigation.navigate('BillingLandingPage')
+                }}
+              >
+                <Text style={[styles.textMd, styles.textCenter]}>
+                  GO
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+
           <View style={styles.section}>
             <View style={styles.hero}>
               <View style={styles.heroTitle}>
@@ -195,30 +224,7 @@ export const LandingPage = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.section}>
-            <View style={styles.hero}>
-              <View style={styles.heroTitle}>
-                <Checkmark
-                  width={32}
-                  height={32}
-                  stroke="hsla(162, 47%, 50%, 1)"
-                />
-                <Text style={[styles.textLg, styles.heroTitleText]}>
-                  Billing
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.whatsNextButton}
-                onPress={() => {
-                  navigation.navigate('BillingLandingPage')
-                }}
-              >
-                <Text style={[styles.textMd, styles.textCenter]}>
-                  GO
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+         
           <View style={styles.section}>
             <View style={styles.hero}>
               <View style={styles.heroTitle}>
@@ -267,30 +273,7 @@ export const LandingPage = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.section}>
-            <View style={styles.hero}>
-              <View style={styles.heroTitle}>
-                <Checkmark
-                  width={32}
-                  height={32}
-                  stroke="hsla(162, 47%, 50%, 1)"
-                />
-                <Text style={[styles.textLg, styles.heroTitleText]}>
-                  Appointment
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.whatsNextButton}
-                onPress={() => {
-                  navigation.navigate('AppointmentLandingPage')
-                }}
-              >
-                <Text style={[styles.textMd, styles.textCenter]}>
-                  GO
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+     
           <View style={styles.section}>
             <View style={styles.hero}>
               <View style={styles.heroTitle}>
@@ -331,6 +314,31 @@ export const LandingPage = ({ navigation }) => {
                 style={styles.whatsNextButton}
                 onPress={() => {
                   navigation.navigate('FacilitiesLandingPage')
+                }}
+              >
+                <Text style={[styles.textMd, styles.textCenter]}>
+                  GO
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <View style={styles.hero}>
+              <View style={styles.heroTitle}>
+                <Checkmark
+                  width={32}
+                  height={32}
+                  stroke="hsla(162, 47%, 50%, 1)"
+                />
+                <Text style={[styles.textLg, styles.heroTitleText]}>
+                  Knowledge Base 
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.whatsNextButton}
+                onPress={() => {
+                  navigation.navigate('KnowledgeBaseLandingPage')
                 }}
               >
                 <Text style={[styles.textMd, styles.textCenter]}>
@@ -415,7 +423,7 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
   section: {
-    marginVertical: 24,
+    marginVertical: 0,
     marginHorizontal: 12,
   },
   shadowBox: {
@@ -464,7 +472,7 @@ const styles = StyleSheet.create({
   },
   whatsNextButton: {
     backgroundColor: '#ffffff',
-    paddingVertical: 16,
+    paddingVertical: 5,
     borderRadius: 8,
     width: '50%',
     marginTop: 24,

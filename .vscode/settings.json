@@ -16,11 +16,11 @@
         "**/Suppliers": true,
         "**/Tasks": true,
         "**/main.tsx": true,
-        "**/Layout": false,
-        "**/Marketing": false,
-        //////////////////////////////////
+        "**/Layout": true,
+        "**/Marketing": true,
+        ////////////////////////////////
         "**/App.spec.tsx": true,
-        "**/app": true,
+        // "**/app": true,
         "**/.babelrc": true,
         "**/metro.config.js": true,
         "**/app.json": true,
@@ -29,7 +29,7 @@
         "**/tsconfig.app.json": true,
         "**/tsconfig.json": true,
         "**/tsconfig.spec.json": true,
-        ////////////////////////////////////
+        //////////////////////////////////
         "**/laser-avenue-e2e": true,
         "**/.gitkeep": true,
         "**/libs": true,

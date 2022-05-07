@@ -17,10 +17,37 @@ import ServicesLandingPage from './src/Services/Screens/ServicesLandingPage'
 import SuppliersLandingPage from './src/Suppliers/Screens/SuppliersLandingPage'
 import TasksLandingPage from './src/Tasks/Screens/TasksLandingPage'
 import AppointmentLandingPage from './src/Appointment/Screens/AppointmentLandingPage'
+import Increment from '../laser-avenue/src/Marketing/Screens/increment'
 import { Provider as PaperProvider } from 'react-native-paper';
+import {configureStore} from '@reduxjs/toolkit'
+import { Provider } from 'react-redux';
+import marketingReducer from './src/Marketing/store-marketing.js'
+import tasksReducer from './src/Tasks/store-tasks.js'
+import notificationReducer from './src/Notification/store-notification.js'
+import providerReducer from './src/Provider/store-provider.js'
+import appointmentReducer from './src/Appointment/store-Appointment.js'
+import billingReducer from './src/Billing/store-Billing.js'
+
+const store=configureStore({
+  reducer:{
+    billing:billingReducer,
+    tasks:tasksReducer,
+    notification:notificationReducer,
+    provider:providerReducer,
+    appointment:appointmentReducer,
+    marketing:marketingReducer,
+  }
+})
+
+
 
   function App() {
+ 
+
+
     return (
+      <>
+      <Provider store={store}>
       <PaperProvider>
       <NavigationContainer>
         <Stack.Navigator  >
@@ -88,7 +115,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
          {/* /////////////////////Marketing/////////////////////////////////////// */}
 
 
-
+         <Stack.Screen name="increment" component={Increment} />
 
 
 
@@ -102,6 +129,8 @@ import { Provider as PaperProvider } from 'react-native-paper';
         </Stack.Navigator>
       </NavigationContainer>
       </PaperProvider>
+      </Provider>
+      </>
     );
   }
 

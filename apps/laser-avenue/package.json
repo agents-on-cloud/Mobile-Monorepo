@@ -16,6 +16,10 @@
     "react-native-gesture-handler": "*",
     "react-native-safe-area-context": "*",
     "fs": "*",
-    "react-native-paper": "*"
+    "react-native-paper": "*",
+    "redux": "*",
+    "react-redux": "*",
+    "@reduxjs/toolkit": "*",
+    "redux-thunk": "*"
   }
 }

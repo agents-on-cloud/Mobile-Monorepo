@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text,Button } from 'react-native';
 import { Appbar } from 'react-native-paper';
-function MarketingLandingPage() {
+function MarketingLandingPage({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Appbar>
@@ -18,6 +18,7 @@ function MarketingLandingPage() {
        </Appbar>
        <Text style={{fontSize:40}}>Marketing</Text>
        <Text style={{fontSize:20}}>start Development Here</Text>
+       <Button title="screen" onPress={()=>navigation.navigate('increment')}/>
        
        </View>
     );
