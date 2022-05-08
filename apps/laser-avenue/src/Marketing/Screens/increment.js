@@ -14,6 +14,7 @@ function increment() {
         <View>
             <Button title='Increment' onPress={()=>dispatch(incrementt(5))}  />
             <Text>{marketingStore.value}</Text>
+            <Text>{marketingStore.x}</Text>
         </View>
     )
 }

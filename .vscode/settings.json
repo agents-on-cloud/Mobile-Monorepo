@@ -16,9 +16,10 @@
         "**/Suppliers": true,
         "**/Tasks": true,
         "**/main.tsx": true,
+        "**/Dashboard": true,
         "**/Layout": true,
         "**/Marketing": true,
-        ////////////////////////////////
+        //////////////////////////////
         "**/App.spec.tsx": true,
         // "**/app": true,
         "**/.babelrc": true,

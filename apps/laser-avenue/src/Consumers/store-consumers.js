@@ -4,10 +4,18 @@ export const consumersStore=createSlice({
     name:'consumers',
     initialState:{
         value:66
+
+
+
+
+
+
+
     },
     reducers:{
     increment:(state,action)=>{
     state.value = state.value + action.payload
+
     }
     }
 })
