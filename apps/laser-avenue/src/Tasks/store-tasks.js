@@ -1,18 +1,102 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-export const consumersStore=createSlice({
-    name:'tasks',
-    initialState:{
-        value:66
+export const consumersStore = createSlice({
+  name: 'tasks',
+  initialState: {
+    fixTasks: [],
+    fixSearchTasks: [],
+    tasks: [],
+    token: '',
+    user_id: 'user_id 1',
+    user_name: 'user_name 1 ',
+  },
+  reducers: {
+    increment: (state, action) => {
+      state.value = state.value + action.payload;
     },
-    reducers:{
-    increment:(state,action)=>{
-    state.value = state.value + action.payload
-    }
-    }
-})
+    getTaskas: (state, action) => {
+      state.fixTasks = action.payload;
+      state.fixSearchTasks = action.payload;
+      state.tasks = action.payload;
+    },
+    getAllTasks: (state, action) => {
+      state.tasks = state.fixTasks;
+      state.fixSearchTasks = state.fixTasks;
+      state.fixTasks = state.fixTasks;
+    },
+    getTodayTasks: (state, action) => {
+      let todayDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+      const arr = state.fixTasks.filter((element) => {
+        return element.due_date === todayDate;
+      });
+      state.tasks = arr;
+      state.fixSearchTasks = arr;
+    },
+    getTomorrowTasks: (state, action) => {
+      const todayDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+      let dateOffset = 24 * 60 * 60 * 1000 * 1;
+      let myDate = new Date(todayDate);
+      let tomorrow = new Date(myDate.setTime(myDate.getTime() + dateOffset))
+        .toISOString()
+        .substr(0, 10);
+      const arr = state.fixTasks.filter((element) => {
+        return element.due_date === tomorrow;
+      });
+      state.tasks = arr;
+      state.fixSearchTasks = arr;
+    },
+    getThisWeek: (state, action) => {
+      const todayDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+      let dateOffset = 24 * 60 * 60 * 1000 * 7;
+      let myDate = new Date(todayDate);
+      let thisWeak = new Date(myDate.setTime(myDate.getTime() + dateOffset))
+        .toISOString()
+        .substr(0, 10);
+      const filterThisWeek = state.fixTasks.filter((element) => {
+        return todayDate <= element.due_date && thisWeak >= element.due_date;
+      });
+      state.tasks = filterThisWeek;
+      state.fixSearchTasks = filterThisWeek;
+    },
+    getLastWeek: (state, action) => {
+      const todayDate = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000
+      )
+        .toISOString()
+        .substr(0, 10);
+      let dateOffset = 24 * 60 * 60 * 1000 * 7;
+      let myDate = new Date(todayDate);
+      let lastWeak = new Date(myDate.setTime(myDate.getTime() - dateOffset))
+        .toISOString()
+        .substr(0, 10);
+      const filterLastWeek = state.fixTasks.filter((element) => {
+        return element.due_date >= lastWeak && element.due_date < todayDate;
+      });
+      state.tasks = filterLastWeek;
+      state.fixSearchTasks = filterLastWeek;
+    },
+  },
+});
 
-
-
-export const {increment} =consumersStore.actions
-export default consumersStore.reducer 
+export const {
+  increment,
+  getTaskas,
+  getAllTasks,
+  getTodayTasks,
+  getTomorrowTasks,
+  getThisWeek,
+  getLastWeek,
+} = consumersStore.actions;
+export default consumersStore.reducer;

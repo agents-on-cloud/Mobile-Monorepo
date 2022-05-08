@@ -20,6 +20,11 @@
     "redux": "*",
     "react-redux": "*",
     "@reduxjs/toolkit": "*",
-    "redux-thunk": "*"
+    "redux-thunk": "*",
+    "react-native-vector-icons": "*",
+    "axios": "*",
+    "@react-native-community/checkbox": "*",
+    "react-native-dropdown-picker": "*",
+    "@react-native-community/datetimepicker": "*"
   }
 }

@@ -39,7 +39,7 @@ const store=configureStore({
   }
 })
 
-
+import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 
   function App() {
  
@@ -77,7 +77,7 @@ const store=configureStore({
 
          {/* //////////////////////////////////////////////////////////////////// */}
          {/* /////////////////////Tasks////////////////////////////////////////// */}
-
+         <Stack.Screen name="createTask" component={CreateTask} />
 
 
 

@@ -14,7 +14,7 @@
         "**/Provider": true,
         "**/Services": true,
         "**/Suppliers": true,
-        "**/Tasks": true,
+        "**/Tasks": false,
         "**/main.tsx": true,
         "**/Dashboard": true,
         "**/Layout": true,
