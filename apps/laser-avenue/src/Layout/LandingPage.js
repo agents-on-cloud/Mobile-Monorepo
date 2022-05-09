@@ -67,7 +67,7 @@ export const LandingPage = ({ navigation }) => {
               <TouchableOpacity
                 style={styles.whatsNextButton}
                 onPress={() => {
-                  navigation.navigate('NotificationLandingPage')
+                  navigation.navigate('Notifications')
                 }}
               >
                 <Text style={[styles.textMd, styles.textCenter]}>

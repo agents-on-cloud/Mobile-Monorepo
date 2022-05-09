@@ -1,18 +1,25 @@
 import * as React from 'react';
-import { View, Text,Button } from 'react-native';
+import { View, Text,Button ,ScrollView } from 'react-native';
 import {useDispatch,useSelector} from 'react-redux'
 import {increment} from '../store-notification'
-function NotificationLandingPage() {
+import { List } from 'react-native-paper';
+
+function Notifications() {
   const notificationStore=useSelector(state=>state.notification)
   const dispatch=useDispatch()
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{fontSize:40}}>Notification</Text>
+      <ScrollView>
+      {/* <Text style={{fontSize:40}}>Notification</Text>
       <Text style={{fontSize:20}}>start Development Here</Text>
       <Button title="plus 5 using redux" onPress={()=>{dispatch(increment(5))}}/>
       <Text style={{fontSize:50,marginTop:80}}>{notificationStore.value}</Text>
-     
-    </View>
+     */}
+         <List.Subheader>Recent notifications</List.Subheader>
+  
+  
+    </ScrollView>
+    
+    
     );
   }
-  export default NotificationLandingPage
+  export default Notifications
