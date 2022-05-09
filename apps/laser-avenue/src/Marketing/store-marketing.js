@@ -4,7 +4,7 @@ export const marketingStore=createSlice({
     name:'marketing',
     initialState:{
         value:66,
-        x:40
+         x:40
     },
     reducers:{
 
@@ -14,7 +14,7 @@ export const marketingStore=createSlice({
 
 
 
-        
+
         }
     }
 })

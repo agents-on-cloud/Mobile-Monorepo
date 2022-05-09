@@ -1,26 +1,19 @@
 import * as React from 'react';
 import { View, Text,Button } from 'react-native';
 import { Appbar } from 'react-native-paper';
+import { Checkbox} from "native-base";
+import { HStack } from "native-base";
+
 function MarketingLandingPage({navigation}) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Appbar>
-      <Appbar.Action
-       icon="archive"
-       onPress={() => console.log('Pressed archive')}
-       />
-       <Appbar.Action icon="mail" onPress={() => console.log('Pressed mail')} />
-       <Appbar.Action icon="label" onPress={() => console.log('Pressed label')} />
-       <Appbar.Action
-       icon="delete"
-       onPress={() => console.log('Pressed delete')}
-       />
-       </Appbar>
-       <Text style={{fontSize:40}}>Marketing</Text>
-       <Text style={{fontSize:20}}>start Development Here</Text>
-       <Button title="screen" onPress={()=>navigation.navigate('increment')}/>
-       
-       </View>
+      // <View>
+     
+<HStack space={3}>
+      <Checkbox value="test" accessibilityLabel="This is a dummy checkbox" />
+      <Checkbox value="test" accessibilityLabel="This is a dummy checkbox" defaultIsChecked />
+    </HStack>
+
+    // </View>
     );
   }
   export default MarketingLandingPage

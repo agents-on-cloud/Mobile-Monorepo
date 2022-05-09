@@ -3,7 +3,22 @@ import {createSlice} from '@reduxjs/toolkit'
 export const consumersStore=createSlice({
     name:'tasks',
     initialState:{
-        value:66
+        value:66,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     },
     reducers:{
     increment:(state,action)=>{

@@ -15,13 +15,15 @@
         "**/Services": true,
         "**/Suppliers": true,
         "**/Tasks": true,
-        "**/main.tsx": true,
-        "**/Dashboard": true,
-        "**/Layout": true,
+        // "**/Dashboard": true,
+        // "**/Layout": true,
         "**/Marketing": true,
+
         //////////////////////////////
-        "**/App.spec.tsx": true,
+
+        "**/main.tsx": true,
         // "**/app": true,
+        "**/App.spec.tsx": true,
         "**/.babelrc": true,
         "**/metro.config.js": true,
         "**/app.json": true,
