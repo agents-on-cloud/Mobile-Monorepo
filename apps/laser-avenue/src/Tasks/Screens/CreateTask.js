@@ -228,10 +228,7 @@ export default function CreateTask({ navigation }) {
       });
       if (claimed) {
         console.log(users_id);
-        const res = await axios.post(
-          'http://10.0.2.2:30122/tasks',
-          newTask
-        );
+        const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
         if (res.status === 201) {
           const as = await axios.post(
             'http://10.0.2.2:30122/tasks/task/assigneUser',
@@ -240,10 +237,7 @@ export default function CreateTask({ navigation }) {
         }
       } else {
         users_id.forEach(async (ele) => {
-          const res = await axios.post(
-            'http://10.0.2.2:30122/tasks',
-            newTask
-          );
+          const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
           if (res.status === 201) {
             const as = await axios.post(
               'http://10.0.2.2:30122/tasks/task/assigneUser',
@@ -262,7 +256,10 @@ export default function CreateTask({ navigation }) {
             onPress: restPage,
             style: 'cancel',
           },
-          { text: 'Go Home', onPress: () => navigation.navigate('Home') },
+          {
+            text: 'Go Home',
+            onPress: () => navigation.navigate('TasksLandingPage'),
+          },
         ]
       );
     } catch (error) {
