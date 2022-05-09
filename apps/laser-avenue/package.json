@@ -20,6 +20,8 @@
     "redux": "*",
     "react-redux": "*",
     "@reduxjs/toolkit": "*",
-    "redux-thunk": "*"
+    "redux-thunk": "*",
+    "native-base": "*",
+    "react-native-snap-carousel": "*"
   }
 }

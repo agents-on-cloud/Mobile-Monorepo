@@ -27,6 +27,10 @@ import notificationReducer from './src/Notification/store-notification.js'
 import providerReducer from './src/Provider/store-provider.js'
 import appointmentReducer from './src/Appointment/store-Appointment.js'
 import billingReducer from './src/Billing/store-Billing.js'
+import dashboardReducer from './src/Dashboard/store-dashboard.js'
+import Dashboard from './src/Dashboard/Dashboard.js'
+import { NativeBaseProvider} from "native-base";
+
 
 const store=configureStore({
   reducer:{
@@ -36,6 +40,7 @@ const store=configureStore({
     provider:providerReducer,
     appointment:appointmentReducer,
     marketing:marketingReducer,
+    dashboard:dashboardReducer
   }
 })
 
@@ -46,11 +51,12 @@ const store=configureStore({
 
 
     return (
-      <>
-      <Provider store={store}>
-      <PaperProvider>
-      <NavigationContainer>
+        <>
+        <Provider store={store}>
+        <NativeBaseProvider>
+        <NavigationContainer>
         <Stack.Navigator  >
+          <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />
           <Stack.Screen name="BillingLandingPage" component={BillingLandingPage} />
@@ -68,7 +74,7 @@ const store=configureStore({
           <Stack.Screen name="AppointmentLandingPage" component={AppointmentLandingPage} />
          
          {/* /* /////////////////////Billing/////////////////////////////////////// */ }
-
+       
 
 
 
@@ -113,14 +119,13 @@ const store=configureStore({
 
          {/* //////////////////////////////////////////////////////////////////// /*/}
          {/* /////////////////////Marketing/////////////////////////////////////// */}
-
-
          <Stack.Screen name="increment" component={Increment} />
 
 
+     
 
 
-         {/* //////////////////////////////////////////////////////////////////// */}
+         {/* ////////////////////////////////////////////////////////////////////// */}
 
 
      
@@ -128,7 +133,7 @@ const store=configureStore({
 
         </Stack.Navigator>
       </NavigationContainer>
-      </PaperProvider>
+      </NativeBaseProvider>   
       </Provider>
       </>
     );
