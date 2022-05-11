@@ -25,6 +25,8 @@
     "react-native-snap-carousel": "*",
     "lottie-react-native": "*",
     "react-native-gifted-charts": "*",
-    "@expo/vector-icons": "*"
+    "react-native-vector-icons": "*",
+    "nx": "*",
+    "axios": "*"
   }
 }

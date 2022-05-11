@@ -22,6 +22,7 @@ module.exports = (async () => {
         sourceExts: [...sourceExts, 'svg'],
         resolverMainFields: ['sbmodern', 'browser', 'main'],
         blacklistRE: exclusionList([/\.\/dist\/.*/]),
+        
       },
     },
     {

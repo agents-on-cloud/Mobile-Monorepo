@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {increment} from '../Dashboard/store-dashboard';
 import { Text, View, SafeAreaView,ScrollView } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { Button,IconButton,HStack,StatusBar,Box,Icon,Heading,Avatar,Center,VStack} from "native-base";
+import { Button,HStack,StatusBar,Box,Heading,Avatar,Center,VStack} from "native-base";
 import LottieView from 'lottie-react-native';
 import {  FlatList, Spacer, NativeBaseProvider } from "native-base";
 import { PieChart } from "react-native-gifted-charts";
-import { MaterialIcons } from "@expo/vector-icons";
-
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Tasks from '../Dashboard/components/Tasks.js'
 
 function Dashboard() {
 const renderLegend = (text, color) => {
@@ -20,40 +19,38 @@ const renderLegend = (text, color) => {
     </View>
   );
 };
-  const exampleItems = [
-    {  title: 'Task 1',  text: 'Deadline : 12/5/2020',},{  title: 'Task 2',  text: 'Deadline : 12/5/2021',},{  title: 'Task 3',  text: 'Deadline : 12/5/2021',},{  title: 'Task 4',  text: 'Deadline : 12/5/2021',},{  title: 'Task 5',  text: 'Deadline : 12/5/2021',},
-  ];
+
 
   const data = [{
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
     fullName: "Aafreen Khan",
     timeStamp: "12:47 PM",
-    recentText: "Good Day!",
-    avatarUrl: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    recentText: "Eye Surgery",
+    avatarUrl: "https://www.optimahealth.com/_assets/images/feature-content-slab-providers-join-our-network-02.jpg"
   }, {
     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
     fullName: "Sujitha Mathur",
     timeStamp: "11:11 PM",
-    recentText: "Cheer up, there!",
-    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU"
+    recentText: "lip filler",
+    avatarUrl: "https://www.optimahealth.com/_assets/images/slab-providers-update-info.jpg"
   }, {
     id: "58694a0f-3da1-471f-bd96-145571e29d72",
     fullName: "Anci Barroco",
     timeStamp: "6:22 PM",
-    recentText: "Good Day!",
-    avatarUrl: "https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg"
+    recentText: "Botox Injection",
+    avatarUrl: "https://www.optimahealth.com/_assets/images/slab-providers-webinars-feb-2022.jpg"
   }, {
     id: "68694a0f-3da1-431f-bd56-142371e29d72",
     fullName: "Aniket Kumar",
     timeStamp: "8:56 PM",
-    recentText: "All the best",
-    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU"
+    recentText: "Fat Reduction",
+    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7E9e8ti25xql_phaQQmV6m9WSmo-4BeyS5FTVuzfiBd_qY214ybmPLAMo8nZLXFypFeI&usqp=CAU"
   }, {
     id: "28694a0f-3da1-471f-bd96-142456e29d72",
     fullName: "Kiara",
     timeStamp: "12:47 PM",
-    recentText: "I will call today.",
-    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU"
+    recentText: "Dark Circles",
+    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPgTXWbnAl_sgdAqYqf4D4ZCw7dEEE8IFJA&usqp=CAU"
   }];
 
   const billingData=[
@@ -64,8 +61,8 @@ const renderLegend = (text, color) => {
     const dashboardStore = useSelector(state => state.dashboard);
     const dispatch = useDispatch();
 
-    const [carouselItems, setCarouselItems] = useState(exampleItems);
-    const ref = useRef(null);
+  
+ 
    
   const colorDynamic=()=>{
       const colors =["#06919D"]
@@ -73,13 +70,7 @@ const renderLegend = (text, color) => {
 
       return colors[randomNumber]
   }
-    const renderItem = useCallback(({ item, index }) => (
-      <View style={{ backgroundColor:  colorDynamic() , borderRadius:20, height: 180, padding: 30, }} >
-        <LottieView  style={{marginLeft:112,height:40}} source={require('../../animation/test.json')} autoPlay loop  />
-        <Text style={{ fontSize: 30,color:'white' }}>{item.title}</Text>
-      <Text style={{ color:'#f5f5f5f5' }}>{item.text}</Text>
-      </View>
-    ), []);
+
 
     const billingItem=useCallback(({ item, index }) => (
       <View> 
@@ -93,7 +84,7 @@ const renderLegend = (text, color) => {
               marginHorizontal: 30,
               borderRadius: 10,
               paddingVertical: 50,
-              backgroundColor: '#414141',
+              backgroundColor: '#EEEEEE',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
@@ -199,30 +190,14 @@ const renderLegend = (text, color) => {
   
     return (
         <ScrollView style={{ flex: 1, backgroundColor: "" }}>
-          <View>
-          <HStack space={3} justifyContent="center" style={{marginBottom:50}} >
-          </HStack>     
-          <View style={{ flex: 1, flexDirection: "row", justifyContent: "center"  }}>
-          <Carousel
-            layout={'default'} layoutCardOffset={`10`}
-            activeSlideAlignment={`center`}
-            ref={ref}
-            data={carouselItems}
-            sliderWidth={400}
-            itemWidth={310}
-            renderItem={renderItem}
-            firstItem={2} 
-            
-            />
-        </View>
-        <HStack space={3} justifyContent="center" >
-        <Button style={{ width:120,marginTop:50 }} onPress={()=>console.log('dd')} mt="5" colorScheme="teal">
-        View All Tasks
-        </Button>
-        </HStack >
-        </View>
-        <View>
 
+        {/* /////////////////////////Tasks ///////////////// */}
+
+        <Tasks/>
+
+{/* ///////////////////////////////////////////////////////////////// */}
+
+<View>
         <Box shadow={9} style={{backgroundColor:'#EEEEEE',marginTop:110,width:'90%',marginLeft:"5%",marginBottom:80  }} w="90%" h="580" rounded="xl" _text={{
     fontSize: "md",
     fontWeight: "medium",
@@ -234,7 +209,7 @@ const renderLegend = (text, color) => {
       </Avatar>
 
      
-      <VStack space={3}  mt="100" >
+      <VStack space={3}  mt="100">
        <Box>
       <Center fontSize="xl"   >
       <Text style={{fontSize:20,color:'gray.200'}}>  TOTAL APPOINTMENTS
@@ -281,41 +256,65 @@ const renderLegend = (text, color) => {
         <Carousel
             layout={'stack'} layoutCardOffset={`38`}
             activeSlideAlignment={`center`}
-            ref={ref}
+  
             data={billingData}
             sliderWidth={400}
             itemWidth={380}
             renderItem={billingItem}
             firstItem={1} 
-            
             />
-            </Box>
-
-            <Box h="400" w="92%" ml="4%" justifyContent="center"  mb="100"  style={{backgroundColor:'#EEEEEE'}} shadow={9}>
+              </Box>
+              <Box h="400" w="92%" ml="4%" justifyContent="center"  mb="100"  style={{backgroundColor:'#EEEEEE'}} shadow={9}>
               <VStack space={0}>
               <HStack  space={10} justifyContent="center" >
-              <Box h="120" w="120" justifyContent="center" style={{backgroundColor:'#787A91',borderRadius:20}} shadow={9}>
-                <Center>Leave</Center>
+              <Box h="120" w="120" justifyContent="center" style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
+              <VStack  justifyContent="center">
+              <Center>
+              <Icon name="fax" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
+              <Center><Text style={{color:'white'}} >Leave</Text></Center>
+              </Center>
+              </VStack>
               </Box>
-              <Box h="120" w="120"  justifyContent="center" style={{backgroundColor:'#787A91',borderRadius:20}} shadow={9}>
-              <Center>Attendance</Center>
+              <Box h="120" w="120"  justifyContent="center" style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
+              <VStack  justifyContent="center">
+                  <Center>
+                <Icon name="sellsy" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
+                <Center  ><Text style={{color:'white'}} >Attendance</Text> </Center>
+                </Center>
+                </VStack>
               </Box>
               </HStack>
               <Center>
-              <Button   fontSize={'20'} h={'60'} w={'60'}   borderRadius="full" bg={'indigo.600'} variant="solid"   >HR </Button>
+              <Button   fontSize={'20'} h={'60'} w={'60'}   borderRadius="full" bg={'#444444'} variant="solid"   >HR </Button>
               
               </Center>
               <HStack  space={10} justifyContent="center">
-              <Box h="120" w="120" justifyContent="center"  style={{backgroundColor:'#787A91',borderRadius:20}} shadow={9}>
-              <Center>Working Hours</Center>
+              <Box h="120" w="120" justifyContent="center"  style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
+              <VStack  justifyContent="center">
+                  <Center>
+              
+                <VStack  justifyContent="center">
+                  <Center>
+                <Icon name="check-square-o" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
+                <Center  ><Text style={{color:'white'}} >Check in/out</Text> </Center>
+                </Center>
+                </VStack>
+                </Center>
+                </VStack>
               </Box>
-              <Box h="120" w="120" justifyContent="center" style={{backgroundColor:'#787A91',borderRadius:20}} shadow={9}>
-              <Center>Check in/out</Center>
+              <Box h="120" w="120" justifyContent="center" style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
+              <VStack  justifyContent="center">
+                  <Center>
+                <Icon name="clock-o" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
+                <Center  ><Text style={{color:'white'}} >Working Hours</Text> </Center>
+                </Center>
+                </VStack>
               </Box>
               </HStack>
               </VStack>
 
-           </Box>
+           </Box> 
+           
         </ScrollView>
     );
   };
