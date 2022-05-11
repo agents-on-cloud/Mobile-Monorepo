@@ -22,6 +22,9 @@
     "@reduxjs/toolkit": "*",
     "redux-thunk": "*",
     "native-base": "*",
-    "react-native-snap-carousel": "*"
+    "react-native-snap-carousel": "*",
+    "lottie-react-native": "*",
+    "react-native-gifted-charts": "*",
+    "@expo/vector-icons": "*"
   }
 }
