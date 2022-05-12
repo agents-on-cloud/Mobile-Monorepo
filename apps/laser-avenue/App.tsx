@@ -30,6 +30,7 @@ import billingReducer from './src/Billing/store-Billing.js'
 import dashboardReducer from './src/Dashboard/store-dashboard.js'
 import Dashboard from './src/Dashboard/Dashboard.js'
 import { NativeBaseProvider} from "native-base";
+import Test from './src/Notification/Screens/test.js'
 
 
 const store=configureStore({
@@ -111,6 +112,7 @@ const store=configureStore({
          {/* //////////////////////////////////////////////////////////////////// ////*/}
          {/* /////////////////////Notification/////////////////////////////////////// */}
 
+         <Stack.Screen name="test" component={Test} />
 
 
 
