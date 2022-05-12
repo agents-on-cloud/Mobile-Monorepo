@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {View} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -30,6 +31,8 @@ import billingReducer from './src/Billing/store-Billing.js'
 import dashboardReducer from './src/Dashboard/store-dashboard.js'
 import Dashboard from './src/Dashboard/Dashboard.js'
 import { NativeBaseProvider} from "native-base";
+import Layout  from './src/FinalLayout/layout.js';
+
 
 
 const store=configureStore({
@@ -44,6 +47,7 @@ const store=configureStore({
   }
 })
 
+import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 
 
   function App() {
@@ -52,8 +56,10 @@ const store=configureStore({
 
     return (
         <>
+
         <Provider store={store}>
         <NativeBaseProvider>
+       
         <NavigationContainer>
         <Stack.Navigator  >
           <Stack.Screen name="Dashboard" component={Dashboard} />
@@ -83,7 +89,7 @@ const store=configureStore({
 
          {/* //////////////////////////////////////////////////////////////////// */}
          {/* /////////////////////Tasks////////////////////////////////////////// */}
-
+         <Stack.Screen name="createTask" component={CreateTask} />
 
 
 
@@ -131,8 +137,9 @@ const store=configureStore({
      
 
 
-        </Stack.Navigator>
-      </NavigationContainer>
+      </Stack.Navigator> 
+      <Layout />
+      </NavigationContainer> 
       </NativeBaseProvider>   
       </Provider>
       </>

@@ -17,15 +17,12 @@
         "**/Tasks": true,
         // "**/Dashboard": true,
         // "**/Layout": true,
-        "**/Marketing": true,
-
+        // "**/Marketing": true,
         //////////////////////////////
-
-        "**/main.tsx": true,
         // "**/app": true,
         "**/App.spec.tsx": true,
         "**/.babelrc": true,
-        // "**/metro.config.js": true,
+        "**/metro.config.js": true,
         "**/app.json": true,
         "**/project.json": true,
         "**/test-setup.ts": true,

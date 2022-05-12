@@ -27,6 +27,10 @@
     "react-native-gifted-charts": "*",
     "react-native-vector-icons": "*",
     "nx": "*",
-    "axios": "*"
+    "axios": "*",
+    "@react-native-community/checkbox": "*",
+    "react-native-dropdown-picker": "*",
+    "@react-native-community/datetimepicker": "*",
+    "@react-navigation/drawer": "*"
   }
 }
