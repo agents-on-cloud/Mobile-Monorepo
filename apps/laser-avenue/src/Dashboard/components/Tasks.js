@@ -4,12 +4,14 @@ import LottieView from 'lottie-react-native';
 import Carousel from 'react-native-snap-carousel';
 import { Text, View} from 'react-native';
 import axios from 'axios'
+import requestBuilder from "../../requestRebuilder  "
+
 
 
 
  function Tasks({navigation}){
 
- 
+
     const [carouselItems, setCarouselItems] = useState([]);
 useEffect(() => {
   getUsers()
@@ -18,7 +20,7 @@ useEffect(() => {
 
     const getUsers = async () => {
       try {
-        const res = await axios.get( 'https://625fbc0892df0bc0f3397ad0.mockapi.io/Tasks');
+        const res = await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"user_id%201"}));
         setCarouselItems(res.data)
         
       } catch (error) {
@@ -26,9 +28,14 @@ useEffect(() => {
       }
    
       };
+const testHadnler= async()=>{
+  console.log('hiiiiiiiiiiiiiiiiiiiiiii');
+ 
+   await axios(requestBuilder('providers','/providers','get')).then(results=>console.log('resultsresults',results.data))
+ //  console.log(path,'byeeeeeeeeee');
+ 
 
-
-   
+}
     const ref = useRef(null);
     const renderItem = useCallback(({ item, index }) => (
         <View style={{ backgroundColor:  '#06919D' , borderRadius:20, height: 180, padding: 30, }} >
@@ -40,7 +47,7 @@ useEffect(() => {
 
     return(
         <View>
-           
+           <Button onPress={()=>testHadnler()}>Test</Button>
         <HStack space={3} justifyContent="center" style={{marginBottom:50}} >
         </HStack>     
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "center"  }}>

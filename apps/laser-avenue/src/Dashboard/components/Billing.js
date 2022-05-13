@@ -4,6 +4,7 @@ import {Box} from "native-base";
 import Carousel from 'react-native-snap-carousel';
 import { PieChart } from "react-native-gifted-charts";
 import axios from 'axios';
+import requestBuilder from '../../requestRebuilder  '
 
 
 
@@ -13,9 +14,15 @@ function Billing() {
 
     }, [])
     const [data,setData]=useState([])
+    const [billing,setBilling]=useState([{section1:50,section2:30,section3:20},{}])
     
 async function getData() {
-    let response = await axios.get('https://627cd588e5ac2c452af7bba1.mockapi.io/Billing')
+    let response = await axios.get('https://627e9cbeb75a25d3f3bb300c.mockapi.io/Billing')
+    let inventoryExpenses=  await axios(requestBuilder('billing','/establishmentExpenses','get'));
+    console.log('====================================');
+    console.log(inventoryExpenses.data);
+    console.log('====================================');
+
     setData(response.data)
     
 }

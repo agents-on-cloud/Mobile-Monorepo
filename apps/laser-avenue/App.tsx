@@ -11,7 +11,7 @@ import FacilitiesLandingPage from './src/Facilities/Screens/FacilitiesLandingPag
 import IncidentLandingPage from './src/Incidient/Screens/IncidentLandingPage'
 import InventoryLandingPage from './src/Inventory/Screens/InventoryLandingPage'
 import KnowledgeBaseLandingPage from './src/Knowledge-Base/Screens/KnowledgeBaseLandingPage'
-import NotificationLandingPage from './src/Notification/Screens/NotificationLandingPage'
+import Notifications from './src/Notification/Screens/Notifications'
 import PerformanceLandingPage from './src/Performance/Screens/PerformanceLandingPage'
 import ProviderLandingPage from './src/Provider/Screens/ProviderLandingPage'
 import ServicesLandingPage from './src/Services/Screens/ServicesLandingPage'
@@ -33,6 +33,7 @@ import Dashboard from './src/Dashboard/Dashboard.js'
 import { NativeBaseProvider} from "native-base";
 import Layout  from './src/FinalLayout/layout.js';
 
+import Test from './src/Notification/Screens/test.js'
 
 
 const store=configureStore({
@@ -71,7 +72,7 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
           <Stack.Screen name="IncidentLandingPage" component={IncidentLandingPage} />
           <Stack.Screen name="InventoryLandingPage" component={InventoryLandingPage} />
           <Stack.Screen name="KnowledgeBaseLandingPage" component={KnowledgeBaseLandingPage} />
-          <Stack.Screen name="NotificationLandingPage" component={NotificationLandingPage} />
+          <Stack.Screen name="Notifications" component={Notifications} />
           <Stack.Screen name="PerformanceLandingPage" component={PerformanceLandingPage} /> 
           <Stack.Screen name="ProviderLandingPage" component={ProviderLandingPage} />
           <Stack.Screen name="ServicesLandingPage" component={ServicesLandingPage} />
@@ -117,6 +118,7 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
          {/* //////////////////////////////////////////////////////////////////// ////*/}
          {/* /////////////////////Notification/////////////////////////////////////// */}
 
+         <Stack.Screen name="test" component={Test} />
 
 
 

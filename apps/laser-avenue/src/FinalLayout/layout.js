@@ -19,6 +19,12 @@ import { useNavigation } from '@react-navigation/native';
         setSelected(0)
       navigation.navigate('Dashboard')
     }
+
+    function notificationHandler(){
+        setSelected(2)
+        navigation.navigate('test')
+
+    }
   return (
 <View>
 
@@ -42,7 +48,7 @@ import { useNavigation } from '@react-navigation/native';
               </Text>
             </Center>
           </Pressable>
-          <Pressable cursor="pointer" opacity={selected === 2 ? 1 : 0.6} py="2" flex={1} onPress={() => setSelected(2)}>
+          <Pressable cursor="pointer" opacity={selected === 2 ? 1 : 0.6} py="2" flex={1} onPress={() =>  notificationHandler()}>
             <Center>
               <Icon mb="1"   style={{fontSize:20 }}   color="white"  name="bell-o" />
               <Text color="white" fontSize="12">
