@@ -40,6 +40,7 @@ const store=configureStore({
 })
 
 import CreateTask from "./src/Tasks/Screens/CreateTask.js"
+import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
   function App() {
  
@@ -78,6 +79,8 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
          {/* //////////////////////////////////////////////////////////////////// */}
          {/* /////////////////////Tasks////////////////////////////////////////// */}
          <Stack.Screen name="createTask" component={CreateTask} />
+         <Stack.Screen name="TaskFullView" component={TaskFullView} />
+
 
 
 
