@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   View,
@@ -31,9 +31,8 @@ export default function Comments({
     async function getComments() {
       try {
         const res = await axios.get(
-          `http://192.168.85.37:30122/comments/task/${id}/${type}`,
+          `http://10.0.2.2:30122/comments/task/${id}/${type}`
         );
-        console.log(`http://192.168.85.37:30122/comments/task/${id}/${type}`);
         setComments(res.data);
       } catch (error) {
         console.log('error');
@@ -41,21 +40,21 @@ export default function Comments({
     }
   }, [id]);
 
-  const handleInput = text => {
+  const handleInput = (text) => {
     setStr(text);
   };
 
   const addComment = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.85.37:30122/comments/addComment`,
+        `http://10.0.2.2:30122/comments/addComment`,
         {
           task_id: id,
           user_id: userId,
           user_name: userName,
           comment: str,
           type: type,
-        },
+        }
       );
       if (response.status === 201) {
         setStr('');
@@ -69,7 +68,8 @@ export default function Comments({
   return (
     <View style={style.container}>
       <Text
-        style={{fontSize: 18, color: 'black', margin: 4, paddingVertical: 15}}>
+        style={{ fontSize: 18, color: 'black', margin: 4, paddingVertical: 15 }}
+      >
         Comments :
       </Text>
       <View
@@ -77,8 +77,9 @@ export default function Comments({
           alignItems: 'center',
           borderBottomWidth: 2,
           borderColor: '#eee',
-        }}>
-        <View style={{width: '70%', backgroundColor: 'rgb(245, 245, 245)'}}>
+        }}
+      >
+        <View style={{ width: '70%', backgroundColor: 'rgb(245, 245, 245)' }}>
           <TextInput
             onChangeText={handleInput}
             value={str}
@@ -93,7 +94,7 @@ export default function Comments({
       </View>
       <FlatList
         data={comments}
-        renderItem={({item, index}) => {
+        renderItem={({ item, index }) => {
           return (
             <Comment
               comment={item}
@@ -105,7 +106,7 @@ export default function Comments({
             />
           );
         }}
-        keyExtractor={item => item.comment.id}
+        keyExtractor={(item) => item.comment.id}
       />
     </View>
   );

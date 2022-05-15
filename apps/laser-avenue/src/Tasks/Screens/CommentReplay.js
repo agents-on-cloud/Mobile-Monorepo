@@ -47,7 +47,7 @@ export default function CommentReplay({
   const deleteReplay = async () => {
     try {
       const response = await axios.delete(
-        `http://192.168.85.37:30122/comments/deleteReplay/${replay.replay_id}`,
+        `http://10.0.2.2:30122/comments/deleteReplay/${replay.replay_id}`,
       );
       if (response.status === 200) {
         const arr = comments.map(ele => {
@@ -73,7 +73,7 @@ export default function CommentReplay({
   const updateReplay = async () => {
     try {
       const res = await axios.put(
-        `http://192.168.85.37:30122/comments/updateReplay/${replay.replay_id}`,
+        `http://10.0.2.2:30122/comments/updateReplay/${replay.replay_id}`,
         {newComment: str},
       );
       if (res.status === 200) {

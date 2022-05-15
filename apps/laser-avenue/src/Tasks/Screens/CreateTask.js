@@ -228,21 +228,70 @@ export default function CreateTask({ navigation }) {
       });
       if (claimed) {
         console.log(users_id);
-        const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-        if (res.status === 201) {
-          const as = await axios.post(
-            'http://10.0.2.2:30122/tasks/task/assigneUser',
-            { task_id: res.data.task_id, user_id: users_id }
-          );
+        // const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
+        const res = await axios({
+          method: 'POST',
+          url: 'https://api.development.agentsoncloud.com/external/public/',
+          headers: {
+            'requsted-service': 'tasks',
+            'requsted-path': '/tasks',
+            'requsted-method': 'post',
+          },
+          data: { ...newTask, id: state.user_id },
+        });
+        // console.log(res.status);
+        if (res.status) {
+          // const as = await axios.post(
+          //   'http://10.0.2.2:30122/tasks/task/assigneUser',
+          //   { task_id: res.data.task_id, user_id: users_id }
+          // );
+          console.log('assignee now');
+          console.log(res.data.task_id);
+          const as = await axios({
+            method: 'POST',
+            url: 'https://api.development.agentsoncloud.com/external/public/',
+            headers: {
+              'requsted-service': 'tasks',
+              'requsted-path': '/tasks/task/assigneUser',
+              'requsted-method': 'post',
+            },
+            data: {
+              id: state.user_id,
+              task_id: res.data.task_id,
+              user_id: users_id,
+            },
+          });
+          console.log(as.status);
+          console.log(as.data);
         }
       } else {
         users_id.forEach(async (ele) => {
-          const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-          if (res.status === 201) {
-            const as = await axios.post(
-              'http://10.0.2.2:30122/tasks/task/assigneUser',
-              { task_id: res.data.task_id, user_id: [ele] }
-            );
+          // const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
+          const res = await axios({
+            method: 'POST',
+            url: 'https://api.development.agentsoncloud.com/external/public/',
+            headers: {
+              'requsted-service': 'tasks',
+              'requsted-path': '/tasks',
+              'requsted-method': 'post',
+            },
+            data: newTask,
+          });
+          if (res.status) {
+            // const as = await axios.post(
+            //   'http://10.0.2.2:30122/tasks/task/assigneUser',
+            //   { task_id: res.data.task_id, user_id: [ele] }
+            // );
+            const as = await axios({
+              method: 'POST',
+              url: 'https://api.development.agentsoncloud.com/external/public/',
+              headers: {
+                'requsted-service': 'tasks',
+                'requsted-path': '/tasks/task/assigneUser',
+                'requsted-method': 'post',
+              },
+              data: { task_id: res.data.task_id, user_id: [ele] },
+            });
           }
         });
       }

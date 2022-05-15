@@ -63,7 +63,7 @@ export default function Comment({
   const deleteComment = async () => {
     try {
       const response = await axios.delete(
-        `http://192.168.85.37:30122/comments/deleteComment/${comment.comment.comment_id}`,
+        `http://10.0.2.2:30122/comments/deleteComment/${comment.comment.comment_id}`,
       );
       if (response.status === 200) {
         setComments(
@@ -83,7 +83,7 @@ export default function Comment({
     try {
       console.log('clicked');
       const response = await axios.put(
-        `http://192.168.85.37:30122/comments/updateComment/${comment.comment.comment_id}`,
+        `http://10.0.2.2:30122/comments/updateComment/${comment.comment.comment_id}`,
         {
           newComment: str,
         },
@@ -113,7 +113,7 @@ export default function Comment({
   const addReplay = async () => {
     try {
       const response = await axios.post(
-        `http://192.168.85.37:30122/comments/addReplay`,
+        `http://10.0.2.2:30122/comments/addReplay`,
         {
           comment_id: comment.comment.comment_id,
           user_id: userId,

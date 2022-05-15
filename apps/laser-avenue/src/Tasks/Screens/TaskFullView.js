@@ -43,7 +43,7 @@ export default function TaskFullView({ route, navigation }) {
   });
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    getTaskInfo();
+    // getTaskInfo();
     getAssignedUsers();
     const getUsers = async () => {
       const res = await axios.get(
@@ -68,20 +68,47 @@ export default function TaskFullView({ route, navigation }) {
 
   const getTaskInfo = async () => {
     try {
-      const res = await axios.get(
-        `http://10.0.2.2:30122/tasks/oneTask/${task_id}`
-      );
-      setTask(res.data);
-      setChecked(res.data.status);
+      // const res = await axios.get(
+      //   `http://10.0.2.2:30122/tasks/oneTask/${task_id}`
+      // );
+      // const res = await axios({
+      //   method: 'POST',
+      //   url: 'https://api.development.agentsoncloud.com/external/public/',
+      //   headers: {
+      //     'requsted-service': 'tasks',
+      //     'requsted-path': '/tasks/oneTask/:id',
+      //     'requsted-method': 'get',
+      //   },
+      //   data: {
+      //     id: task_id,
+      //   },
+      // });
+      // console.log(res.data);
+      // setTask(res.data);
+      // setChecked(res.data.status);
     } catch (error) {
-      console.log('error');
+      console.log(error.message);
     }
   };
   const getAssignedUsers = async () => {
     try {
-      const res = await axios.get(
-        `http://10.0.2.2:30122/tasks/task/assign/${task_id}`
-      );
+      // const res = await axios.get(
+      //   `http://10.0.2.2:30122/tasks/task/assign/${task_id}`
+      // );
+      console.log(task_id);
+
+      const res = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'tasks',
+          'requsted-path': '/tasks/task/assign/:id',
+          'requsted-method': 'get',
+        },
+        data: {
+          id: task_id,
+        },
+      });
       setAssignedUsers(res.data);
       setAssigned(res.data);
       const arr = [];
@@ -90,7 +117,7 @@ export default function TaskFullView({ route, navigation }) {
       });
       setSelctedUsers(arr);
     } catch (error) {
-      console.log('error');
+      console.log(error.message);
     }
   };
 
