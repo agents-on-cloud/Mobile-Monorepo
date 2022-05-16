@@ -11,6 +11,7 @@ import {
   Modal,
   Pressable,
   Alert,
+  Switch,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -239,6 +240,7 @@ export default function CreateTask({ navigation }) {
           },
           data: { ...newTask, id: state.user_id },
         });
+        console.log('taaaaask Id', res.data.task_id);
         // console.log(res.status);
         if (res.status) {
           // const as = await axios.post(
@@ -277,6 +279,7 @@ export default function CreateTask({ navigation }) {
             },
             data: newTask,
           });
+          console.log('taaaaask Id', res.data.task_id);
           if (res.status) {
             // const as = await axios.post(
             //   'http://10.0.2.2:30122/tasks/task/assigneUser',
@@ -416,7 +419,15 @@ export default function CreateTask({ navigation }) {
             </View>
             <View style={style.checkboxContainer}>
               <Text style={style.titleText}>Claimed</Text>
-              <CheckBox value={claimed} onValueChange={setClaimed} />
+              {/* <CheckBox value={claimed} onValueChange={setClaimed} /> */}
+              <Switch
+                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                thumbColor={claimed ? '#1867c0' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={setClaimed}
+                value={claimed}
+                style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
+              />
             </View>
             <View style={style.due_date_con}>
               <View style={{ height: 50, justifyContent: 'center' }}>

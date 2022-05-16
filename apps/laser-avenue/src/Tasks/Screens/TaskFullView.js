@@ -43,7 +43,7 @@ export default function TaskFullView({ route, navigation }) {
   });
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    // getTaskInfo();
+    getTaskInfo();
     getAssignedUsers();
     const getUsers = async () => {
       const res = await axios.get(
@@ -71,23 +71,23 @@ export default function TaskFullView({ route, navigation }) {
       // const res = await axios.get(
       //   `http://10.0.2.2:30122/tasks/oneTask/${task_id}`
       // );
-      // const res = await axios({
-      //   method: 'POST',
-      //   url: 'https://api.development.agentsoncloud.com/external/public/',
-      //   headers: {
-      //     'requsted-service': 'tasks',
-      //     'requsted-path': '/tasks/oneTask/:id',
-      //     'requsted-method': 'get',
-      //   },
-      //   data: {
-      //     id: task_id,
-      //   },
-      // });
-      // console.log(res.data);
-      // setTask(res.data);
-      // setChecked(res.data.status);
+      const res = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'tasks',
+          'requsted-path': '/tasks/oneTask/:id',
+          'requsted-method': 'get',
+        },
+        data: {
+          id: task_id,
+        },
+      });
+      console.log(res.data);
+      setTask(res.data);
+      setChecked(res.data.status);
     } catch (error) {
-      console.log(error.message);
+      console.log('getTaskInfo', error.message);
     }
   };
   const getAssignedUsers = async () => {
@@ -123,13 +123,27 @@ export default function TaskFullView({ route, navigation }) {
 
   const claimeTask = async () => {
     try {
-      const res = await axios.put(
-        `http://10.0.2.2:30122/tasks/task/claimme/${task_id}`,
-        {
+      // const res = await axios.put(
+      //   `http://10.0.2.2:30122/tasks/task/claimme/${task_id}`,
+      //   {
+      //     userId: state.user_id,
+      //     user_name: state.user_name,
+      //   }
+      // );
+      const res = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'tasks',
+          'requsted-path': '/tasks/task/claimme/:id',
+          'requsted-method': 'put',
+        },
+        data: {
+          id: task_id,
           userId: state.user_id,
           user_name: state.user_name,
-        }
-      );
+        },
+      });
       if (res.status === 200) {
         getTaskInfo();
         getAssignedUsers();
@@ -154,9 +168,22 @@ export default function TaskFullView({ route, navigation }) {
   };
   const deleteTask = async () => {
     try {
-      const res = await axios.delete(
-        `http://10.0.2.2:30122/tasks/deleteTask/${task_id}`
-      );
+      // const res = await axios.delete(
+      //   `http://10.0.2.2:30122/tasks/deleteTask/${task_id}`
+      // );
+      const res = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'tasks',
+          'requsted-path': '/tasks/deleteTask/:id',
+          'requsted-method': 'delete',
+        },
+        data: {
+          id: task_id,
+        },
+      });
+      console.log('response ', res.data);
       if (res.status === 200) {
         dispatch(setDeleteTask(task_id));
         // navigation.navigate('Home');
@@ -169,7 +196,7 @@ export default function TaskFullView({ route, navigation }) {
         ]);
       }
     } catch (error) {
-      console.log('error');
+      console.log(error.message);
     }
   };
 
@@ -177,21 +204,32 @@ export default function TaskFullView({ route, navigation }) {
     setStatusModalVisible(true);
   };
   const changeStatus = async () => {
-    console.log(checked);
-    const res = await axios.put(
-      `http://10.0.2.2:30122/tasks/task/changeStatus/${task_id}`,
-      {
+    // const res = await axios.put(
+    //   `http://10.0.2.2:30122/tasks/task/changeStatus/${task_id}`,
+    //   {
+    //     newStatus: checked,
+    //   }
+    // );
+    const res = await axios({
+      method: 'POST',
+      url: 'https://api.development.agentsoncloud.com/external/public/',
+      headers: {
+        'requsted-service': 'tasks',
+        'requsted-path': '/tasks/task/changeStatus/:id',
+        'requsted-method': 'put',
+      },
+      data: {
+        id: task_id,
         newStatus: checked,
-      }
-    );
+      },
+    });
+    console.log('here is after change status ', res.data);
     getTaskInfo();
     setStatusModalVisible(false);
   };
 
   const handleReassigne = async () => {
     setModalVisible(false);
-    console.log('assigned', assigned);
-    console.log(task.claimed);
     const users_id = [];
     assigned.forEach((element) => {
       users_id.push({ id: element.user_id, name: element.user_name });

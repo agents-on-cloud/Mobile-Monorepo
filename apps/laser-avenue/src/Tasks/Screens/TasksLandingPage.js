@@ -101,55 +101,59 @@ export default function TasksLandingPage({ navigation }) {
     }
   };
   const getGeneral = async () => {
-    // const data = await axios.get(
-    //   `http://10.0.2.2:30122/tasks/generalTasks/${state.user_id}`
-    // );
+    try {
+      // const data = await axios.get(
+      //   `http://10.0.2.2:30122/tasks/generalTasks/${state.user_id}`
+      // );
 
-    let data = await axios({
-      method: 'POST',
-      url: 'https://api.development.agentsoncloud.com/external/public/',
-      headers: {
-        'requsted-service': 'tasks',
-        'requsted-path': '/tasks/generalTasks/:id',
-        'requsted-method': 'get',
-      },
-      data: {
-        id: state.user_id,
-      },
-    });
-    data.data.forEach((element) => {
-      element.created =
-        element.created_date.split('-').reverse().join('-') +
-        ' at ' +
-        element.created_time;
-      element.deadline =
-        element.due_date.split('-').reverse().join('-') +
-        ' at ' +
-        element.due_time;
-    });
-    dispatch(getTaskas([...data.data]));
+      let data = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'tasks',
+          'requsted-path': '/tasks/generalTasks/:id',
+          'requsted-method': 'get',
+        },
+        data: {
+          id: state.user_id,
+        },
+      });
+      data.data.forEach((element) => {
+        element.created =
+          element.created_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.created_time;
+        element.deadline =
+          element.due_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.due_time;
+      });
+      dispatch(getTaskas([...data.data]));
 
-    // const res = await axios.get('http://10.0.2.2:30122/tasks/allGeneralTasks/');
-    // const res = await axios({
-    //   method: 'POST',
-    //   url: 'https://api.development.agentsoncloud.com/external/public/',
-    //   headers: {
-    //     'requsted-service': 'tasks',
-    //     'requsted-path': '/tasks/allGeneralTasks',
-    //     'requsted-method': 'get',
-    //   },
-    // });
-    // res.data.forEach((element) => {
-    //   element.created =
-    //     element.created_date.split('-').reverse().join('-') +
-    //     ' at ' +
-    //     element.created_time;
-    //   element.deadline =
-    //     element.due_date.split('-').reverse().join('-') +
-    //     ' at ' +
-    //     element.due_time;
-    // });
-    // dispatch(getTaskas([...data.data, ...res.data]));
+      // const res = await axios.get('http://10.0.2.2:30122/tasks/allGeneralTasks/');
+      const res = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'tasks',
+          'requsted-path': '/tasks/allGeneralTasks',
+          'requsted-method': 'get',
+        },
+      });
+      res.data.forEach((element) => {
+        element.created =
+          element.created_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.created_time;
+        element.deadline =
+          element.due_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.due_time;
+      });
+      dispatch(getTaskas([...data.data, ...res.data]));
+    } catch (error) {
+      console.log('getGeneral', error.message);
+    }
   };
 
   const getCreated = async () => {
