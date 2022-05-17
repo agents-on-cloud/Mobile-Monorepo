@@ -190,7 +190,7 @@ export default function TaskFullView({ route, navigation }) {
         Alert.alert(`Task was deleted Successfully`, '', [
           {
             text: 'Go Home',
-            onPress: () => navigation.navigate('Home'),
+            onPress: () => navigation.navigate('TasksLandingPage'),
             style: 'cancel',
           },
         ]);
@@ -229,70 +229,154 @@ export default function TaskFullView({ route, navigation }) {
   };
 
   const handleReassigne = async () => {
-    setModalVisible(false);
-    const users_id = [];
-    assigned.forEach((element) => {
-      users_id.push({ id: element.user_id, name: element.user_name });
-    });
-    if (task.claimed || (!task.claimed && users_id.length === 1)) {
-      const res = await axios.post(
-        'http://10.0.2.2:30122/tasks/task/assigneUser',
-        {
-          task_id: task_id,
-          user_id: users_id,
+    try {
+      setModalVisible(false);
+      const users_id = [];
+      assigned.forEach((element) => {
+        users_id.push({ id: element.user_id, name: element.user_name });
+      });
+      if (task.claimed || (!task.claimed && users_id.length === 1)) {
+        // const res = await axios.post(
+        //   'http://10.0.2.2:30122/tasks/task/assigneUser',
+        //   {
+        //     task_id: task_id,
+        //     user_id: users_id,
+        //   }
+        // );
+        const res = await axios({
+          method: 'POST',
+          url: 'https://api.development.agentsoncloud.com/external/public/',
+          headers: {
+            'requsted-service': 'tasks',
+            'requsted-path': '/tasks/task/assigneUser',
+            'requsted-method': 'post',
+          },
+          data: {
+            task_id: task_id,
+            user_id: users_id,
+          },
+        });
+        console.log('res.status', res.status);
+        if (res.status) {
+          getAssignedUsers();
         }
-      );
-      if (res.status === 201) {
+      } else {
+        const newTask = {
+          creator: state.user_id,
+          creator_name: state.user_name,
+          subject: task.subject,
+          description: task.description,
+          status: 'New',
+          claimed: task.claimed,
+          priority: task.priority,
+          created_date: task.created_date,
+          created_time: task.created_time,
+          due_date: task.due_date,
+          due_time: task.due_time,
+          estimated_time: task.estimated_time,
+          work_status: 'created',
+          attachment: task.attachment,
+          refrenced: task.refrenced,
+        };
+        // const resData = await axios.get(
+        //   `http://10.0.2.2:30122/tasks/task/assign/${task_id}`
+        // );
+        const resData = await axios({
+          method: 'POST',
+          url: 'https://api.development.agentsoncloud.com/external/public/',
+          headers: {
+            'requsted-service': 'tasks',
+            'requsted-path': '/tasks/task/assign/:id',
+            'requsted-method': 'get',
+          },
+          data: {
+            id: task_id,
+          },
+        });
+        const oldAssignedUsers = [];
+        resData.data.forEach((ele) => {
+          oldAssignedUsers.push(ele.user_id);
+        });
+
+        let chick = false;
+        users_id.forEach(async (ele) => {
+          try {
+            if (!oldAssignedUsers.includes(ele.id)) {
+              // const res = await axios.post(
+              //   'http://10.0.2.2:30122/tasks',
+              //   newTask
+              // );
+              const res = await axios({
+                method: 'POST',
+                url: 'https://api.development.agentsoncloud.com/external/public/',
+                headers: {
+                  'requsted-service': 'tasks',
+                  'requsted-path': '/tasks',
+                  'requsted-method': 'post',
+                },
+                data: { ...newTask },
+              });
+              // const as = await axios.post(
+              //   'http://10.0.2.2:30122/tasks/task/assigneUser',
+              //   { task_id: res.data.task_id, user_id: [ele] }
+              // );
+              console.log('task id here ,', res.data.task_id);
+              const as = await axios({
+                method: 'POST',
+                url: 'https://api.development.agentsoncloud.com/external/public/',
+                headers: {
+                  'requsted-service': 'tasks',
+                  'requsted-path': '/tasks/task/assigneUser',
+                  'requsted-method': 'post',
+                },
+                data: { task_id: res.data.task_id, user_id: [ele] },
+              });
+            } else {
+              chick = true;
+              // await axios.post('http://10.0.2.2:30122/tasks/task/assigneUser', {
+              //   task_id: task_id,
+              //   user_id: [ele],
+              // });
+
+              await axios({
+                method: 'POST',
+                url: 'https://api.development.agentsoncloud.com/external/public/',
+                headers: {
+                  'requsted-service': 'tasks',
+                  'requsted-path': '/tasks/task/assigneUser',
+                  'requsted-method': 'post',
+                },
+                data: {
+                  task_id: task_id,
+                  user_id: [ele],
+                },
+              });
+            }
+            if (!chick) {
+              // await axios.post(`http://10.0.2.2:30122/tasks/task/resetAssign`, {
+              //   task_id: task_id,
+              // });
+              await axios({
+                method: 'POST',
+                url: 'https://api.development.agentsoncloud.com/external/public/',
+                headers: {
+                  'requsted-service': 'tasks',
+                  'requsted-path': '/tasks/task/resetAssign',
+                  'requsted-method': 'post',
+                },
+                data: {
+                  task_id: task_id,
+                },
+              });
+            }
+          } catch (error) {
+            console.log('error handleReassigne in for ', error.message);
+          }
+        });
         getAssignedUsers();
       }
-    } else {
-      const newTask = {
-        creator: state.user_id,
-        creator_name: state.user_name,
-        subject: task.subject,
-        description: task.description,
-        status: 'New',
-        claimed: task.claimed,
-        priority: task.priority,
-        created_date: task.created_date,
-        created_time: task.created_time,
-        due_date: task.due_date,
-        due_time: task.due_time,
-        estimated_time: task.estimated_time,
-        work_status: 'created',
-        attachment: task.attachment,
-        refrenced: task.refrenced,
-      };
-      const resData = await axios.get(
-        `http://10.0.2.2:30122/tasks/task/assign/${task_id}`
-      );
-      const oldAssignedUsers = [];
-      resData.data.forEach((ele) => {
-        oldAssignedUsers.push(ele.user_id);
-      });
-
-      let chick = false;
-      users_id.forEach(async (ele) => {
-        if (!oldAssignedUsers.includes(ele.id)) {
-          const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-          const as = await axios.post(
-            'http://10.0.2.2:30122/tasks/task/assigneUser',
-            { task_id: res.data.task_id, user_id: [ele] }
-          );
-        } else {
-          chick = true;
-          await axios.post('http://10.0.2.2:30122/tasks/task/assigneUser', {
-            task_id: task_id,
-            user_id: [ele],
-          });
-        }
-        if (!chick) {
-          await axios.post(`http://10.0.2.2:30122/tasks/task/resetAssign`, {
-            task_id: task_id,
-          });
-        }
-      });
-      getAssignedUsers();
+    } catch (error) {
+      console.log('error handleReassigne ', error.message);
     }
   };
 

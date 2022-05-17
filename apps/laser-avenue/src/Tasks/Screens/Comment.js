@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   View,
@@ -44,11 +44,11 @@ export default function Comment({
     setreplayComments(comment.replays.slice(0, (replayPage - 1) * 3 + 3));
   }, [replayPage]);
 
-  const handleInput = text => {
+  const handleInput = (text) => {
     setStr(text);
   };
 
-  /* -------------------------- delte task ----------------------------------- */
+  /* -------------------------- delete comment ----------------------------------- */
 
   const openDialogDeleteComment = () => {
     Alert.alert('Delete this comment', `Do you want to delete this comment ?`, [
@@ -56,20 +56,32 @@ export default function Comment({
         text: 'Cancel',
         style: 'cancel',
       },
-      {text: 'Yes', onPress: deleteComment},
+      { text: 'Yes', onPress: deleteComment },
     ]);
   };
 
   const deleteComment = async () => {
     try {
-      const response = await axios.delete(
-        `http://10.0.2.2:30122/comments/deleteComment/${comment.comment.comment_id}`,
-      );
-      if (response.status === 200) {
+      // const response = await axios.delete(
+      //   `http://10.0.2.2:30122/comments/deleteComment/${comment.comment.comment_id}`
+      // );
+      const response = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'communities',
+          'requsted-path': '/comments/deleteComment/:id',
+          'requsted-method': 'delete',
+        },
+        data: {
+          id: comment.comment.comment_id,
+        },
+      });
+      if (response.status) {
         setComments(
-          comments.filter(ele => {
+          comments.filter((ele) => {
             return comment.comment.comment_id !== ele.comment.comment_id;
-          }),
+          })
         );
       }
     } catch (error) {
@@ -81,17 +93,29 @@ export default function Comment({
 
   const updateComment = async () => {
     try {
-      console.log('clicked');
-      const response = await axios.put(
-        `http://10.0.2.2:30122/comments/updateComment/${comment.comment.comment_id}`,
-        {
+      // const response = await axios.put(
+      //   `http://10.0.2.2:30122/comments/updateComment/${comment.comment.comment_id}`,
+      //   {
+      //     newComment: str,
+      //   }
+      // );
+      const response = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'communities',
+          'requsted-path': '/comments/updateComment/:id',
+          'requsted-method': 'put',
+        },
+        data: {
+          id: comment.comment.comment_id,
           newComment: str,
         },
-      );
-      if (response.status === 200) {
+      });
+      if (response.status) {
         const arr = comments.map((ele, i) => {
           if (comment.comment.comment_id === ele.comment.comment_id) {
-            return {...ele, comment: {...ele.comment, comment: str}};
+            return { ...ele, comment: { ...ele.comment, comment: str } };
           } else {
             return ele;
           }
@@ -106,26 +130,41 @@ export default function Comment({
 
   /* ---------------------------- add replay -------------------------------------------- */
 
-  const handleReplayText = text => {
+  const handleReplayText = (text) => {
     setReplayText(text);
   };
 
   const addReplay = async () => {
     try {
-      const response = await axios.post(
-        `http://10.0.2.2:30122/comments/addReplay`,
-        {
+      // const response = await axios.post(
+      //   `http://10.0.2.2:30122/comments/addReplay`,
+      //   {
+      //     comment_id: comment.comment.comment_id,
+      //     user_id: userId,
+      //     user_name: userName,
+      //     comment: replayText,
+      //   },
+      // );
+      const response = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'communities',
+          'requsted-path': '/comments/addReplay',
+          'requsted-method': 'post',
+        },
+        data: {
           comment_id: comment.comment.comment_id,
           user_id: userId,
           user_name: userName,
           comment: replayText,
         },
-      );
-      if (response.status === 201) {
+      });
+      if (response.status) {
         setReplayText('');
-        const arr = comments.map(ele => {
+        const arr = comments.map((ele) => {
           if (ele.comment.comment_id === comment.comment.comment_id) {
-            return {...ele, replays: [...ele.replays, response.data]};
+            return { ...ele, replays: [...ele.replays, response.data] };
           } else {
             return ele;
           }
@@ -137,7 +176,7 @@ export default function Comment({
     }
   };
 
-  /* ----------------------------  -------------------------------------------- */
+  /* ------------------------------------------------------------------------ */
 
   return (
     <View style={style.comment_cont}>
@@ -145,23 +184,24 @@ export default function Comment({
         <View
           style={{
             width: '22%',
-          }}>
+          }}
+        >
           <Image
-            style={{width: 60, height: 60, borderRadius: 30, marginTop: 5}}
+            style={{ width: 60, height: 60, borderRadius: 30, marginTop: 5 }}
             source={{
               uri: `https://randomuser.me/api/portraits/men/10.jpg`,
             }}
           />
         </View>
-        <View style={{width: '70%'}}>
-          <View style={{flexDirection: 'row'}}>
+        <View style={{ width: '70%' }}>
+          <View style={{ flexDirection: 'row' }}>
             <Text style={style.userName}> {comment.comment.user_name} </Text>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               {userId === comment.comment.user_id ? (
                 <>
                   <Icon
                     name="pencil"
-                    style={{marginRight: 15}}
+                    style={{ marginRight: 15 }}
                     size={18}
                     color="#009688"
                     onPress={() => {
@@ -171,7 +211,7 @@ export default function Comment({
                   <Icon
                     name="close"
                     size={18}
-                    style={{color: 'red'}}
+                    style={{ color: 'red' }}
                     onPress={openDialogDeleteComment}
                   />
                 </>
@@ -181,8 +221,8 @@ export default function Comment({
           {!updateText ? (
             <Text style={style.text}> {comment.comment.comment} </Text>
           ) : (
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <View style={{width: '70%'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ width: '70%' }}>
                 <TextInput
                   onChangeText={handleInput}
                   value={str}
@@ -192,7 +232,7 @@ export default function Comment({
               <Icon
                 name="check"
                 size={20}
-                style={{color: 'blue'}}
+                style={{ color: 'blue' }}
                 onPress={updateComment}
               />
             </View>
@@ -200,24 +240,25 @@ export default function Comment({
         </View>
       </View>
       {comment.replays.length ? (
-        <View style={{alignItems: 'flex-end'}}>
-          <View style={{width: '70%'}}>
+        <View style={{ alignItems: 'flex-end' }}>
+          <View style={{ width: '70%' }}>
             <Text
-              style={{color: 'blue', textTransform: 'capitalize'}}
+              style={{ color: 'blue', textTransform: 'capitalize' }}
               onPress={() => {
                 setShowReplay(!showReplay);
-              }}>
+              }}
+            >
               {showReplay ? 'hide replays' : 'show replays'}
             </Text>
           </View>
         </View>
       ) : null}
       {showReplay ? (
-        <View style={{alignItems: 'center'}}>
-          <View style={{width: '75%', margin: 10, minHeight: 280}}>
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ width: '75%', margin: 10, minHeight: 280 }}>
             <FlatList
               data={replayComments}
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 return (
                   <CommentReplay
                     replay={item}
@@ -228,10 +269,10 @@ export default function Comment({
                   />
                 );
               }}
-              keyExtractor={item => item.replay_id}
+              keyExtractor={(item) => item.replay_id}
             />
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             {/* {replayPage !== 1 ? (
               <Text
                 style={{margin: 10}}
@@ -244,24 +285,26 @@ export default function Comment({
             {/* <Text style={{margin: 10}}> {replayPage} </Text> */}
             {replayPage !== maxReplayPage ? (
               <Text
-                style={{margin: 10}}
+                style={{ margin: 10 }}
                 onPress={() => {
                   setReplayPage(replayPage + 1);
-                }}>
+                }}
+              >
                 Show more
               </Text>
             ) : null}
           </View>
         </View>
       ) : null}
-      <View style={{alignItems: 'center'}}>
+      <View style={{ alignItems: 'center' }}>
         <View
           style={{
             width: '85%',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-          }}>
+          }}
+        >
           <View>
             <TextInput
               onChangeText={handleReplayText}

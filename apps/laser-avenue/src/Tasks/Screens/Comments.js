@@ -30,10 +30,25 @@ export default function Comments({
     }
     async function getComments() {
       try {
-        const res = await axios.get(
-          `http://10.0.2.2:30122/comments/task/${id}/${type}`
-        );
-        setComments(res.data);
+        // const res = await axios.get(
+        //   `http://10.0.2.2:30122/comments/task/${id}/${type}`
+        // );
+        const res = await axios({
+          method: 'POST',
+          url: 'https://api.development.agentsoncloud.com/external/public/',
+          headers: {
+            'requsted-service': 'communities',
+            'requsted-path': '/comments/task/:id/:type',
+            'requsted-method': 'get',
+          },
+          data: {
+            id: id,
+            type: type,
+          },
+        });
+        if (res.status) {
+          setComments(res.data);
+        }
       } catch (error) {
         console.log('error');
       }
@@ -46,17 +61,33 @@ export default function Comments({
 
   const addComment = async () => {
     try {
-      const response = await axios.post(
-        `http://10.0.2.2:30122/comments/addComment`,
-        {
+      // const response = await axios.post(
+      //   `http://10.0.2.2:30122/comments/addComment`,
+      //   {
+      //     task_id: id,
+      //     user_id: userId,
+      //     user_name: userName,
+      //     comment: str,
+      //     type: type,
+      //   }
+      // );
+      const response = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'communities',
+          'requsted-path': '/comments/addComment',
+          'requsted-method': 'post',
+        },
+        data: {
           task_id: id,
           user_id: userId,
           user_name: userName,
           comment: str,
           type: type,
-        }
-      );
-      if (response.status === 201) {
+        },
+      });
+      if (response.status) {
         setStr('');
         setComments([...comments, response.data]);
       }

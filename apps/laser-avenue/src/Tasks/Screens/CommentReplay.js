@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   View,
@@ -28,7 +28,7 @@ export default function CommentReplay({
     setStr(replay.comment);
   }, [replay]);
 
-  const handleInput = text => {
+  const handleInput = (text) => {
     setStr(text);
   };
 
@@ -38,7 +38,7 @@ export default function CommentReplay({
         text: 'Cancel',
         style: 'cancel',
       },
-      {text: 'Yes', onPress: deleteReplay},
+      { text: 'Yes', onPress: deleteReplay },
     ]);
   };
 
@@ -46,16 +46,28 @@ export default function CommentReplay({
 
   const deleteReplay = async () => {
     try {
-      const response = await axios.delete(
-        `http://10.0.2.2:30122/comments/deleteReplay/${replay.replay_id}`,
-      );
-      if (response.status === 200) {
-        const arr = comments.map(ele => {
+      // const response = await axios.delete(
+      //   `http://10.0.2.2:30122/comments/deleteReplay/${replay.replay_id}`,
+      // );
+      const response = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'communities',
+          'requsted-path': '/comments/deleteReplay/:id',
+          'requsted-method': 'delete',
+        },
+        data: {
+          id: replay.replay_id,
+        },
+      });
+      if (response.status) {
+        const arr = comments.map((ele) => {
           if (ele.comment.comment_id === replay.comment_id) {
             console.log('iam here');
             return {
               ...ele,
-              replays: ele.replays.filter(el => {
+              replays: ele.replays.filter((el) => {
                 return el.replay_id !== replay.replay_id;
               }),
             };
@@ -72,20 +84,33 @@ export default function CommentReplay({
 
   const updateReplay = async () => {
     try {
-      const res = await axios.put(
-        `http://10.0.2.2:30122/comments/updateReplay/${replay.replay_id}`,
-        {newComment: str},
-      );
-      if (res.status === 200) {
-        const arr = comments.map(ele => {
+      // const res = await axios.put(
+      //   `http://10.0.2.2:30122/comments/updateReplay/${replay.replay_id}`,
+      //   { newComment: str }
+      // );
+      const res = await axios({
+        method: 'POST',
+        url: 'https://api.development.agentsoncloud.com/external/public/',
+        headers: {
+          'requsted-service': 'communities',
+          'requsted-path': '/comments/updateReplay/:id',
+          'requsted-method': 'put',
+        },
+        data: {
+          id: replay.replay_id,
+          newComment: str,
+        },
+      });
+      if (res.status) {
+        const arr = comments.map((ele) => {
           if (ele.comment.comment_id === replay.comment_id) {
             return {
               ...ele,
-              replays: ele.replays.map(item => {
+              replays: ele.replays.map((item) => {
                 if (item.replay_id === replay.replay_id) {
                   console.log('here');
                   console.log(item);
-                  return {...item, comment: str};
+                  return { ...item, comment: str };
                 } else {
                   return item;
                 }
@@ -108,23 +133,24 @@ export default function CommentReplay({
       <View
         style={{
           width: '22%',
-        }}>
+        }}
+      >
         <Image
-          style={{width: 50, height: 50, borderRadius: 25, marginTop: 5}}
+          style={{ width: 50, height: 50, borderRadius: 25, marginTop: 5 }}
           source={{
             uri: `https://randomuser.me/api/portraits/men/10.jpg`,
           }}
         />
       </View>
-      <View style={{width: '70%'}}>
-        <View style={{flexDirection: 'row'}}>
+      <View style={{ width: '70%' }}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={style.userName}> {replay.user_name} </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             {userId === replay.user_id ? (
               <>
                 <Icon
                   name="pencil"
-                  style={{marginRight: 15}}
+                  style={{ marginRight: 15 }}
                   size={18}
                   color="#009688"
                   onPress={() => {
@@ -134,7 +160,7 @@ export default function CommentReplay({
                 <Icon
                   name="close"
                   size={18}
-                  style={{color: 'red'}}
+                  style={{ color: 'red' }}
                   onPress={openDialogDeleteReplay}
                 />
               </>
@@ -144,8 +170,8 @@ export default function CommentReplay({
         {!updateText ? (
           <Text style={style.text}> {replay.comment} </Text>
         ) : (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{width: '70%'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ width: '70%' }}>
               <TextInput
                 onChangeText={handleInput}
                 value={str}
@@ -155,7 +181,7 @@ export default function CommentReplay({
             <Icon
               name="check"
               size={20}
-              style={{color: 'blue'}}
+              style={{ color: 'blue' }}
               onPress={updateReplay}
             />
           </View>
