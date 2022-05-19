@@ -6,22 +6,35 @@ import Appointment from '../Dashboard/components/Appointments.js'
 import Billing from '../Dashboard/components/Billing.js'
 import HR from '../Dashboard/components/HR'
 
-function Dashboard({navigation}) {
-    const dashboardStore = useSelector(state => state.dashboard);
-    const dispatch = useDispatch();
+
+
+function Dashboard({route,navigation}) {
+  
+  const dashboardStore = useSelector(state => state.finalLayoutStore);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log('fffffffffffffff',route.params);
+
+  }, [])
+  
+
    
   
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "" }}>
+        <ScrollView >
+        
+      
         {/* /////////////////////////Tasks ///////////////// */}
         <Tasks navigation={navigation}/>
         {/* //////////////////////////Appontment/////////////////////////////////////// */}
-        <Appointment />
+        <Appointment navigation={navigation} />
         {/* //////////////////////////Billing////////////////////////////////////////// */}
-        <Billing/>
+        <Billing navigation={navigation} />
         {/* //////////////////////////HR////////////////////////////////////////// */}
-         <HR/>
-        </ScrollView>
+         <HR navigation={navigation}/>
+        </ScrollView  >
     );
+
+    
   };
 export default Dashboard

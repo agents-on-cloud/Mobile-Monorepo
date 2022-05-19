@@ -1,18 +1,274 @@
-import * as React from 'react';
-import { View, Text,Button } from 'react-native';
-import {useDispatch,useSelector} from 'react-redux'
-import {increment} from '../store-Appointment'
+import React,{useState,useEffect} from "react";
+import { Pressable, Text, Box, HStack, Spacer, Flex, Badge, Center, NativeBaseProvider, VStack, ScrollView ,Spinner,Heading,Avatar,Divider,Button } from "native-base";
+import axios from 'axios'
+import registerBuilder from '../../requestRebuilder  '
+import {View} from 'react-native'
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-function AppointmentLandingPage() {
-  const appointmentStore=useSelector(state=>state.appointment)
-  const dispatch=useDispatch()
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text style={{fontSize:40}}>Appointment</Text>
-      <Text style={{fontSize:20}}>start Development Here</Text>
-      <Button title="plus 5 using redux" onPress={()=>{dispatch(increment(5))}}/>
-      <Text style={{fontSize:50,marginTop:80}}>{appointmentStore.value}</Text>
-    </View>
-    );
+function Example() {
+  const [date,setDate] =useState(new Date())
+  const [due_date, setDue_date] = useState('');
+  const [calendarFlag, setCalendarFlag] = useState(false);
+  const [AllAppointments,setAllAppointments]=useState([])
+  const [FilteredAppointments,setFilteredAppointments]=useState([])
+  const [gettingDAta,setgettingDAta]=useState(true)
+  const [filterFlag,setFilterFlag]=useState(false)
+
+
+
+useEffect(() => {
+  console.log('haroun in useEffect');
+ filterDate()
+  
+  }, [calendarFlag])
+
+  useEffect(() => {
+    getData()
+    setFilterFlag(false)
+    
+    }, [])
+
+async function getData() { 
+const res = await axios('https://625fbc0892df0bc0f3397ad0.mockapi.io/Appointments')
+console.log('iiiiiiiiiiiiiiiiiiii',res.data);
+setAllAppointments(res.data)
+setgettingDAta(false)
+}
+
+function  filterDate() {
+  console.log('haroun in filter function');
+  let filterArr=[]
+
+  for (let i = 0; i < AllAppointments.length; i++) {
+    if (AllAppointments[i].start.slice(0,10) == due_date) {
+      filterArr.push(AllAppointments[i])
+    }
+    
   }
-  export default AppointmentLandingPage
+  console.log('filterArrfilterArrfilterArr',filterArr);
+  setFilteredAppointments(filterArr)
+  setFilterFlag(true)
+  
+}
+
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate;
+  let year = currentDate.getFullYear();
+  let month = currentDate.getMonth() + 1 + '';
+  if (month.length === 1) month = '0' + month;
+  let day = currentDate.getDate() + '';
+  if (day.length === 1) day = '0' + day;
+  setDue_date(year + '-' + month + '-' + day);
+  setDate(currentDate);
+  setCalendarFlag(!calendarFlag)
+};
+
+const showDate = () => {
+  console.log('haroun in showDate func');
+  DateTimePickerAndroid.open({
+    value: date,
+    onChange,
+    mode: 'date',
+  
+  });
+ 
+};
+
+function testHandler() {
+  console.log('33333333333333');
+  console.log('99999999999',due_date);
+  
+}
+
+  return(
+  
+
+    
+  <ScrollView>
+
+{gettingDAta &&<Spinner size="lg" mt="190"  accessibilityLabel="Loading posts" />}
+
+{gettingDAta==false && 
+<View>
+
+<View>
+    <HStack justifyContent="center" style={{borderRadius:10}} h="60" bg="#D0C9C0" pt="1.5" mt="5" space={4}>
+      <Avatar bg="green.500" >
+      <Icon
+                  name="calendar"
+                  size={20}
+                  color="white"
+                  onPress={showDate}
+                />
+      </Avatar>
+      <Pressable  onPress={()=> setFilterFlag(false)}>
+      <Avatar  bg="cyan.500" >
+       ALL
+      </Avatar>
+      </Pressable>
+      <Avatar bg="indigo.500" >
+       
+      </Avatar>
+      <Avatar bg="amber.500" >
+        
+      </Avatar>
+    </HStack>
+    </View>
+
+
+{filterFlag==false && <VStack>
+
+ 
+ {AllAppointments.map(item=><Box alignItems="center">
+      <Pressable>
+        {({
+        isHovered,
+        isFocused,
+        isPressed
+      }) => {
+        return <Box borderLeftWidth={15} mt="10" maxW="96" borderWidth="1" borderColor={item.color} shadow="3" bg={isPressed ? "coolGray.200" : isHovered ? "coolGray.200" : "coolGray.100"} p="5" rounded="8" style={{
+          transform: [{
+            scale: isPressed ? 0.96 : 1
+          }],
+          transitionProperty: 'width',
+  transitionDuration: '2s',
+  transitionTimingFunction: 'linear',
+  transitionDelay: '1s'
+        }}>
+              <HStack alignItems="center">
+              <Avatar size="48px" source={{
+          uri: 'https://cdn-icons-png.flaticon.com/512/387/387561.png'
+        }} />
+                <Spacer />
+                <Icon name="calendar" mr="5" />
+                <Text fontSize={10} color="coolGray.800">
+             {  " " +item.start.slice(0,10)}
+                </Text>
+              </HStack>
+              <Flex direction="row" h="7" p="1"mt="2" >
+        <Text> DR. {item.doctorname}</Text>
+        <Divider h="6" bg="emerald.500" thickness="2" mx="2" orientation="vertical" />
+        <Text>PT:{item.patientname} </Text>
+        
+      </Flex>
+    
+             <HStack w="300">
+               <HStack w="180">
+              <Text mt="2" style={{fontSize:10}} color="coolGray.700">
+             Service Name/s: { item.appservices.map(element=>element.services) }
+              </Text>
+              </HStack>
+              <HStack  w="150">
+              <Text mt="2" style={{fontSize:10}}  color="coolGray.700">
+             Assistant Name/s:{ item.appservices.map(element=>element.assistantname) }
+              </Text>
+              </HStack>
+              </HStack>
+             
+              <Flex>
+                <HStack>
+                 <Text fontSize={10} color="coolGray.800" mt="2" fontWeight="medium"   alignSelf="flex-start">
+                 <Icon name="clock-o" mr="5" />
+                    {" "}Start Time : {item.start.slice(10,item.start.length)}
+                   
+                  </Text> 
+                  <Text fontSize={10} color="coolGray.800" ml="10" mt="2" fontWeight="medium"   alignSelf="flex-start">
+                    <Icon name="clock-o"/>
+                    {" "}End Time :  {item.end.slice(10,item.start.length)}
+                  </Text>
+                  </HStack>
+              </Flex>
+            </Box>;
+      }}
+      </Pressable>
+    </Box> ) }
+    
+    </VStack>}
+    {filterFlag && <VStack>
+
+ 
+{FilteredAppointments.map(item=><Box alignItems="center">
+     <Pressable>
+       {({
+       isHovered,
+       isFocused,
+       isPressed
+     }) => {
+       return <Box borderLeftWidth={15} mt="10" maxW="96" borderWidth="1" borderColor={item.color} shadow="3" bg={isPressed ? "coolGray.200" : isHovered ? "coolGray.200" : "coolGray.100"} p="5" rounded="8" style={{
+         transform: [{
+           scale: isPressed ? 0.96 : 1
+         }],
+         transitionProperty: 'width',
+ transitionDuration: '2s',
+ transitionTimingFunction: 'linear',
+ transitionDelay: '1s'
+       }}>
+             <HStack alignItems="center">
+             <Avatar size="48px" source={{
+         uri: 'https://cdn-icons-png.flaticon.com/512/387/387561.png'
+       }} />
+               <Spacer />
+               <Icon name="calendar" mr="5" />
+               <Text fontSize={10} color="coolGray.800">
+            {  " " +item.start.slice(0,10)}
+               </Text>
+             </HStack>
+             <Flex direction="row" h="7" p="1"mt="2" >
+       <Text> DR. {item.doctorname}</Text>
+       <Divider h="6" bg="emerald.500" thickness="2" mx="2" orientation="vertical" />
+       <Text>PT:{item.patientname} </Text>
+       
+     </Flex>
+   
+            <HStack w="300">
+              <HStack w="180">
+             <Text mt="2" style={{fontSize:10}} color="coolGray.700">
+            Service Name/s: { item.appservices.map(element=>element.services) }
+             </Text>
+             </HStack>
+             <HStack  w="150">
+             <Text mt="2" style={{fontSize:10}}  color="coolGray.700">
+            Assistant Name/s:{ item.appservices.map(element=>element.assistantname) }
+             </Text>
+             </HStack>
+             </HStack>
+            
+             <Flex>
+               <HStack>
+                <Text fontSize={10} color="coolGray.800" mt="2" fontWeight="medium"   alignSelf="flex-start">
+                <Icon name="clock-o" mr="5" />
+                   {" "}Start Time : {item.start.slice(10,item.start.length)}
+                  
+                 </Text> 
+                 <Text fontSize={10} color="coolGray.800" ml="10" mt="2" fontWeight="medium"   alignSelf="flex-start">
+                   <Icon name="clock-o"/>
+                   {" "}End Time :  {item.end.slice(10,item.start.length)}
+                 </Text>
+                 </HStack>
+             </Flex>
+           </Box>;
+     }}
+     </Pressable>
+   </Box> ) }
+   
+   </VStack>}
+    
+    </View>
+    }
+    </ScrollView>
+  
+    
+    )
+}
+
+    export default () => {
+        return (
+          <NativeBaseProvider>
+            <Center flex={1} px="3">
+                <Example />
+            </Center>
+          </NativeBaseProvider>
+        );
+    };
+    

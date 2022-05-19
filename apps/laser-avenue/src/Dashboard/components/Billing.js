@@ -1,35 +1,80 @@
 import React,{useEffect,useState,useCallback} from 'react'
-import { Text, View} from 'react-native';
-import {Box} from "native-base";
+import { Pressable, Text, View} from 'react-native';
+import {Box,Button,Center,HStack,VStack} from "native-base";
 import Carousel from 'react-native-snap-carousel';
 import { PieChart } from "react-native-gifted-charts";
 import axios from 'axios';
 import requestBuilder from '../../requestRebuilder  '
+import Icon from 'react-native-vector-icons/Ionicons';
+import {useRoute} from '@react-navigation/native';
 
 
 
-function Billing() {
-    useEffect(() => {
-        getData()
+function Billing({navigation}) {
+  
+  const [selected, setSelected] = React.useState(1);
 
-    }, [])
-    const [data,setData]=useState([])
-    const [billing,setBilling]=useState([{section1:50,section2:30,section3:20},{}])
-    
+  const [extablishmentExpenses,setEstablishmentExpenses]=useState(0)
+  const [extablishmentPercntage,setEstablishmentPercntage]=useState(0)
+  const [providerExpenses,setproviderExpenses]=useState(0)
+  const [providerPercentage,setproviderPercentage]=useState(0)
+  const [inventoryExpenses,setinventoryExpenses]=useState(30)
+  const [inventoryPercentage,setinventoryPercentage]=useState(0)
+  const [billing,setBilling]=useState([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: 40, section2: 60}])
+  
+  useEffect(() => {
+    getData()
+
+},[])
+
+
+useEffect(() => {
+  setBilling([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: 40, section2: 60}])
+},[extablishmentExpenses,providerExpenses,inventoryExpenses])
+
+// useEffect(() => {
+//   getData()
+// },[inventoryPercentage,providerPercentage,extablishmentPercntage])
+
+
+
 async function getData() {
-    let response = await axios.get('https://627e9cbeb75a25d3f3bb300c.mockapi.io/Billing')
-    let inventoryExpenses=  await axios(requestBuilder('billing','/establishmentExpenses','get'));
-    console.log('====================================');
-    console.log(inventoryExpenses.data);
-    console.log('====================================');
 
-    setData(response.data)
-    
+      let expenseData=   await axios(requestBuilder('billing','/establishmentExpenses','get'))
+      console.log('expenseDataexpenseDataexdsffddfdsfddjddpedsnsfhghjhghyfdgeDataexpenseData',expenseData.data);
+
+      for (let i = 0; i < expenseData.data.length; i++) {
+        setEstablishmentExpenses(extablishmentExpenses+expenseData.data[i].paid_amount)
+      }
+
+      let providerData=   await axios(requestBuilder('billing','/ProviderExpenses','get'))
+      console.log('providerDataprsadoviderData',providerData.data);
+      for (let i = 0; i < providerData.data.length; i++) {
+       setproviderExpenses(providerExpenses+providerData.data[i].basic_Salary+providerData.data[i].service_cut)
+      }
+
+
+
+
+
+      let productRevenue= await axios(requestBuilder('billing','/ProductRevenuesItems','get'))
+      console.log('productRevenueproductRevenue',productRevenue.data);
+
+      let AppointmentRevenue= await axios(requestBuilder('billing','','get'))
+      console.log('productRevenueproductRevenue',AppointmentRevenue.data);
+
+
+      setEstablishmentPercntage (Math.floor(extablishmentExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100) )
+      setinventoryPercentage(Math.floor(inventoryExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100))
+      setproviderPercentage(Math.floor( providerExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100))
+
+
+
 }
         const renderLegend = (text, color) => {
             return (
               <View style={{flexDirection: 'row', marginBottom: 12}}>
-                <View style={{ height: 18, width: 18, marginRight: 10, borderRadius: 4, backgroundColor: color || 'white',}} />
+                <View style={{ height: 18, width: 18, marginRight: 10, borderRadius: 4, backgroundColor: color || 'white'}} />
                 <Text style={{color: 'teal', fontSize: 12}}>{text || ''}</Text>
               </View>
             );
@@ -42,7 +87,7 @@ async function getData() {
         </Box>  
         <View
               style={{
-                marginVertical: 50,
+                marginVertical: 20,
                 marginHorizontal: 30,
                 paddingVertical: 50,
                 backgroundColor: '#DDDDDD',
@@ -53,36 +98,38 @@ async function getData() {
                 borderColor:'#92BA92'
               }}>
               {/*********************    Custom Header component      ********************/}
+           
               <Text
                 style={{
                   color: 'teal',
                   fontSize: 32,
                   fontWeight: 'bold',
-                  marginBottom: 12,
+                  marginBottom:40,
                 }}>
                {item.name}
+            
               </Text>
-              {/****************************************************************************/}
+              {/**************************fds********vv*****************sa*************************/}
   
               {  <View  >
               <PieChart
                 strokeColor="white"
                 strokeWidth={2}
                 donut
-                data= {item.section3 ?  [
-                  {value: item.section1, color: 'rgb(84,219,234)',text:`${item.section1}%`},
-                  {value: item.section2, color: 'lightgreen',text:`${item.section2}%`},
-                  {value: item.section3 , color: 'orange',text: `${item.section3}%` },
+                data= {item.name=='Expenses' ?  [
+                  {value: item.section1, color: 'rgb(84,219,234)'},
+                  {value: item.section2, color: 'lightgreen'},
+                  {value: item.section3 , color: 'orange' },
                 ] : [
-                  {value: item.section1, color: 'rgb(84,219,234)',text:`${item.section1}%`},
-                  {value: item.section2, color: 'lightgreen',text:`${item.section2}%`},
+                  {value: item.section1, color: 'rgb(84,219,234)'},
+                  {value: item.section2, color: 'lightgreen'},
                  
                 ] } 
                 innerCircleColor="teal"
                 innerCircleBorderWidth={3}
                 innerCircleBorderColor={'white'}
                 showValuesAsLabels={true}
-                showText
+           
                 textSize={17}
                 textBackgroundRadius={20}
                 showTextBackground={true}
@@ -96,8 +143,8 @@ async function getData() {
                 }}
               />
             </View>}
-              {/*********************    Custom Legend component      ********************/}
-            { item.section3 ? <View>
+              {/*********************    Custom Legend component      **   ******************/}
+            { item.name=='Expenses' ? <View>
   
               <View
                 style={{
@@ -141,17 +188,37 @@ async function getData() {
       ),[])
 
     return (
-        <View>
+        <View >
+         <Box flex={1} bg="grey.200"  safeAreaTop width="100%" maxW="300px" alignSelf="center" >
+        <Center flex={1}></Center>
+        <HStack bg="#73777B" alignItems="center" safeAreaBottom shadow={6} h="70" style={{borderRadius:40}} >
+          <Pressable cursor="pointer"  py="3" flex={1} onPress={() => navigation.navigate('BillingLandingPage')}>
+            <Center>
+            <Icon mb="1"   style={{fontSize:20 }}   color="white"  name= "md-receipt"/>
+              <Text  fontSize="12" fontColor="white" style={{color:"white"}}>
+                Billing
+              </Text>
+            </Center>
+          </Pressable>
+      
+          <Pressable cursor="pointer"  py="2" flex={1} onPress={() => setSelected(3)}>
+            <Center>
+            <Icon mb="1"   style={{fontSize:40, color:'#EB5353' }}   color="white"  name= "notifications-circle-outline"/>
+             
+            </Center>
+          </Pressable>
+        </HStack>
+      </Box>
             <Box  >
-           <Carousel
+      {  billing[0].section1+  billing[0].section2+  billing[0].section3 >0 &&   <Carousel
             layout={'stack'} layoutCardOffset={`38`}
             activeSlideAlignment={`center`}
-            data={data}
+            data={billing}
             sliderWidth={400}
             itemWidth={380}
             renderItem={billingItem}
             firstItem={1} 
-            />
+            />}
             </Box>
 
         </View>

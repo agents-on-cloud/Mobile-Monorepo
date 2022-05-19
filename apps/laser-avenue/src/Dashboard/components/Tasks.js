@@ -7,12 +7,9 @@ import axios from 'axios'
 import requestBuilder from "../../requestRebuilder  "
 
 
-
-
  function Tasks({navigation}){
 
-
-    const [carouselItems, setCarouselItems] = useState([]);
+const [carouselItems, setCarouselItems] = useState([]);
 useEffect(() => {
   getUsers()
 }, [])
@@ -20,7 +17,8 @@ useEffect(() => {
 
     const getUsers = async () => {
       try {
-        const res = await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"user_id%201"}));
+     
+        const res = await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"2457b45c-18fd-4caa-a43e-f9af85771e85"}));
         setCarouselItems(res.data)
         
       } catch (error) {
@@ -31,9 +29,14 @@ useEffect(() => {
 const testHadnler= async()=>{
   console.log('hiiiiiiiiiiiiiiiiiiiiiii');
  
-   await axios(requestBuilder('providers','/providers','get')).then(results=>console.log('resultsresults',results.data))
- //  console.log(path,'byeeeeeeeeee');
- 
+try {
+  await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"2457b45c-18fd-4caa-a43e-f9af85771e85"
+})).then(results=>console.log('resultsresults',results.data))
+  
+} catch (error) {
+  console.log(error.response.data);
+}
+
 
 }
     const ref = useRef(null);
@@ -59,14 +62,12 @@ const testHadnler= async()=>{
           sliderWidth={400}
           itemWidth={310}
           renderItem={renderItem}
-          firstItem={2} 
+          firstItem={1} 
           
           />
       </View>
       <HStack space={3} justifyContent="center" >
-      <Button style={{ width:120,marginTop:50 }} onPress={()=>navigation.navigate('TasksLandingPage')} mt="5" colorScheme="teal">
-      View All Tasks
-      </Button>
+  
       </HStack >
       </View>
     )

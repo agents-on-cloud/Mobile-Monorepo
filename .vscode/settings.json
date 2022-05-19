@@ -3,6 +3,9 @@
 {
     "files.exclude": {
         "**/Billing": true,
+        "**/CIAM": true,
+        "**/calendar": true,
+        "**/FinalLayout": true,
         "**/Appointment": true,
         "**/Consumers": true,
         "**/Facilities": true,
@@ -16,10 +19,10 @@
         "**/Suppliers": true,
         "**/Tasks": true,
         // "**/Dashboard": true,
-        // "**/Layout": true,
-        // "**/Marketing": true,
+        "**/Layout": true,
+        "**/Marketing": true,
         //////////////////////////////
-        // "**/app": true,
+        "**/app": true,
         "**/App.spec.tsx": true,
         "**/.babelrc": true,
         "**/metro.config.js": true,

@@ -4,7 +4,7 @@ import { Button,HStack,Box,Center,VStack} from "native-base";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
-function HR() {
+function HR({navigation}) {
 
     return (
         <View>
@@ -29,7 +29,7 @@ function HR() {
               </Box>
               </HStack>
               <Center>
-              <Button   fontSize={'20'} h={'60'} w={'60'}   borderRadius="full" bg={'#444444'} variant="solid"   >HR </Button>
+              <Button onPress={()=>navigation.navigate('Hr')}  fontSize={'20'} h={'100'} w={'100'}   borderRadius="full" bg={'#444444'} variant="solid"   >Manager </Button>
               
               </Center>
               <HStack  space={10} justifyContent="center">
