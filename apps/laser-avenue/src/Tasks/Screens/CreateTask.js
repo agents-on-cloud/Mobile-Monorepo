@@ -11,6 +11,7 @@ import {
   Modal,
   Pressable,
   Alert,
+  Switch,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -228,21 +229,72 @@ export default function CreateTask({ navigation }) {
       });
       if (claimed) {
         console.log(users_id);
-        const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-        if (res.status === 201) {
-          const as = await axios.post(
-            'http://10.0.2.2:30122/tasks/task/assigneUser',
-            { task_id: res.data.task_id, user_id: users_id }
-          );
+        // const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
+        const res = await axios({
+          method: 'POST',
+          url: 'https://api.development.agentsoncloud.com/external/public/',
+          headers: {
+            'requsted-service': 'tasks',
+            'requsted-path': '/tasks',
+            'requsted-method': 'post',
+          },
+          data: { ...newTask, id: state.user_id },
+        });
+        console.log('taaaaask Id', res.data.task_id);
+        // console.log(res.status);
+        if (res.status) {
+          // const as = await axios.post(
+          //   'http://10.0.2.2:30122/tasks/task/assigneUser',
+          //   { task_id: res.data.task_id, user_id: users_id }
+          // );
+          console.log('assignee now');
+          console.log(res.data.task_id);
+          const as = await axios({
+            method: 'POST',
+            url: 'https://api.development.agentsoncloud.com/external/public/',
+            headers: {
+              'requsted-service': 'tasks',
+              'requsted-path': '/tasks/task/assigneUser',
+              'requsted-method': 'post',
+            },
+            data: {
+              id: state.user_id,
+              task_id: res.data.task_id,
+              user_id: users_id,
+            },
+          });
+          console.log(as.status);
+          console.log(as.data);
         }
       } else {
         users_id.forEach(async (ele) => {
-          const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-          if (res.status === 201) {
-            const as = await axios.post(
-              'http://10.0.2.2:30122/tasks/task/assigneUser',
-              { task_id: res.data.task_id, user_id: [ele] }
-            );
+          // const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
+          const res = await axios({
+            method: 'POST',
+            url: 'https://api.development.agentsoncloud.com/external/public/',
+            headers: {
+              'requsted-service': 'tasks',
+              'requsted-path': '/tasks',
+              'requsted-method': 'post',
+            },
+            data: newTask,
+          });
+          console.log('taaaaask Id', res.data.task_id);
+          if (res.status) {
+            // const as = await axios.post(
+            //   'http://10.0.2.2:30122/tasks/task/assigneUser',
+            //   { task_id: res.data.task_id, user_id: [ele] }
+            // );
+            const as = await axios({
+              method: 'POST',
+              url: 'https://api.development.agentsoncloud.com/external/public/',
+              headers: {
+                'requsted-service': 'tasks',
+                'requsted-path': '/tasks/task/assigneUser',
+                'requsted-method': 'post',
+              },
+              data: { task_id: res.data.task_id, user_id: [ele] },
+            });
           }
         });
       }
@@ -367,7 +419,15 @@ export default function CreateTask({ navigation }) {
             </View>
             <View style={style.checkboxContainer}>
               <Text style={style.titleText}>Claimed</Text>
-              <CheckBox value={claimed} onValueChange={setClaimed} />
+              {/* <CheckBox value={claimed} onValueChange={setClaimed} /> */}
+              <Switch
+                trackColor={{ false: '#767577', true: '#81b0ff' }}
+                thumbColor={claimed ? '#1867c0' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={setClaimed}
+                value={claimed}
+                style={{ transform: [{ scaleX: 1.2 }, { scaleY: 1.2 }] }}
+              />
             </View>
             <View style={style.due_date_con}>
               <View style={{ height: 50, justifyContent: 'center' }}>

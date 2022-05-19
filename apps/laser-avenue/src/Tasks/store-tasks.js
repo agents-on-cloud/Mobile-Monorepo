@@ -7,7 +7,7 @@ export const consumersStore = createSlice({
     fixSearchTasks: [],
     tasks: [],
     token: '',
-    user_id: 'user_id 1',
+    user_id: '2457b45c-18fd-4caa-a43e-f9af85771e85',
     user_name: 'user_name 1 ',
   },
   reducers: {
@@ -87,6 +87,14 @@ export const consumersStore = createSlice({
       state.tasks = filterLastWeek;
       state.fixSearchTasks = filterLastWeek;
     },
+    setDeleteTask: (state, action) => {
+      const afterDelete = state.tasks.filter((ele) => {
+        return ele.task_id !== action.payload;
+      });
+      state.tasks = afterDelete;
+      state.fixSearchTasks = state.fixSearchTasks;
+      state.fixTasks = state.fixTasks;
+    },
   },
 });
 
@@ -98,5 +106,6 @@ export const {
   getTomorrowTasks,
   getThisWeek,
   getLastWeek,
+  setDeleteTask,
 } = consumersStore.actions;
 export default consumersStore.reducer;
