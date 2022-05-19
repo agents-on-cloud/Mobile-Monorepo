@@ -50,8 +50,8 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
         <>
         {/* { <Header style={{position:'fixed',top:80}}/>} */}
           <Stack.Navigator   >
-          <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
          { <Stack.Screen name="Dashboard" component={Dashboard}   />}
+          <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           <Stack.Screen name="SignIn" component={SignIn}  />
           <Stack.Screen name="SignUp" component={SignUp}   />
           <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
