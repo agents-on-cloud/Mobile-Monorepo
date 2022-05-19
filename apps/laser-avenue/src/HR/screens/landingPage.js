@@ -12,8 +12,9 @@ function Hr({navigation}) {
       <View>
      
 
-    <Text>{HumanResourcesStore.value}</Text>
-      <Button onPress={()=>dispatch( increment(5))}> test</Button>
+    <Text style={{fontSize:100}}>{HumanResourcesStore.value}</Text>
+    <Text style={{fontSize:100}}>start Development Here</Text>
+      <Button style={{width:100, marginLeft:200}} onPress={()=>dispatch(increment(5))}> test</Button>
   
 
     </View>

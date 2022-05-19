@@ -17,9 +17,9 @@
         "**/Provider": true,
         "**/Services": true,
         "**/Suppliers": true,
-        "**/Tasks": true,
+        // "**/Tasks": true,
         // "**/Dashboard": true,
-        "**/Layout": true,
+        // "**/Layout": true,
         "**/Marketing": true,
         //////////////////////////////
         "**/app": true,

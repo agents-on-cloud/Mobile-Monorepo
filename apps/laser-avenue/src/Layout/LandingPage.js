@@ -210,6 +210,30 @@ export const LandingPage = ({ navigation }) => {
                   stroke="hsla(162, 47%, 50%, 1)"
                 />
                 <Text style={[styles.textLg, styles.heroTitleText]}>
+                  HR
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.whatsNextButton}
+                onPress={() => {
+                  navigation.navigate('Hr')
+                }}
+              >
+                <Text style={[styles.textMd, styles.textCenter]}>
+                  GO
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.hero}>
+              <View style={styles.heroTitle}>
+                <Checkmark
+                  width={32}
+                  height={32}
+                  stroke="hsla(162, 47%, 50%, 1)"
+                />
+                <Text style={[styles.textLg, styles.heroTitleText]}>
                   Performance
                 </Text>
               </View>
