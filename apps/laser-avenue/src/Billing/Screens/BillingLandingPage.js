@@ -19,6 +19,7 @@ function BillingLandingPage() {
   const [openAndClose, setOpenAndClose] = useState([]);
   const [due_date, setDue_date] = useState();
   const [inventoryExpenses, setInventoryExpenses] = useState([]);
+
   const [establishmentExpenses, setEstablishmentExpenses] = useState([]);
   const [appoinmentsRevenus, setAppoinmentsRevenus] = useState([]);
   const [productRevenuse, setProductRevenuse] = useState([]);
