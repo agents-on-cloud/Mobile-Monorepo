@@ -2,7 +2,7 @@
 
 {
     "files.exclude": {
-        "**/Billing": true,
+        "**/Billing": false,
         "**/Appointment": true,
         "**/Consumers": true,
         "**/Facilities": true,

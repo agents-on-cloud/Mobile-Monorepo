@@ -22,6 +22,9 @@
     "@reduxjs/toolkit": "*",
     "redux-thunk": "*",
     "native-base": "*",
-    "react-native-snap-carousel": "*"
+    "react-native-snap-carousel": "*",
+    "react-native-vector-icons": "*",
+    "@react-native-community/datetimepicker": "*",
+    "axios": "*"
   }
 }
