@@ -2,7 +2,7 @@
 
 {
     "files.exclude": {
-        // "**/HR": true,
+        "**/HR": true,
         "**/Billing": true,
         "**/CIAM": true,
         "**/calendar": true,
@@ -18,8 +18,8 @@
         "**/Provider": true,
         "**/Services": true,
         "**/Suppliers": true,
-        "**/Tasks": true,
-        // "**/Dashboard": true,
+        // "**/Tasks": true,
+        "**/Dashboard": true,
         "**/Layout": true,
         "**/Marketing": true,
         //////////////////////////////
