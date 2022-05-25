@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef,useEffect } from 'react';
 import { Button,HStack,StatusBar,Box,Heading,Avatar,Center,VStack} from "native-base";
 import LottieView from 'lottie-react-native';
-import Carousel from 'react-native-snap-carousel';
+import Carousel,{Pagination} from 'react-native-snap-carousel';
 import { Text, View} from 'react-native';
 import axios from 'axios'
 import requestBuilder from "../../requestRebuilder  "
@@ -10,6 +10,7 @@ import requestBuilder from "../../requestRebuilder  "
  function Tasks({navigation}){
 
 const [carouselItems, setCarouselItems] = useState([]);
+const [ActiveSlide, setActiveSlide] = useState(1);
 useEffect(() => {
   getUsers()
 }, [])
@@ -30,8 +31,11 @@ const testHadnler= async()=>{
   console.log('hiiiiiiiiiiiiiiiiiiiiiii');
  
 try {
-  await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"2457b45c-18fd-4caa-a43e-f9af85771e85"
-})).then(results=>console.log('resultsresults',results.data))
+  await axios(requestBuilder('providers','/workingHours','post',{
+    providerUuid :'918c5f07-06dc-40cd-b6fa-2c4d4974a559',
+    status :'latest'
+
+  })).then(results=>console.log('resultsresults',results.data))
   
 } catch (error) {
   console.log(error.response.data);
@@ -50,28 +54,43 @@ try {
 
     return(
         <View>
-           <Button onPress={()=>testHadnler()}>Test</Button>
         <HStack space={3} justifyContent="center" style={{marginBottom:50}} >
         </HStack>     
         <View style={{ flex: 1, flexDirection: "row", justifyContent: "center"  }}>
         <Carousel
-          layout={'default'} layoutCardOffset={`10`}
-          activeSlideAlignment={`center`}
+          loop={true}
+        
+          layoutCardOffset={`10`}
+     
           ref={ref}
           data={carouselItems}
           sliderWidth={400}
           itemWidth={310}
           renderItem={renderItem}
           firstItem={1} 
-          
+          onSnapToItem={(index) => setActiveSlide(index)  }
           />
+        
       </View>
+      <Pagination  dotsLength={carouselItems.length}
+              activeDotIndex={ActiveSlide}
+              containerStyle={{ backgroundColor: 'transparent' }}
+              dotStyle={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 8,
+                  backgroundColor: '#68A7AD'
+              }}
+              inactiveDotStyle={{
+                  // Define styles for inactive dots here
+              }}
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.6}/>
       <HStack space={3} justifyContent="center" >
-  
       </HStack >
       </View>
     )
 
 }
 export default Tasks
-////

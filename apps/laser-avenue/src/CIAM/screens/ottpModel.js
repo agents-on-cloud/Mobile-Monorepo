@@ -15,23 +15,17 @@ const Example = () => {
   const ciamStore = useSelector(state => state.ciamStore);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-  console.log("ciamStoreciamStoreciamStore",ciamStore.ottpPhone);
-  }, [])
-  
+
 
 async function ottpHandler() {
-  console.log('oooooooooooooooo',otp);
+
   try {
-    console.log('oooooooooooooooo',otp);
   const res=  await axios(requestBuilder('ciam','/otpverify/verifyotp','post',{otpcode:otp , mobile: ciamStore.ottpPhone}))
-  console.log('dddddddddddddddd',res);
     dispatch(ottpFlagHandler())
     navigation.navigate('SignIn')
     
   } catch (error) {
     setotpFlag(true)
-    console.log('errorerrorssssssssss',error);
  
   }
     

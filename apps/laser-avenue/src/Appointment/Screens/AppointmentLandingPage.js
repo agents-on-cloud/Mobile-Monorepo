@@ -5,50 +5,60 @@ import registerBuilder from '../../requestRebuilder  '
 import {View} from 'react-native'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import { useDispatch, useSelector } from 'react-redux';
+import {loginFlagHandler,closeloginFlagHandler,componentsLoaderHandler} from '../../FinalLayout/store-finalLayout'
 
 function Example() {
   const [date,setDate] =useState(new Date())
-  const [due_date, setDue_date] = useState('');
+  // const [due_date, setDue_date] = useState('');
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [AllAppointments,setAllAppointments]=useState([])
   const [FilteredAppointments,setFilteredAppointments]=useState([])
-  const [gettingDAta,setgettingDAta]=useState(true)
+  const [gettingDAta,setgettingDAta]=useState(false)
   const [filterFlag,setFilterFlag]=useState(false)
+  const finalLayoutStore = useSelector(state => state.finalLayoutStore);
+  const dispatch = useDispatch();
 
 
-
-useEffect(() => {
-  console.log('haroun in useEffect');
- filterDate()
-  
-  }, [calendarFlag])
 
   useEffect(() => {
     getData()
-    setFilterFlag(false)
+   
     
     }, [])
 
 async function getData() { 
-const res = await axios('https://625fbc0892df0bc0f3397ad0.mockapi.io/Appointments')
-console.log('iiiiiiiiiiiiiiiiiiii',res.data);
-setAllAppointments(res.data)
 setgettingDAta(false)
+dispatch(componentsLoaderHandler())
+const res = await axios('https://625fbc0892df0bc0f3397ad0.mockapi.io/Appointments')
+setAllAppointments(res.data)
+setgettingDAta(true)
+setFilterFlag(false)
+dispatch(componentsLoaderHandler())
 }
 
-function  filterDate() {
-  console.log('haroun in filter function');
-  let filterArr=[]
+function  filterDate(due_date) {
 
+  dispatch(componentsLoaderHandler())
+
+  setFilterFlag(false)
+  let filterArr=[]
   for (let i = 0; i < AllAppointments.length; i++) {
     if (AllAppointments[i].start.slice(0,10) == due_date) {
-      filterArr.push(AllAppointments[i])
+   filterArr.push(AllAppointments[i])
     }
     
   }
-  console.log('filterArrfilterArrfilterArr',filterArr);
   setFilteredAppointments(filterArr)
+  
   setFilterFlag(true)
+  setgettingDAta(false)
+
+  setTimeout(() => {
+    dispatch(componentsLoaderHandler())
+  }, 300);
+
+
   
 }
 
@@ -59,13 +69,13 @@ const onChange = (event, selectedDate) => {
   if (month.length === 1) month = '0' + month;
   let day = currentDate.getDate() + '';
   if (day.length === 1) day = '0' + day;
-  setDue_date(year + '-' + month + '-' + day);
-  setDate(currentDate);
-  setCalendarFlag(!calendarFlag)
+//  setDue_date(year + '-' + month + '-' + day);
+
+ filterDate(`${year + '-' + month + '-' + day}`)
 };
 
 const showDate = () => {
-  console.log('haroun in showDate func');
+
   DateTimePickerAndroid.open({
     value: date,
     onChange,
@@ -73,12 +83,19 @@ const showDate = () => {
   
   });
  
+ 
 };
 
-function testHandler() {
-  console.log('33333333333333');
-  console.log('99999999999',due_date);
-  
+
+function AllHandler() {
+  dispatch(componentsLoaderHandler())
+
+
+  setTimeout(() => {
+    setFilterFlag(false)
+    setgettingDAta(true)
+    dispatch(componentsLoaderHandler())
+  }, 500);
 }
 
   return(
@@ -87,37 +104,38 @@ function testHandler() {
     
   <ScrollView>
 
-{gettingDAta &&<Spinner size="lg" mt="190"  accessibilityLabel="Loading posts" />}
-
-{gettingDAta==false && 
 <View>
 
+{gettingDAta && <View>
+
 <View>
-    <HStack justifyContent="center" style={{borderRadius:10}} h="60" bg="#D0C9C0" pt="1.5" mt="5" space={4}>
-      <Avatar bg="green.500" >
+    <HStack justifyContent="center" style={{borderRadius:10}} h="60" bg="#406882" pt="1.5" mt="5" space={6}>
+      <Button  shadow={9}  style={{borderRadius:35,width:50,height:50}}  onPress={()=> showDate()}>
+    
       <Icon
                   name="calendar"
                   size={20}
                   color="white"
-                  onPress={showDate}
+          
                 />
-      </Avatar>
-      <Pressable  onPress={()=> setFilterFlag(false)}>
-      <Avatar  bg="cyan.500" >
+     
+      </Button>
+      <Button shadow={9}  style={{borderRadius:35,width:50,height:50}}  onPress={()=>  AllHandler()}>
+   
        ALL
-      </Avatar>
-      </Pressable>
-      <Avatar bg="indigo.500" >
+   
+      </Button>
+      <Avatar bg="#82DBD8" shadow={9} style={{borderWidth:1, borderColor:'#D3DEDC'}} >
        
       </Avatar>
-      <Avatar bg="amber.500" >
+      <Avatar bg="#B3E8E5" shadow={9} style={{borderWidth:1, borderColor:'#D3DEDC'}}>
         
       </Avatar>
     </HStack>
     </View>
 
 
-{filterFlag==false && <VStack>
+ <VStack>
 
  
  {AllAppointments.map(item=><Box alignItems="center">
@@ -184,8 +202,39 @@ function testHandler() {
       </Pressable>
     </Box> ) }
     
-    </VStack>}
-    {filterFlag && <VStack>
+    </VStack>
+
+    </View>}
+
+{/* ///////////////////////////////////////////////////// */}
+{filterFlag && <View>
+
+<View>
+    <HStack justifyContent="center" style={{borderRadius:10}} w="350" h="60" bg="#406882" pt="1.5" mt="5" space={6}>
+      <Button  shadow={9}  style={{borderRadius:35,width:50,height:50}}  onPress={()=> showDate()}>
+    
+      <Icon
+                  name="calendar"
+                  size={20}
+                  color="white"
+          
+                />
+     
+      </Button>
+      <Button shadow={9}  style={{borderRadius:35,width:50,height:50}}  onPress={()=>  AllHandler()}>
+   
+       ALL
+   
+      </Button>
+      <Avatar bg="#82DBD8" shadow={9} style={{borderWidth:1, borderColor:'#D3DEDC'}} >
+       
+      </Avatar>
+      <Avatar bg="#B3E8E5" shadow={9} style={{borderWidth:1, borderColor:'#D3DEDC'}}>
+        
+      </Avatar>
+    </HStack>
+    </View>
+    <VStack>
 
  
 {FilteredAppointments.map(item=><Box alignItems="center">
@@ -251,11 +300,14 @@ function testHandler() {
      }}
      </Pressable>
    </Box> ) }
+   {FilteredAppointments.length==0 && <Text style={{marginTop:100,textAlign:'center',fontSize:20}}>Data Not Found</Text>}
    
-   </VStack>}
+   </VStack>
     
-    </View>
-    }
+   </View>}
+
+
+   </View>
     </ScrollView>
   
     

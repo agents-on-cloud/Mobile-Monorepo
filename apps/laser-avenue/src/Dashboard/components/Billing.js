@@ -1,7 +1,7 @@
 import React,{useEffect,useState,useCallback} from 'react'
 import { Pressable, Text, View} from 'react-native';
 import {Box,Button,Center,HStack,VStack} from "native-base";
-import Carousel from 'react-native-snap-carousel';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { PieChart } from "react-native-gifted-charts";
 import axios from 'axios';
 import requestBuilder from '../../requestRebuilder  '
@@ -13,7 +13,7 @@ import {useRoute} from '@react-navigation/native';
 function Billing({navigation}) {
   
   const [selected, setSelected] = React.useState(1);
-
+  const [ActiveSlide, setActiveSlide] = useState(1);
   const [extablishmentExpenses,setEstablishmentExpenses]=useState(0)
   const [extablishmentPercntage,setEstablishmentPercntage]=useState(0)
   const [providerExpenses,setproviderExpenses]=useState(0)
@@ -32,23 +32,16 @@ useEffect(() => {
   setBilling([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: 40, section2: 60}])
 },[extablishmentExpenses,providerExpenses,inventoryExpenses])
 
-// useEffect(() => {
-//   getData()
-// },[inventoryPercentage,providerPercentage,extablishmentPercntage])
-
 
 
 async function getData() {
 
       let expenseData=   await axios(requestBuilder('billing','/establishmentExpenses','get'))
-      console.log('expenseDataexpenseDataexdsffddfdsfddjddpedsnsfhghjhghyfdgeDataexpenseData',expenseData.data);
-
       for (let i = 0; i < expenseData.data.length; i++) {
         setEstablishmentExpenses(extablishmentExpenses+expenseData.data[i].paid_amount)
       }
 
       let providerData=   await axios(requestBuilder('billing','/ProviderExpenses','get'))
-      console.log('providerDataprsadoviderData',providerData.data);
       for (let i = 0; i < providerData.data.length; i++) {
        setproviderExpenses(providerExpenses+providerData.data[i].basic_Salary+providerData.data[i].service_cut)
       }
@@ -58,10 +51,8 @@ async function getData() {
 
 
       let productRevenue= await axios(requestBuilder('billing','/ProductRevenuesItems','get'))
-      console.log('productRevenueproductRevenue',productRevenue.data);
 
       let AppointmentRevenue= await axios(requestBuilder('billing','','get'))
-      console.log('productRevenueproductRevenue',AppointmentRevenue.data);
 
 
       setEstablishmentPercntage (Math.floor(extablishmentExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100) )
@@ -195,22 +186,23 @@ async function getData() {
           <Pressable cursor="pointer"  py="3" flex={1} onPress={() => navigation.navigate('BillingLandingPage')}>
             <Center>
             <Icon mb="1"   style={{fontSize:20 }}   color="white"  name= "md-receipt"/>
-              <Text  fontSize="12" fontColor="white" style={{color:"white"}}>
+            <Text  fontSize="12" fontColor="white" style={{color:"white"}}>
                 Billing
               </Text>
             </Center>
           </Pressable>
       
           <Pressable cursor="pointer"  py="2" flex={1} onPress={() => setSelected(3)}>
-            <Center>
-            <Icon mb="1"   style={{fontSize:40, color:'#EB5353' }}   color="white"  name= "notifications-circle-outline"/>
+          <Center>
+          <Icon mb="1"   style={{fontSize:40, color:'#EB5353' }}   color="white"  name= "notifications-circle-outline"/>
              
-            </Center>
-          </Pressable>
-        </HStack>
-      </Box>
-            <Box  >
+           </Center>
+           </Pressable>
+           </HStack>
+           </Box>
+           <Box  mb="50">
       {  billing[0].section1+  billing[0].section2+  billing[0].section3 >0 &&   <Carousel
+           loop={true}
             layout={'stack'} layoutCardOffset={`38`}
             activeSlideAlignment={`center`}
             data={billing}
@@ -218,10 +210,25 @@ async function getData() {
             itemWidth={380}
             renderItem={billingItem}
             firstItem={1} 
+            onSnapToItem={(index) => setActiveSlide(index)  }
             />}
+            <Pagination  dotsLength={billing.length}
+              activeDotIndex={ActiveSlide}
+              containerStyle={{ backgroundColor: 'transparent' }}
+              dotStyle={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  marginHorizontal: 8,
+                  backgroundColor: '#68A7AD'
+              }}
+              inactiveDotStyle={{
+                  // Define styles for inactive dots here
+              }}
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.6}/>
             </Box>
-
-        </View>
+            </View>
     )
     
 }

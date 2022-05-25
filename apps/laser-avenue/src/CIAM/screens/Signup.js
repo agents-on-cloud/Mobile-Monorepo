@@ -10,7 +10,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const Example = () => {
   
   function requestBuilder(serviceName, path, method, data) {
-    console.log('uuuuuuuuuuuuuuu');
     try {
         let json = {
             method: "POST",
@@ -39,20 +38,9 @@ const Example = () => {
 })
 
 
-useEffect(() => {
-  
-console.log('upppppppppp',userObj);
-
-
-
-}, [userObj])
-
-
 
 
 const signUpHandler = async () => {
-  console.log('ffffffffffffffffffffff',userObj.mobile.slice(1,userObj.mobile.length));
-
 
   try {
     dispatch(ottpPhoneHandler(userObj.mobile.slice(1,userObj.mobile.length)))

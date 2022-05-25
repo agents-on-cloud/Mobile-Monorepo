@@ -4,7 +4,9 @@ export const finalLayoutStore=createSlice({
     name:'layout',
     initialState:{
         loginFlag:false,
-        settingsFlag:false
+        settingsFlag:false,
+        componentsLoader:false,
+        selected:0
     },
     reducers:{
   
@@ -17,11 +19,17 @@ export const finalLayoutStore=createSlice({
     settingsHandler:(state,action)=>{
         state.settingsFlag = !state.settingsFlag
     },
+    componentsLoaderHandler:(state,action)=>{
+        state.componentsLoader = !state.componentsLoader
+    },
+    selectedHandler:(state,action)=>{
+        state.selected = action.payload
+    },
     }
     
 })
 
 
 
-export const {loginFlagHandler,closeloginFlagHandler,settingsHandler} =finalLayoutStore.actions
+export const {loginFlagHandler,closeloginFlagHandler,settingsHandler,componentsLoaderHandler,selectedHandler} =finalLayoutStore.actions
 export default finalLayoutStore.reducer 

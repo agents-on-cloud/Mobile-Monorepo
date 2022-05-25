@@ -15,9 +15,9 @@ const Example = () => {
   const dispatch = useDispatch();
 
   function logoutHandler() {
-      navigation.navigate('SignIn')
-      dispatch(settingsHandler())
-      dispatch(closeloginFlagHandler())
+    dispatch(closeloginFlagHandler())
+    dispatch(settingsHandler())
+    navigation.navigate('SignIn')
   }
 
   return <Center>
@@ -36,10 +36,10 @@ const Example = () => {
             }}>
                 Cancel
               </Button>
-              <Button style={{width:85}} onPress={() => {
+              <Button style={{width:85}} onPress={() => 
                   logoutHandler()
           
-            }}>
+            }>
           <Icon style={{ color: "white"}}   name="external-link" _dark={{
          
         }} ><Text style={{ color: "white"}} >Logout</Text></Icon>

@@ -1,4 +1,7 @@
 import  React,{useState,useEffect} from 'react';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 import MarketingLandingPage from './src/Marketing/Screens/MarketingLandingPage';
@@ -28,14 +31,18 @@ import SignUp from '../laser-avenue/src/CIAM/screens/Signup.js'
 import ForgetPassword from '../laser-avenue/src/CIAM/screens/forgetPassword.js'
 import SettingsModal from '../laser-avenue/src/FinalLayout/SettingsModal.js'
 import OttpModel from '../laser-avenue/src/CIAM/screens/ottpModel'
-import HrLandingPAge from '../laser-avenue/src/HR/screens/landingPage.js'
+import HrProvider from './src/HR/screens/providerLandingPage.js'
+import HrManager from './src/HR/screens/managerProvider.js'
+import Loader1 from './src/Loaders/loader1'
+import libraryTest from '../laser-avenue/src/FinalLayout/libraryTest'
+
+
 
 
 /////////////////////////////////////////////////////
 
 import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
-
 
   function App() {
     const layoutSore = useSelector(state => state.finalLayoutStore);
@@ -48,19 +55,25 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
  
     return (
         <>
-        {/* { <Header style={{position:'fixed',top:80}}/>} */}
-          <Stack.Navigator   >
-         { <Stack.Screen name="Dashboard" component={Dashboard}   />}
-          <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
-          <Stack.Screen name="SignIn" component={SignIn}  />
-          <Stack.Screen name="SignUp" component={SignUp}   />
-          <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
-          <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />
-          <Stack.Screen name="BillingLandingPage" component={BillingLandingPage} />
-          <Stack.Screen name="ConsumersLandingPage" component={ConsumersLandingPage} />
-          <Stack.Screen name="FacilitiesLandingPage" component={FacilitiesLandingPage} />
-          <Stack.Screen name="IncidentLandingPage" component={IncidentLandingPage} />
-          <Stack.Screen name="InventoryLandingPage" component={InventoryLandingPage} />
+
+           {/* {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>} */}
+           {<Header style={{position:'fixed',top:0}}/>}
+           {layoutSore.componentsLoader  && <Loader1  />}
+           <Stack.Navigator   >
+           {<Stack.Screen name="SignIn" component={SignIn}  />}
+           {<Stack.Screen name="Dashboard" component={Dashboard}   />}
+           {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
+           <Stack.Screen name="HrManager" component={HrManager}   />
+           <Stack.Screen name="HrProvider" component={HrProvider}   />
+           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
+           <Stack.Screen name="SignUp" component={SignUp}   />
+           <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
+           <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />
+           <Stack.Screen name="BillingLandingPage" component={BillingLandingPage} />
+           <Stack.Screen name="ConsumersLandingPage" component={ConsumersLandingPage} />
+           <Stack.Screen name="FacilitiesLandingPage" component={FacilitiesLandingPage} />
+           <Stack.Screen name="IncidentLandingPage" component={IncidentLandingPage} />
+           <Stack.Screen name="InventoryLandingPage" component={InventoryLandingPage} />
           <Stack.Screen name="KnowledgeBaseLandingPage" component={KnowledgeBaseLandingPage} />
           <Stack.Screen name="Notifications" component={Notifications} />
           <Stack.Screen name="PerformanceLandingPage" component={PerformanceLandingPage} /> 
@@ -70,7 +83,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
           <Stack.Screen name="TasksLandingPage" component={TasksLandingPage} />
           <Stack.Screen name="AppointmentLandingPage" component={AppointmentLandingPage} options={{title:'Appointments'}} />
           <Stack.Screen name="calendar" component={Calendar}   />
-          <Stack.Screen name="Hr" component={HrLandingPAge}   />
+   
    
          
          {/* /* /////////////////////Billing/////////////////////////////////////// */ }
@@ -141,13 +154,19 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
 
      
-
+ 
 
       </Stack.Navigator> 
+     
+      {  layoutSore.componentsLoader==false && 
+          <>
       { layoutSore.settingsFlag && < SettingsModal/>}
       { ciamStore.ottpFlag && < OttpModel/>}
-      {/* {  <Layout />} */}
+      { layoutSore.loginFlag && <Layout />}
+      {/* {<Layout/>} */}
+      </>}
 
+    
       </>
     );
   }

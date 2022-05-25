@@ -1,65 +1,34 @@
 import React, { useState, useCallback, useRef,useEffect } from 'react';
-import { Text, View } from 'react-native';
-import { Button,HStack,Box,Center,VStack} from "native-base";
+import { Text, View ,ImageBackground} from 'react-native';
+import { Button,HStack,Box,Center,VStack,Heading} from "native-base";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function HR({navigation}) {
+  const dashboardStore = useSelector(state => state.dashboard);
+  const dispatch = useDispatch();
 
     return (
         <View>
-            <Box h="400" w="92%" ml="4%" justifyContent="center"  mb="100"  style={{backgroundColor:'#EEEEEE'}} shadow={9}>
-              <VStack space={0}>
-              <HStack  space={10} justifyContent="center" >
-              <Box h="120" w="120" justifyContent="center" style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
-              <VStack  justifyContent="center">
-              <Center>
-              <Icon name="fax" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
-              <Center><Text style={{color:'white'}} >Leave</Text></Center>
-              </Center>
-              </VStack>
-              </Box>
-              <Box h="120" w="120"  justifyContent="center" style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
-              <VStack  justifyContent="center">
-                  <Center>
-                <Icon name="sellsy" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
-                <Center  ><Text style={{color:'white'}} >Attendance</Text> </Center>
-                </Center>
-                </VStack>
-              </Box>
-              </HStack>
-              <Center>
-              <Button onPress={()=>navigation.navigate('Hr')}  fontSize={'20'} h={'100'} w={'100'}   borderRadius="full" bg={'#444444'} variant="solid"   >Manager </Button>
-              
-              </Center>
-              <HStack  space={10} justifyContent="center">
-              <Box h="120" w="120" justifyContent="center"  style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
-              <VStack  justifyContent="center">
-                  <Center>
-              
-                <VStack  justifyContent="center">
-                  <Center>
-                <Icon name="check-square-o" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
-                <Center  ><Text style={{color:'white'}} >Check in/out</Text> </Center>
-                </Center>
-                </VStack>
-                </Center>
-                </VStack>
-              </Box>
-              <Box h="120" w="120" justifyContent="center" style={{backgroundColor:'#06919D',borderRadius:20}} shadow={9}>
-              <VStack  justifyContent="center">
-                  <Center>
-                <Icon name="clock-o" color="white" onPress={()=>console.log('fffff')} style={{fontSize:50}}> </Icon>
-                <Center  ><Text style={{color:'white'}} >Working Hours</Text> </Center>
-                </Center>
-                </VStack>
-              </Box>
-              </HStack>
-              </VStack>
+           
 
-           </Box> 
 
-        </View>
+           <Box h="320"  w="94%" ml="3%" justifyContent="center"  mb="70"   style={{backgroundColor:'#EEEEEE',marginTop:70,flex: 1,borderRadius:20}} shadow={9}>
+    <Heading style={{position:"absolute",top:-50,left:"24%"}}>Human Recourses</Heading>
+
+  { dashboardStore.userToken.profile_type=='provider' &&  <Button colorScheme="teal" onPress={()=>navigation.navigate('HrProvider')}  style={{position:'absolute' ,top:"21%",left:"11%" ,borderTopLeftRadius:250,borderBottomLeftRadius:250,width:140,height:220}}> 
+    <Icon style={{fontSize:45,color:"white",marginLeft:10}} name="user-md"/>
+    Provider
+    </Button>}
+
+    { dashboardStore.userToken.profile_type=='manager' && <Button colorScheme="primary" onPress={()=>navigation.navigate('HrManager')}  style={{position:'absolute' ,top:"21%",right:"11%" ,borderTopRightRadius:250,borderBottomRightRadius:250,width:140,height:220}}>
+
+    <Icon style={{fontSize:45,color:"white"}} name="user-circle-o"/>
+    Admin
+    </Button>}
+    </Box>
+    </View>
     )
     
 }
