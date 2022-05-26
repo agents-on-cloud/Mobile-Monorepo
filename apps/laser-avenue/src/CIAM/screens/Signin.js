@@ -1,49 +1,61 @@
 import  React,{useEffect,useState} from "react";
 import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, NativeBaseProvider,Spinner } from "native-base";
-import {closeloginFlagHandler} from '../FinalLayout/store-finalLayout'
 import { useDispatch, useSelector } from 'react-redux';
-import {loginFlagHandler} from '../../FinalLayout/store-finalLayout'
+import {loginFlagHandler,closeloginFlagHandler} from '../../FinalLayout/store-finalLayout'
+import {saveToken} from '../../Dashboard/store-dashboard'
 import axios from 'axios'
 import requestBuilder from '../../requestRebuilder  '
+import { useFocusEffect } from '@react-navigation/native';
+// import {closeloginFlagHandler} from '../../FinalLayout/store-finalLayout'
 
 
 const Example = ({navigation}) => {
 const [loader,setLoader]=useState(false)
-  const [userObj,setUserObj]=useState({
+const [userObj,setUserObj]=useState({
     email: "",
     password: "" 
   })
+  
   const [isAuthenticated,setIsAuthenticated]=useState(false)
 
     const finalLayoutStore = useSelector(state => state.finalLayoutStore);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-      console.log('userObjuserObj',userObj);
-  
- 
-    }, [userObj])
+    useFocusEffect(
+      React.useCallback(() => {
+        dispatch(closeloginFlagHandler())
     
+      }, [])
+    );
     
 
-  function tryHandler(results) {
-    console.log('yyyyyyyyyyyyyyy');
-    
+
+const signInAuthentication = (results)=> {
+    if ( results.success==false) {
+      dispatch(closeloginFlagHandler())
+      setLoader(false)
+      setIsAuthenticated(true)
+
+    }
+    else{
+      dispatch(saveToken(results.data.token.accessToken))
+      dispatch(loginFlagHandler())
+      navigation.navigate('Dashboard')
+      setLoader(false)
+    }
   }
- 
-  // {
-  //   "email": "haroun@gmail.com",
-  //   "password": "H1234567$" 
-  // }
 
   const signInHandler = async () => {
+
     setLoader(true)
     
       try {
-        const res = await axios(requestBuilder('ciam','/users/login','post',userObj)).then((results=>navigation.navigate('Dashboard',results.data)))
-    } 
-     catch (error) {
-        console.log(error.response.data);
+          // dispatch(closeloginFlagHandler())
+      await axios(requestBuilder('ciam','/users/login','post',userObj)).then((results=>signInAuthentication(results)))
+          } 
+      catch (error) {
+  
+        dispatch(closeloginFlagHandler())
         setLoader(false)
         setIsAuthenticated(true)
       }}
@@ -51,7 +63,7 @@ const [loader,setLoader]=useState(false)
     return (
       <NativeBaseProvider>
     {loader && <Spinner mt="250" color="emerald.500" size="lg" accessibilityLabel="Loading posts" />}
-  {loader==false &&  <Center  flex={1} px="3" w="100%">
+    {loader==false &&  <Center  flex={1} px="3" w="100%">
      
         <Box safeArea p="2" py="8" w="90%" maxW="290">
           <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
@@ -110,18 +122,5 @@ const [loader,setLoader]=useState(false)
       </NativeBaseProvider>
       )
   };
-  
-      // export default ({navigation}) => {
-      //   const [loader,setLoader]=useState(false)
-      //  
-      //     return (
-      //       <NativeBaseProvider>
-      //        { loader==false&& <Center flex={1} px="3">
-            
-      //             <Example navigation={navigation} loader={loader}  />
-      //         </Center>}
-      //   
-      //       </NativeBaseProvider>
-      //     );
-      // };
+
       export default Example

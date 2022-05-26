@@ -7,7 +7,6 @@ export const hrStore=createSlice({
     },
     reducers:{
     increment:(state,action)=>{
-        console.log('haroun in store');
     state.value = state.value + 1
     }
     }

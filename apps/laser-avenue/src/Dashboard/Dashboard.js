@@ -5,29 +5,32 @@ import Tasks from '../Dashboard/components/Tasks.js'
 import Appointment from '../Dashboard/components/Appointments.js'
 import Billing from '../Dashboard/components/Billing.js'
 import HR from '../Dashboard/components/HR'
+import {saveToken  } from "./store-dashboard";
+import jwt_decode from "jwt-decode";
 
 
 
-function Dashboard({route,navigation}) {
+
+function Dashboard({navigation}) {
   
-  const dashboardStore = useSelector(state => state.finalLayoutStore);
+  const dashboardStore = useSelector(state => state.dashboard);
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log('fffffffffffffff',route.params);
+  const [user, setUser] = React.useState(null);
 
-  }, [])
   
+
+
 
    
   
     return (
         <ScrollView >
-        
-      
         {/* /////////////////////////Tasks ///////////////// */}
         <Tasks navigation={navigation}/>
-        {/* //////////////////////////Appontment/////////////////////////////////////// */}
-        <Appointment navigation={navigation} />
+        {/* //////////////////////////Appontment Manager/////////////////////////////////////// */}
+        {  dashboardStore.userToken.profile_type =="manager" &&   <Appointment navigation={navigation} />}
+        {/* //////////////////////////Appontment Provider/////////////////////////////////////// */}
+        {  dashboardStore.userToken.profile_type =="provider"   && <Appointment navigation={navigation} />}
         {/* //////////////////////////Billing////////////////////////////////////////// */}
         <Billing navigation={navigation} />
         {/* //////////////////////////HR////////////////////////////////////////// */}

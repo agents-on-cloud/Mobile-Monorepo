@@ -5,42 +5,109 @@ import LottieView from 'lottie-react-native';
 import {  FlatList, Spacer, NativeBaseProvider } from "native-base";
 import axios from 'axios';
 import requestBuilder from '../../requestRebuilder  '
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
 function Appointment({navigation}) {
-  useEffect(() => {
-    getAppointments()
-    
-     },[])
+  const dashboardStore = useSelector(state => state.dashboard);
+  const dispatch = useDispatch();
+  
+
+     useFocusEffect(
+      React.useCallback(() => {
+        console.log('daaaaaaaaaaaaaaaaaaash');
+        getAppointments()
+  
+      }, [])
+    );
+  
 
     const [data,setData] =useState([])
     const [appointmentData,setAppointmentData] =useState([])
+    const [ALLappointmentNumber,setALLappointmentNumber] =useState(0)
 
 async function getAppointments() {
-     await axios(requestBuilder('appointments','/appointments/getAllappointments','get')).then(results=>{
-     const rr=[]
-     for (let i = 0; i < results.data.Appointments.length; i++) {
-      rr.push({fullName:results.data.Appointments[i].doctorname,avatarUrl:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000",id:results.data.Appointments[i].appid,timeStamp:results.data.Appointments[i].start,recentText:results.data.Appointments[i].patientname}) }
-     setAppointmentData(rr)
-  })
-console.log('appointmentDataappointmentData',appointmentData);
+  try {
+await axios(requestBuilder( "appointments", "/appointments/getallappointmentsbyproviderid/:provider_id","get",
+          {
+            provider_id: 'c2b4829f-b9ce-4ad3-926e-28a014d7628f',
+            // c2b4829f-b9ce-4ad3-926e-28a014d7628f
+          }
+        )
+      ).then((results)=>appontmentHandler(results));
+    
+  } catch (error) {
+    console.log('errrrore',error);
+  }
+
+
+//  await axios('https://625fbc0892df0bc0f3397ad0.mockapi.io/Appointments').then(results=>   appontmentHandler(results))
 
 }
+function appontmentHandler(results) {
+  if (results.data.success) {
+    console.log('====================================');
+    console.log(results.data);
+    console.log('====================================');
+  
+    setALLappointmentNumber(results.data.Appointmentsforspecificprovider.length)
+   let rr=[]
+      for (let i = 0; i < results.data.Appointmentsforspecificprovider.length; i++) {
+        if (i<5) {
+         rr.push({fullName:results.data.Appointmentsforspecificprovider[i].doctorname,avatarUrl:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000",id:results.data.Appointmentsforspecificprovider[i].appid,timeStamp:results.data.Appointmentsforspecificprovider[i].start,recentText:results.data.Appointmentsforspecificprovider[i].patientname}) }
+         
+        }
+        rr.sort((a, b) => a.timeStamp - b.timeStamp);
+        setAppointmentData(rr)
+        console.log('oooooooooo',appointmentData);
+       }else{
+         console.log('anaaaaaaaa hona ');
+        setAppointmentData([])
+        setALLappointmentNumber(0)
+        hightStyle()
+       }
+    
+  }
+function hightStyle() {
+  if (ALLappointmentNumber >=5) {
+    return 760
+  }
+  if (ALLappointmentNumber ==0) {
+    return 350
+  }
+  if (ALLappointmentNumber <5 && ALLappointmentNumber>0) {
+  return  parseInt( ALLappointmentNumber)*200 
+  }
 
+  
+}
+function styleAppoint(params) {
+  return {
+    backgroundColor:'#EEEEEE',
+    marginTop:110,
+    width:'90%',
+    marginLeft:"5%",
+    marginBottom:80,
+    height:hightStyle()
+  }
+  
+}
 
 
     return (
     <View>
        
         <View>
-        <Box shadow={9} style={{backgroundColor:'#EEEEEE',marginTop:110,width:'90%',marginLeft:"5%",marginBottom:80  }} w="90%" h="620" rounded="xl" _text={{
+        <Box shadow={9} style={styleAppoint()} w="90%" rounded="xl" _text={{
         fontSize: "md",
         fontWeight: "medium",
         color: "warmGray.50",
    
   }}>
       
-      <Pressable onPress={()=>navigation.navigate('AppointmentLandingPage')}>
-     <Avatar  shadow={9} bg="teal"  alignSelf="center" size="xl" style={{position:'absolute',top:-30}}  >
+      <Pressable variant="ghost"  onPress={()=>navigation.navigate('AppointmentLandingPage')}>
+     <Avatar   shadow={9} bg="teal"  alignSelf="center" size="xl" style={{position:'absolute',top:-30}}  >
      <LottieView   style={{height:130}}  source={require('../../animation/appointments.json')} autoPlay loop  />
       </Avatar>
       </Pressable>
@@ -54,20 +121,26 @@ console.log('appointmentDataappointmentData',appointmentData);
       </Center>
       <Center    pb="20">
       <Text style={{fontSize:30,color:'teal'}}>  
-      + {appointmentData.length}
+      + {ALLappointmentNumber}
       </Text>     
       </Center>
-      <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18}}>Up to 5 Appointments</Text>
-      <FlatList data={appointmentData} renderItem={({item}) => <Box borderBottomWidth="1" _dark={{
+      <HStack style={{marginBottom:30}}>
+      {ALLappointmentNumber <=5 && ALLappointmentNumber !==0&&  <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next {ALLappointmentNumber} Appointments</Text>}
+     {ALLappointmentNumber > 5 && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next 5 Appointments</Text>}
+
+     {ALLappointmentNumber ==0  && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>No Appointments </Text>}
+      <Button variant="ghost" bg="#d4d4d4"  onPress={()=>navigation.navigate('AppointmentLandingPage')} style={{width:69 ,height:32,marginLeft:80}} shadow={1}><Text style={{fontSize:10}} >See More</Text></Button>
+      </HStack>
+       {appointmentData.map(item=> <Box   borderBottomWidth="1" _dark={{
       borderColor: "gray.600"
     }} borderColor="gray.300" pl="4" pr="5" py="2">
-            <HStack space={3} justifyContent="space-between">
+            <HStack shadow={1} space={3} justifyContent="space-between" style={{height:70,paddingTop:20}}>
               <Avatar size="48px" source={{
           uri: item.avatarUrl
         }} />
-              <VStack>
+                <VStack>
                 <Text style={{color:'#191A19'}}>
-                  {item.fullName}
+                {item.fullName}
                 </Text>
                 <Text color="coolGray.600" _dark={{
             color: "warmGray.200"
@@ -76,13 +149,15 @@ console.log('appointmentDataappointmentData',appointmentData);
                 </Text>
               </VStack>
               <Spacer />
-              <Text fontSize="xs" _dark={{
+              <Icon name="calendar" style={{ position:'absolute',right:"27%"}}/>
+              <Text style={{fontSize:10 ,position:'absolute',right:0}} _dark={{
           color: "warmGray.50"
-        }} color="coolGray.800" alignSelf="flex-start">
-                {item.timeStamp.slice(10,item.timeStamp.length)}
+        }} color="coolGray.800" >
+       
+               {" "} {item.timeStamp}
         </Text>
         </HStack>
-        </Box>} keyExtractor={item => item.id} />
+        </Box>)}
         </Box>
         </VStack>
         </Box>

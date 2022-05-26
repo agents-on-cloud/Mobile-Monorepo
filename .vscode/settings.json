@@ -2,12 +2,12 @@
 
 {
     "files.exclude": {
-        // "**/HR": true,
-        "**/Billing": true,
+        "**/HR": true,
         "**/CIAM": true,
         "**/calendar": true,
         "**/FinalLayout": true,
         "**/Appointment": true,
+        "**/Billing": true,
         "**/Consumers": true,
         "**/Facilities": true,
         "**/Incidient": true,
@@ -18,7 +18,7 @@
         "**/Provider": true,
         "**/Services": true,
         "**/Suppliers": true,
-        "**/Tasks": true,
+        // "**/Tasks": true,
         // "**/Dashboard": true,
         "**/Layout": true,
         "**/Marketing": true,
