@@ -41,7 +41,7 @@ import { useDispatch, useSelector } from 'react-redux';
       dispatch(componentsLoaderHandler())
 
       setTimeout(() => {
-        navigation.navigate('TasksLandingPage')
+    navigation.navigate('TasksLandingPage')
         dispatch(componentsLoaderHandler())
       }, 200);
  

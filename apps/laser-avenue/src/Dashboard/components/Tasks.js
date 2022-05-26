@@ -5,15 +5,23 @@ import Carousel,{Pagination} from 'react-native-snap-carousel';
 import { Text, View} from 'react-native';
 import axios from 'axios'
 import requestBuilder from "../../requestRebuilder  "
+import { useFocusEffect } from '@react-navigation/native';
 
 
  function Tasks({navigation}){
 
 const [carouselItems, setCarouselItems] = useState([]);
 const [ActiveSlide, setActiveSlide] = useState(1);
-useEffect(() => {
-  getUsers()
-}, [])
+// useEffect(() => {
+//   getUsers()
+// }, [])
+
+useFocusEffect(
+  React.useCallback(() => {
+    getUsers()
+
+  }, [])
+);
 
 
     const getUsers = async () => {

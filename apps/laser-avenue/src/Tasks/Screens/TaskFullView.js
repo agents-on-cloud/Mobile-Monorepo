@@ -18,7 +18,6 @@ import { RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Comments from './Comments';
 import axios from 'axios';
-
 export default function TaskFullView({ route, navigation }) {
   const [task, setTask] = useState(null);
   const [assignedUsers, setAssignedUsers] = useState([]);

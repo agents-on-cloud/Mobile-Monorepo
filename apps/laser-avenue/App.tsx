@@ -46,8 +46,8 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
   function App() {
     const layoutSore = useSelector(state => state.finalLayoutStore);
-    const ciamStore = useSelector(state => state.ciamStore);
     const dispatch = useDispatch();
+    const ciamStore = useSelector(state => state.ciamStore);
 
 
  
@@ -60,12 +60,12 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
            {<Header style={{position:'fixed',top:0}}/>}
            {layoutSore.componentsLoader  && <Loader1  />}
            <Stack.Navigator   >
+           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
            {<Stack.Screen name="SignIn" component={SignIn}  />}
            {<Stack.Screen name="Dashboard" component={Dashboard}   />}
            {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
            <Stack.Screen name="HrManager" component={HrManager}   />
            <Stack.Screen name="HrProvider" component={HrProvider}   />
-           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
            <Stack.Screen name="SignUp" component={SignUp}   />
            <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
            <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />

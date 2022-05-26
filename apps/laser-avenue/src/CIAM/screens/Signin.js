@@ -5,20 +5,28 @@ import {loginFlagHandler,closeloginFlagHandler} from '../../FinalLayout/store-fi
 import {saveToken} from '../../Dashboard/store-dashboard'
 import axios from 'axios'
 import requestBuilder from '../../requestRebuilder  '
+import { useFocusEffect } from '@react-navigation/native';
+// import {closeloginFlagHandler} from '../../FinalLayout/store-finalLayout'
 
 
 const Example = ({navigation}) => {
 const [loader,setLoader]=useState(false)
-  const [userObj,setUserObj]=useState({
+const [userObj,setUserObj]=useState({
     email: "",
     password: "" 
   })
+  
   const [isAuthenticated,setIsAuthenticated]=useState(false)
 
     const finalLayoutStore = useSelector(state => state.finalLayoutStore);
     const dispatch = useDispatch();
 
+    useFocusEffect(
+      React.useCallback(() => {
+        dispatch(closeloginFlagHandler())
     
+      }, [])
+    );
     
 
 

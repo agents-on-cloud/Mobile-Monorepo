@@ -10,13 +10,16 @@ import jwt_decode from "jwt-decode";
 
 
 
+
 function Dashboard({navigation}) {
   
   const dashboardStore = useSelector(state => state.dashboard);
   const dispatch = useDispatch();
-  
+  const [user, setUser] = React.useState(null);
 
   
+
+
 
    
   

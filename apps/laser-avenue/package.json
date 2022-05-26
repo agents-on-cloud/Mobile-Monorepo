@@ -37,6 +37,7 @@
     "react-redux": "*",
     "redux": "*",
     "redux-thunk": "*",
-    "jwt-decode": "*"
+    "jwt-decode": "*",
+    "metro-config": "*"
   }
 }

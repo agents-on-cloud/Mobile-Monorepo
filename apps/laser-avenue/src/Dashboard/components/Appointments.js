@@ -7,97 +7,99 @@ import axios from 'axios';
 import requestBuilder from '../../requestRebuilder  '
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFocusEffect } from '@react-navigation/native';
 
 function Appointment({navigation}) {
   const dashboardStore = useSelector(state => state.dashboard);
   const dispatch = useDispatch();
-  useEffect(() => {
-    getAppointments()
-    
-     },[])
+  
+
+     useFocusEffect(
+      React.useCallback(() => {
+        console.log('daaaaaaaaaaaaaaaaaaash');
+        getAppointments()
+  
+      }, [])
+    );
+  
 
     const [data,setData] =useState([])
     const [appointmentData,setAppointmentData] =useState([])
-    const [ALLappointmentNumber,setALLappointmentNumber] =useState(null)
+    const [ALLappointmentNumber,setALLappointmentNumber] =useState(0)
 
 async function getAppointments() {
   try {
-console.log(';;;;;;;;;;;;;;;;');
-const res = await axios(
-        requestBuilder( "appointments", "/appointments/getallappointmentsbyproviderid/:provider_id","get",
-         {
-            provider_id: "bcaaf7d8-3bfc-4411-b265-5981206f7737",
+await axios(requestBuilder( "appointments", "/appointments/getallappointmentsbyproviderid/:provider_id","get",
+          {
+            provider_id: 'c2b4829f-b9ce-4ad3-926e-28a014d7628f',
+            // c2b4829f-b9ce-4ad3-926e-28a014d7628f
           }
         )
-      );
-      console.log('helllllllllllll');
-      console.log(res);
+      ).then((results)=>appontmentHandler(results));
     
   } catch (error) {
     console.log('errrrore',error);
   }
 
- 
 
-
-//   if (dashboardStore.userToken.profile_type=='provider') {
-//     console.log('firrrrrrrraaaaaaaaaaaaaas');
-//     const res = await this.$axios(
-//       requestBuilder( "appointments", "/appointments/getallappointmentsbyproviderid/:provider_id","get",
-//        {
-//           provider_id: "bcaaf7d8-3bfc-4411-b265-5981206f7737",
-//         }
-//       )
-//     );
-//     console.log('helllllllllllll');
-//     console.log(res.data);
-
-    
-//   }else{
-
-//     await axios(requestBuilder('appointments','/appointments/getAllappointments','get')).then(results=>{
-//       setALLappointmentNumber( results.data.Appointments.length)
-//       const rr=[]
-//       for (let i = 0; i < results.data.Appointments.length; i++) {
-//       if (i<5) {
-//        rr.push({fullName:results.data.Appointments[i].doctorname,avatarUrl:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000",id:results.data.Appointments[i].appid,timeStamp:results.data.Appointments[i].start,recentText:results.data.Appointments[i].patientname}) }
-       
-//       }
-//       setAppointmentData(rr)
-
-//  })
-    
-//   }
-  
-
-
- await axios('https://625fbc0892df0bc0f3397ad0.mockapi.io/Appointments').then(results=>   appontmentHandler(results))
+//  await axios('https://625fbc0892df0bc0f3397ad0.mockapi.io/Appointments').then(results=>   appontmentHandler(results))
 
 }
 function appontmentHandler(results) {
-  console.log('====================================');
-  console.log(results.data);
-  console.log('====================================');
+  if (results.data.success) {
+    console.log('====================================');
+    console.log(results.data);
+    console.log('====================================');
+  
+    setALLappointmentNumber(results.data.Appointmentsforspecificprovider.length)
+   let rr=[]
+      for (let i = 0; i < results.data.Appointmentsforspecificprovider.length; i++) {
+        if (i<5) {
+         rr.push({fullName:results.data.Appointmentsforspecificprovider[i].doctorname,avatarUrl:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000",id:results.data.Appointmentsforspecificprovider[i].appid,timeStamp:results.data.Appointmentsforspecificprovider[i].start,recentText:results.data.Appointmentsforspecificprovider[i].patientname}) }
+         
+        }
+        rr.sort((a, b) => a.timeStamp - b.timeStamp);
+        setAppointmentData(rr)
+        console.log('oooooooooo',appointmentData);
+       }else{
+         console.log('anaaaaaaaa hona ');
+        setAppointmentData([])
+        setALLappointmentNumber(0)
+        hightStyle()
+       }
+    
+  }
+function hightStyle() {
+  if (ALLappointmentNumber >=5) {
+    return 760
+  }
+  if (ALLappointmentNumber ==0) {
+    return 350
+  }
+  if (ALLappointmentNumber <5 && ALLappointmentNumber>0) {
+  return  parseInt( ALLappointmentNumber)*200 
+  }
 
-  let testDate=new Date(results.data[1].start)
-  setALLappointmentNumber(results.data.length)
- let rr=[]
-    for (let i = 0; i < results.data.length; i++) {
-      if (i<5) {
-       rr.push({fullName:results.data[i].doctorname,avatarUrl:"https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?w=2000",id:results.data[i].appid,timeStamp:results.data[i].start,recentText:results.data[i].patientname}) }
-       
-      }
-      rr.sort((a, b) => a.timeStamp - b.timeStamp);
-      setAppointmentData(rr)
-      console.log('oooooooooo',appointmentData);
-     }
+  
+}
+function styleAppoint(params) {
+  return {
+    backgroundColor:'#EEEEEE',
+    marginTop:110,
+    width:'90%',
+    marginLeft:"5%",
+    marginBottom:80,
+    height:hightStyle()
+  }
+  
+}
 
 
     return (
     <View>
        
         <View>
-        <Box shadow={9} style={{backgroundColor:'#EEEEEE',marginTop:110,width:'90%',marginLeft:"5%",marginBottom:80  }} w="90%" h="760" rounded="xl" _text={{
+        <Box shadow={9} style={styleAppoint()} w="90%" rounded="xl" _text={{
         fontSize: "md",
         fontWeight: "medium",
         color: "warmGray.50",
@@ -123,7 +125,10 @@ function appontmentHandler(results) {
       </Text>     
       </Center>
       <HStack style={{marginBottom:30}}>
-      <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next 5 Appointments</Text>
+      {ALLappointmentNumber <=5 && ALLappointmentNumber !==0&&  <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next {ALLappointmentNumber} Appointments</Text>}
+     {ALLappointmentNumber > 5 && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next 5 Appointments</Text>}
+
+     {ALLappointmentNumber ==0  && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>No Appointments </Text>}
       <Button variant="ghost" bg="#d4d4d4"  onPress={()=>navigation.navigate('AppointmentLandingPage')} style={{width:69 ,height:32,marginLeft:80}} shadow={1}><Text style={{fontSize:10}} >See More</Text></Button>
       </HStack>
        {appointmentData.map(item=> <Box   borderBottomWidth="1" _dark={{
