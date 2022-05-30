@@ -275,6 +275,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+   
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
@@ -306,6 +307,7 @@ dependencies {
     
     androidTestImplementation('com.wix:detox:+')
     
+    implementation project(':react-native-splash-screen')
 }
 
 if (isNewArchitectureEnabled()) {

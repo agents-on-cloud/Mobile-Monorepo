@@ -11,57 +11,63 @@ import {useRoute} from '@react-navigation/native';
 
 
 function Billing({navigation}) {
-  
   const [selected, setSelected] = React.useState(1);
   const [ActiveSlide, setActiveSlide] = useState(1);
-  const [extablishmentExpenses,setEstablishmentExpenses]=useState(0)
-  const [extablishmentPercntage,setEstablishmentPercntage]=useState(0)
-  const [providerExpenses,setproviderExpenses]=useState(0)
-  const [providerPercentage,setproviderPercentage]=useState(0)
-  const [inventoryExpenses,setinventoryExpenses]=useState(30)
-  const [inventoryPercentage,setinventoryPercentage]=useState(0)
-  const [billing,setBilling]=useState([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: 40, section2: 60}])
+  const [extablishmentExpenses,setEstablishmentExpenses]=useState(1)
+  const [providerExpenses,setproviderExpenses]=useState(1)
+  const [inventoryExpenses,setinventoryExpenses]=useState(1)
+  const [productRevenue,setproductRevenue]=useState(1)
+  const [AppointmentRevenue,setAppointmentRevenue]=useState(1)
+  const [billing,setBilling]=useState([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: productRevenue, section2: AppointmentRevenue}])
   
   useEffect(() => {
     getData()
 
-},[])
+  },[])
 
 
 useEffect(() => {
-  setBilling([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: 40, section2: 60}])
-},[extablishmentExpenses,providerExpenses,inventoryExpenses])
+  setBilling([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: productRevenue, section2: AppointmentRevenue}])
+},[extablishmentExpenses,providerExpenses,inventoryExpenses,productRevenue,AppointmentRevenue])
+
+useEffect(() => {
+  console.log('productRevenueproductRevenueproductRevenue',productRevenue);
+  console.log('AppointmentRevenueAppointmentRevenueAppointmentRevenue',AppointmentRevenue);
+ },[productRevenue,AppointmentRevenue])
 
 
 
 async function getData() {
-
       let expenseData=   await axios(requestBuilder('billing','/establishmentExpenses','get'))
+      console.log('expenseDataexpenseData',expenseData);
       for (let i = 0; i < expenseData.data.length; i++) {
         setEstablishmentExpenses(extablishmentExpenses+expenseData.data[i].paid_amount)
       }
-
       let providerData=   await axios(requestBuilder('billing','/ProviderExpenses','get'))
       for (let i = 0; i < providerData.data.length; i++) {
        setproviderExpenses(providerExpenses+providerData.data[i].basic_Salary+providerData.data[i].service_cut)
       }
+      let inventoryExpense=   await axios(requestBuilder('billing','/InventoryExpenses','get'))
+      for (let i = 0; i < inventoryExpense.data.length; i++) {
+        setinventoryExpenses(inventoryExpenses+inventoryExpense.data[i].invoice_paid_amount)
+      }
 
+      let AppointmentRevenueData= await axios(requestBuilder('billing','/AppointmentsRevenue','get'))
+      console.log('444444444444444444444444444',AppointmentRevenueData);
+      let AppointmentRevenueTotal=0
+      for (let i = 0; i < AppointmentRevenueData.data.length; i++) {
+        AppointmentRevenueTotal= AppointmentRevenueTotal+AppointmentRevenueData.data[i].Paid_total
+      }    
+      setAppointmentRevenue(AppointmentRevenueTotal) 
+      console.log('6666666666666666666666666666',AppointmentRevenue); 
 
-
-
-
-      let productRevenue= await axios(requestBuilder('billing','/ProductRevenuesItems','get'))
-
-      let AppointmentRevenue= await axios(requestBuilder('billing','','get'))
-
-
-      setEstablishmentPercntage (Math.floor(extablishmentExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100) )
-      setinventoryPercentage(Math.floor(inventoryExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100))
-      setproviderPercentage(Math.floor( providerExpenses/(extablishmentExpenses+providerExpenses+inventoryExpenses)*100))
-
-
-
-}
+      
+      let productRevenueData= await axios(requestBuilder('billing','/ProductRevenuesItems','get'))
+      console.log('productRevenueDataproductRevenueData',productRevenueData.data);
+      for (let i = 0; i < productRevenueData.data.length; i++) {
+        setproductRevenue(productRevenue+productRevenueData.data[i].price)       
+      }
+    }
         const renderLegend = (text, color) => {
             return (
               <View style={{flexDirection: 'row', marginBottom: 12}}>
@@ -180,28 +186,33 @@ async function getData() {
 
     return (
         <View >
+          {/* <Button onPress={()=>console.log('rrrrrrrrrrrr',AppointmentRevenue)}>Test</Button> */}
          <Box flex={1} bg="grey.200"  safeAreaTop width="100%" maxW="300px" alignSelf="center" >
-        <Center flex={1}></Center>
-        <HStack bg="#73777B" alignItems="center" safeAreaBottom shadow={6} h="70" style={{borderRadius:40}} >
+     
+     
           <Pressable cursor="pointer"  py="3" flex={1} onPress={() => navigation.navigate('BillingLandingPage')}>
-            <Center>
-            <Icon mb="1"   style={{fontSize:20 }}   color="white"  name= "md-receipt"/>
-            <Text  fontSize="12" fontColor="white" style={{color:"white"}}>
-                Billing
+          <HStack bg="transparent" alignItems="center" w="200" safeAreaBottom  h="70" style={{borderRadius:10,borderColor:"teal",borderWidth:2}} >
+        
+            <Icon mb="1"   style={{fontSize:40,color:"teal" }}     name= "md-receipt"/>
+            <Text bold    style={{color:"teal",paddingLeft:20,fontSize:22}}>
+                   Billing
               </Text>
-            </Center>
+              </HStack>
           </Pressable>
       
-          <Pressable cursor="pointer"  py="2" flex={1} onPress={() => setSelected(3)}>
+          {/* <Pressable cursor="pointer"  py="2" flex={1} onPress={() => setSelected(3)}>
           <Center>
           <Icon mb="1"   style={{fontSize:40, color:'#EB5353' }}   color="white"  name= "notifications-circle-outline"/>
              
            </Center>
-           </Pressable>
-           </HStack>
+           </Pressable> */}
+        
            </Box>
+
+
            <Box  mb="50">
-      {  billing[0].section1+  billing[0].section2+  billing[0].section3 >0 &&   <Carousel
+      {  billing[0].section1+  billing[0].section2+  billing[0].section3 >0 && 
+          <Carousel
            loop={true}
             layout={'stack'} layoutCardOffset={`38`}
             activeSlideAlignment={`center`}

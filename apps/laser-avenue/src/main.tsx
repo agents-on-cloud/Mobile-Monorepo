@@ -11,7 +11,6 @@ import billingReducer from '../src/Billing/store-Billing.js'
 import dashboardReducer from '../src/Dashboard/store-dashboard.js'
 import finalLayoutStore from "../src/FinalLayout/store-finalLayout.js"
 import { NativeBaseProvider,StatusBar,Box,HStack,Text} from "native-base";
-import { NavigationContainer } from '@react-navigation/native';
 import ciamStore from '../src/CIAM/store-CIAM'
 import hrStore from '../src/HR/store-Hr.js'
 
@@ -40,9 +39,9 @@ function main() {
     return(
         <Provider store={store}>
         <NativeBaseProvider>
-        <NavigationContainer>
+    
         <App/>
-        </NavigationContainer>
+       
         </NativeBaseProvider>
         </Provider>
     )

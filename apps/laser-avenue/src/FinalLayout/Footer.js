@@ -1,5 +1,5 @@
 
-import  React,{useState} from 'react';
+import  React,{useState,useEffect} from 'react';
 import { View , Modal} from 'react-native';
 import { NativeBaseProvider, Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, Pressable,Stagger,useDisclose,IconButton } from "native-base";
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
  function Layout() {
   const layoutSore = useSelector(state => state.finalLayoutStore);
   const dispatch = useDispatch();
+
 
     const navigation = useNavigation();
 

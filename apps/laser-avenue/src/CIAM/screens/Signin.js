@@ -12,9 +12,13 @@ import { useFocusEffect } from '@react-navigation/native';
 const Example = ({navigation}) => {
 const [loader,setLoader]=useState(false)
 const [userObj,setUserObj]=useState({
-    email: "",
+  username: "",
     password: "" 
   })
+  useEffect(() => {
+console.log('99999999999999999',userObj);
+  }, [userObj])
+  
   
   const [isAuthenticated,setIsAuthenticated]=useState(false)
 
@@ -31,14 +35,15 @@ const [userObj,setUserObj]=useState({
 
 
 const signInAuthentication = (results)=> {
-    if ( results.success==false) {
+  console.log('rrrrrrrrrrrr',results.data);
+    if ( results.data.message=="User Not Found!" ||results.data.message=="Username or Password is Incorrect" ) {
       dispatch(closeloginFlagHandler())
       setLoader(false)
       setIsAuthenticated(true)
 
     }
     else{
-      dispatch(saveToken(results.data.token.accessToken))
+      dispatch(saveToken(results.data.accessToken))
       dispatch(loginFlagHandler())
       navigation.navigate('Dashboard')
       setLoader(false)
@@ -51,7 +56,7 @@ const signInAuthentication = (results)=> {
     
       try {
           // dispatch(closeloginFlagHandler())
-      await axios(requestBuilder('ciam','/users/login','post',userObj)).then((results=>signInAuthentication(results)))
+      await axios(requestBuilder('ciam','/v1/signin','post',userObj)).then((results=>signInAuthentication(results)))
           } 
       catch (error) {
   
@@ -82,7 +87,7 @@ const signInAuthentication = (results)=> {
               <FormControl.Label>Email ID</FormControl.Label>
    
               <Input onChangeText={value => setUserObj({ ...userObj,
-        email: value
+        username: value
       })}  />
             </FormControl>
             <FormControl>

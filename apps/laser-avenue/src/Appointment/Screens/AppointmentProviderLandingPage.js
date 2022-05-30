@@ -11,42 +11,47 @@ import requestBuilder from '../../requestRebuilder  '
 
 function Example() {
   const [date,setDate] =useState(new Date())
+  // const [due_date, setDue_date] = useState('');
   const [calendarFlag, setCalendarFlag] = useState(false);
   const [AllAppointments,setAllAppointments]=useState([])
   const [FilteredAppointments,setFilteredAppointments]=useState([])
   const [gettingDAta,setgettingDAta]=useState(false)
   const [filterFlag,setFilterFlag]=useState(false)
   const finalLayoutStore = useSelector(state => state.finalLayoutStore);
+  const dashboardStore = useSelector(state => state.dashboard);
   const dispatch = useDispatch();
 
 
 
   useEffect(() => {
+console.log('fffffffffffffffffffffffffffffffff',dashboardStore.userToken.profileId);
     getData()
    
     
     }, [])
 
 async function getData() { 
-  try {
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
+
+try {
 setgettingDAta(false)
 dispatch(componentsLoaderHandler())
-const res =await axios(requestBuilder( "appointments", "/appointments/getAllappointments","get"))
-
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
-console.log(res.data.appointments);
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
-setAllAppointments(res.data.appointments)
+  const res =await axios(requestBuilder( "appointments", "/appointments/getallappointmentsbyproviderid/:provider_id","get",
+{
+  provider_id:dashboardStore.userToken.profileId,
+}))
+console.log('kkkkkkk',res.data);
+setAllAppointments(res.data.Appointmentsforspecificprovider)
 setgettingDAta(true)
 setFilterFlag(false)
 dispatch(componentsLoaderHandler())
-    
-  } catch (error) {
+  
+} catch (error) {
+console.log('errorerror',error);
 setgettingDAta(true)
 setFilterFlag(false)
 dispatch(componentsLoaderHandler())
-  }
+  
+}
 
 }
 
@@ -150,7 +155,7 @@ function AllHandler() {
 
  <VStack>
 
-{AllAppointments.length !==0 && <View>
+{AllAppointments.length!==0 && <View>
  {AllAppointments.map(item=><Box alignItems="center">
       <Pressable>
         {({
@@ -216,7 +221,6 @@ function AllHandler() {
     </Box> ) }
     </View>}
     {AllAppointments.length==0 && <Text style={{marginTop:100,textAlign:'center',fontSize:20}}>Data Not Found</Text>}
-    
     </VStack>
 
     </View>}
@@ -316,15 +320,15 @@ function AllHandler() {
      </Pressable>
    </Box> ) }
    {FilteredAppointments.length==0 && <Text style={{marginTop:100,textAlign:'center',fontSize:20}}>Data Not Found</Text>}
+ 
    
    </VStack>
     
    </View>}
-   <View style={{marginTop:50}}>
 
-   </View>
+<View style={{marginTop:50}}>
 
-
+</View>
    </View>
     </ScrollView>
   

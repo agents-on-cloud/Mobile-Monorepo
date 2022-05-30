@@ -12,7 +12,7 @@ export const ciamStore=createSlice({
         ottpFlagHandler:(state,action)=>{
         state.ottpFlag = !state.ottpFlag
     },
-    ottpPhoneHandler:(state,action)=>{
+        ottpPhoneHandler:(state,action)=>{
         state.ottpPhone = action.payload
     }
     }

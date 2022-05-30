@@ -6,9 +6,12 @@ import { Text, View} from 'react-native';
 import axios from 'axios'
 import requestBuilder from "../../requestRebuilder  "
 import { useFocusEffect } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
 
 
  function Tasks({navigation}){
+  const dashboardStore = useSelector(state => state.dashboard);
+  const dispatch = useDispatch();
 
 const [carouselItems, setCarouselItems] = useState([]);
 const [ActiveSlide, setActiveSlide] = useState(1);
@@ -28,6 +31,7 @@ useFocusEffect(
       try {
      
         const res = await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"2457b45c-18fd-4caa-a43e-f9af85771e85"}));
+        // dashboardStore.userToken.profile_id
         setCarouselItems(res.data)
         
       } catch (error) {
@@ -68,6 +72,7 @@ try {
         <Carousel
           loop={true}
         
+          firstItem={1} 
           layoutCardOffset={`10`}
      
           ref={ref}
@@ -75,7 +80,6 @@ try {
           sliderWidth={400}
           itemWidth={310}
           renderItem={renderItem}
-          firstItem={1} 
           onSnapToItem={(index) => setActiveSlide(index)  }
           />
         

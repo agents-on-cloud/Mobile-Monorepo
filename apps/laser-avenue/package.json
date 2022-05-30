@@ -38,6 +38,9 @@
     "redux": "*",
     "redux-thunk": "*",
     "jwt-decode": "*",
-    "metro-config": "*"
+    "metro-config": "*",
+    "@react-navigation/stack": "*",
+    "react-native-splash-screen": "*",
+    "react-native-reanimated": "*"
   }
 }

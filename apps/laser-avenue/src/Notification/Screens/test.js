@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { Dimensions, TouchableOpacity, View ,ScrollView ,RefreshControl} from "react-native";
-import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, Icon, HStack, Avatar, VStack, Spacer, Center } from "native-base";
+import { NativeBaseProvider, Box, Text, Pressable, Heading, IconButton, HStack, Avatar, VStack, Spacer, Center,Button } from "native-base";
 import { SwipeListView } from "react-native-swipe-list-view";
 // import { MaterialIcons, Ionicons, Entypo } from "@expo/vector-icons";
+import {onOpen,onClose} from '../store-notification'
+import { useDispatch, useSelector } from 'react-redux';
+import NotificationModal from '../Screens/NotificationModal'
+import axios from 'axios'
+import { useFocusEffect } from '@react-navigation/native';
+import requestBuilder from '../../requestRebuilder  '
+import {loginFlagHandler,closeloginFlagHandler,componentsLoaderHandler} from '../../FinalLayout/store-finalLayout'
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
+
+   
 
 
 function Example() {
@@ -14,7 +24,7 @@ function Example() {
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    wait(1).then(() => setRefreshing(false));
   }, []);
 
   const [mode, setMode] = useState("Basic");
@@ -34,40 +44,27 @@ function Example() {
 }
 
 function Basic() {
+  const dispatch = useDispatch();
+  const [listData, setListData] = useState([]);
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+    
+      console.log('hellllllllllllllloe');
+      getData()
+    }, [])
+  );
+
+  async function getData() {
+    dispatch(componentsLoaderHandler())
+    const notificationData= await axios(requestBuilder('notifications','/notifications','get'))
+    console.log('ffffffffffffff', notificationData.data);
+    setListData(notificationData.data)
+    dispatch(componentsLoaderHandler())
+    
+  }
   
-  
-  const data = [{
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    fullName: "Afreen Khan",
-    timeStamp: "12:47 PM",
-    recentText: "Good Day!",
-    avatarUrl: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-  }, {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    fullName: "Sujita Mathur",
-    timeStamp: "11:11 PM",
-    recentText: "Cheer up, there!",
-    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU"
-  }, {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    fullName: "Anci Barroco",
-    timeStamp: "6:22 PM",
-    recentText: "Good Day!",
-    avatarUrl: "https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg"
-  }, {
-    id: "68694a0f-3da1-431f-bd56-142371e29d72",
-    fullName: "Aniket Kumar",
-    timeStamp: "8:56 PM",
-    recentText: "All the best",
-    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU"
-  }, {
-    id: "28694a0f-3da1-471f-bd96-142456e29d72",
-    fullName: "Kiara",
-    timeStamp: "12:47 PM",
-    recentText: "I will call today.",
-    avatarUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU"
-  }];
-  const [listData, setListData] = useState(data);
 
   const closeRow = (rowMap, rowKey) => {
     if (rowMap[rowKey]) {
@@ -90,42 +87,51 @@ function Basic() {
   const renderItem = ({
     item,
     index
-  }) => <Box>
+  }) => <Box shadow={5} style={{borderWidth:.4,borderColor:'teal'}}>
       <Pressable onPress={() => console.log("You touched me")} _dark={{
       bg: "coolGray.800"
     }} _light={{
       bg: "white"
     }}>
-        <Box pl="4" pr="5" py="2">
+        {({
+        isHovered,
+        isFocused,
+        isPressed
+      }) => { return  <Box pl="4" pr="5" py="2"  bg={isPressed ? "coolGray.300" : isHovered ? "coolGray.200" : "coolGray.100"} style={{
+        transform: [{
+          scale: isPressed ? 1.08 : 1
+        }],
+
+      }} >
           <HStack alignItems="center" space={3}>
             <Avatar size="48px" source={{
-            uri: item.avatarUrl
+            uri: item.user_image
           }} />
             <VStack>
               <Text color="coolGray.800" _dark={{
               color: "warmGray.50"
             }} bold>
-                {item.fullName}
+                Sender Name: {item.sender.full_name}
               </Text>
               <Text color="coolGray.600" _dark={{
               color: "warmGray.200"
             }}>
-                {item.recentText}
+                {item.notification_subject}
               </Text>
             </VStack>
             <Spacer />
-            <Text fontSize="xs" color="coolGray.800" _dark={{
+            <Text style={{position:'absolute',right:2}} fontSize="xs" color="coolGray.800" _dark={{
             color: "warmGray.50"
           }} alignSelf="flex-start">
-              {item.timeStamp}
+              {item.createdAt.slice(11,16)}
             </Text>
           </HStack>
-        </Box>
+        </Box>}}
       </Pressable>
     </Box>;
 
-  const renderHiddenItem = (data, rowMap) => <HStack flex="1" pl="2">
-      <Pressable w="70" ml="auto" cursor="pointer" bg="coolGray.200" justifyContent="center" onPress={() => closeRow(rowMap, data.item.key)} _pressed={{
+  const renderHiddenItem = (data, rowMap) => <HStack flex="1" pl="2" >
+      <Pressable w="70" ml="auto" cursor="pointer" bg="coolGray.200" justifyContent="center" onPress={() => dispatch(onOpen())} _pressed={{
       opacity: 0.5
     }}>
         <VStack alignItems="center" space={2}>
@@ -147,18 +153,21 @@ function Basic() {
       </Pressable>
     </HStack>;
 
-  return <Box bg="white" safeArea flex="1">
+  return <Box bg="white" safeArea flex="1" shadow={9}>
       <SwipeListView data={listData} renderItem={renderItem} renderHiddenItem={renderHiddenItem} rightOpenValue={-130} previewRowKey={"0"} previewOpenValue={-40} previewOpenDelay={3000} onRowDidOpen={onRowDidOpen} />
     </Box>;
 }
 
 
-    export default () => {
+    export default ({navigation}) => {
    
         return (
           <NativeBaseProvider>
-           
                 <Example />
+              <NotificationModal/>
+              <View  style={{position:'absolute',right:5,bottom:20,}}>
+         <Button onPress={()=>navigation.navigate('createNotification')} bg="#2F8F9D"  width="62" height="62"  style={{borderRadius:100}}  ><Icon  style={{fontSize:37,paddingTop:9,color:"#F9F3EE"}} name="add-alert"/> </Button>
+         </View>
           </NativeBaseProvider>
         );
     };

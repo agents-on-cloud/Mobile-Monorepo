@@ -1,6 +1,6 @@
 {
   "name": "agents-777",
-    "version": "0.0.0",
+  "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
@@ -14,6 +14,7 @@
     "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
+    "@react-navigation/stack": "^6.2.1",
     "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.27.2",
     "base-64": "^1.0.0",
@@ -35,6 +36,7 @@
     "react-native-safe-area-context": "^4.2.5",
     "react-native-screens": "^3.13.1",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-vector-icons": "^9.1.0",
     "react-native-viewport-units": "^0.0.5",

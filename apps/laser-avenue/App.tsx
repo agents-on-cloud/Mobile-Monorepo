@@ -2,8 +2,7 @@ import  React,{useState,useEffect} from 'react';
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
+
 import MarketingLandingPage from './src/Marketing/Screens/MarketingLandingPage';
 import MainLandiingPage from './src/Layout/LandingPage'
 import BillingLandingPage from './src/Billing/Screens/BillingLandingPage'
@@ -12,7 +11,6 @@ import FacilitiesLandingPage from './src/Facilities/Screens/FacilitiesLandingPag
 import IncidentLandingPage from './src/Incidient/Screens/IncidentLandingPage'
 import InventoryLandingPage from './src/Inventory/Screens/InventoryLandingPage'
 import KnowledgeBaseLandingPage from './src/Knowledge-Base/Screens/KnowledgeBaseLandingPage'
-import Notifications from './src/Notification/Screens/Notifications'
 import PerformanceLandingPage from './src/Performance/Screens/PerformanceLandingPage'
 import ProviderLandingPage from './src/Provider/Screens/ProviderLandingPage'
 import ServicesLandingPage from './src/Services/Screens/ServicesLandingPage'
@@ -35,7 +33,17 @@ import HrProvider from './src/HR/screens/providerLandingPage.js'
 import HrManager from './src/HR/screens/managerProvider.js'
 import Loader1 from './src/Loaders/loader1'
 import libraryTest from '../laser-avenue/src/FinalLayout/libraryTest'
+import AppointmentProviderLandingPage from './src/Appointment/Screens/AppointmentProviderLandingPage'
+import Splash from '../laser-avenue/src/FinalLayout/Splash.js'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
+// import SplashScreen from 'react-native-splash-screen'
+import createNotification from '../laser-avenue/src/Notification/Screens/createNotification'
 
+
+const Stack = createNativeStackNavigator();
+// const RootStack = createStackNavigator();
 
 
 
@@ -45,24 +53,33 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
   function App() {
+    useEffect(() => {
+      console.log('====================================');
+
+      console.log('====================================');
+      // SplashScreen.hide()
+    }, [])
+    
     const layoutSore = useSelector(state => state.finalLayoutStore);
     const dispatch = useDispatch();
     const ciamStore = useSelector(state => state.ciamStore);
 
 
  
-
+  
  
     return (
         <>
 
-           {/* {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>} */}
-           {<Header style={{position:'fixed',top:0}}/>}
+          
+           <NavigationContainer>
+           {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
            {layoutSore.componentsLoader  && <Loader1  />}
-           <Stack.Navigator   >
-           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
+           <Stack.Navigator    >
            {<Stack.Screen name="SignIn" component={SignIn}  />}
            {<Stack.Screen name="Dashboard" component={Dashboard}   />}
+           {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
+           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
            {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
            <Stack.Screen name="HrManager" component={HrManager}   />
            <Stack.Screen name="HrProvider" component={HrProvider}   />
@@ -75,7 +92,6 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
            <Stack.Screen name="IncidentLandingPage" component={IncidentLandingPage} />
            <Stack.Screen name="InventoryLandingPage" component={InventoryLandingPage} />
           <Stack.Screen name="KnowledgeBaseLandingPage" component={KnowledgeBaseLandingPage} />
-          <Stack.Screen name="Notifications" component={Notifications} />
           <Stack.Screen name="PerformanceLandingPage" component={PerformanceLandingPage} /> 
           <Stack.Screen name="ProviderLandingPage" component={ProviderLandingPage} />
           <Stack.Screen name="ServicesLandingPage" component={ServicesLandingPage} />
@@ -83,6 +99,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
           <Stack.Screen name="TasksLandingPage" component={TasksLandingPage} />
           <Stack.Screen name="AppointmentLandingPage" component={AppointmentLandingPage} options={{title:'Appointments'}} />
           <Stack.Screen name="calendar" component={Calendar}   />
+          <Stack.Screen name="AppointmentProviderLandingPage" component={AppointmentProviderLandingPage}   />
    
    
          
@@ -127,6 +144,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
          {/* /////////////////////Notification/////////////////////////////////////// */}
 
          <Stack.Screen name="test" component={Test} />
+         <Stack.Screen name="createNotification" component={createNotification} />
 
 
 
@@ -155,9 +173,11 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
      
  
-
+       
       </Stack.Navigator> 
+ 
      
+  
       {  layoutSore.componentsLoader==false && 
           <>
       { layoutSore.settingsFlag && < SettingsModal/>}
@@ -165,7 +185,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
       { layoutSore.loginFlag && <Layout />}
       {/* {<Layout/>} */}
       </>}
-
+      </NavigationContainer>
     
       </>
     );
