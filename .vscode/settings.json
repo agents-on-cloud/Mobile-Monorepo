@@ -23,7 +23,7 @@
         "**/Layout": true,
         "**/Marketing": true,
         //////////////////////////////
-        "**/app": true,
+        // "**/app": true,
         "**/App.spec.tsx": true,
         "**/.babelrc": true,
         "**/metro.config.js": true,

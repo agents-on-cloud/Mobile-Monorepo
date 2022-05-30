@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "459040638247",
+    "project_id": "aoc77-72488",
+    "storage_bucket": "aoc77-72488.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459040638247:android:943e261f7d7f82c5071502",
+        "android_client_info": {
+          "package_name": "com.laseravenue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459040638247-566o0q8shpt6eh33ac6b0e0a0jpihkul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL29KSHtR7AToDU9UQGw8mBoZW-zPoy1s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459040638247-566o0q8shpt6eh33ac6b0e0a0jpihkul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
