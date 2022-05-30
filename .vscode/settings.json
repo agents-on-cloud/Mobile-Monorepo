@@ -7,7 +7,7 @@
         "**/calendar": true,
         // "**/FinalLayout": true,
         // "**/Appointment": true,
-        "**/Billing": true,
+        // "**/Billing": true,
         "**/Consumers": true,
         "**/Facilities": true,
         "**/Incidient": true,
