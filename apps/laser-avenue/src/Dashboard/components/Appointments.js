@@ -94,7 +94,7 @@ function styleAppoint(params) {
   
 }
 
-
+  // 
     return (
     <View>
        
