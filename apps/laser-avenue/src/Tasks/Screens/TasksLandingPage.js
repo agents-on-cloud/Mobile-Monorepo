@@ -37,16 +37,18 @@ export default function TasksLandingPage({ navigation }) {
   const state = useSelector((state) => {
     return {
       token: state.tasks.token,
-      user_id: state.tasks.user_id,
-      user_name: state.tasks.user_name,
+      // user_id: state.tasks.user_id,
+      // user_name: state.tasks.user_name,
+      user_id: state.dashboard.userToken.userId,
+      user_name: `${state.dashboard.userToken.firstName} ${state.dashboard.userToken.lastName}`,
       tasks: state.tasks.tasks,
+      userToken: state.dashboard.userToken,
     };
   });
-  ///////
+  ///////  userId   ////    firstName    ///   lastName
 
   useEffect(() => {
     if (state.user_id) {
-      console.log(state.user_id);
       getAssigned();
     }
   }, [state.user_id]);

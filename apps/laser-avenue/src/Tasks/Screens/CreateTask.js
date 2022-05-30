@@ -43,9 +43,12 @@ export default function CreateTask({ navigation }) {
   const state = useSelector((state) => {
     return {
       token: state.tasks.token,
-      user_id: state.tasks.user_id,
-      user_name: state.tasks.user_name,
+      // user_id: state.tasks.user_id,
+      // user_name: state.tasks.user_name,
+      user_id: state.dashboard.userToken.userId,
+      user_name: `${state.dashboard.userToken.firstName} ${state.dashboard.userToken.lastName}`,
       tasks: state.tasks.tasks,
+      userToken: state.dashboard.userToken,
     };
   });
   ///////
@@ -71,14 +74,15 @@ export default function CreateTask({ navigation }) {
       // const res = await axios.get(
       //   'https://62207663ce99a7de195a41c3.mockapi.io/users/users'
       // );
-      const res = await axios(
-        requestBuilder('ciam', '/users/getallactiveusers', 'get')
-      );
-      console.log(res.data.users);
-      res.data.users.forEach((ele) => {
-        ele.user_name = ele.name;
+      const res = await axios(requestBuilder('ciam', '/v1/users', 'get'));
+      const arr = [];
+      res.data.forEach((ele) => {
+        arr.push({
+          user_id: ele.userId,
+          user_name: `${ele.firstName} ${ele.lastName}`,
+        });
       });
-      setUsers(res.data.users);
+      setUsers(arr);
     } catch (error) {}
   };
 
