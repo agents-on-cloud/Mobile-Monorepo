@@ -177,9 +177,7 @@ async function getData() {
               </View>
               }
               
-            </View>
-            
-  
+      </View>
       </View>
   
       ),[])

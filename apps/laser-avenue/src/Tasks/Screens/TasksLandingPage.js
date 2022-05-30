@@ -22,7 +22,7 @@ import {
   getThisWeek,
   getLastWeek,
 } from '../store-tasks';
-
+import { requestBuilder } from '../requestBuilder';
 import Task from './Task';
 import axios from 'axios';
 
@@ -68,23 +68,23 @@ export default function TasksLandingPage({ navigation }) {
 
   const getAssigned = async () => {
     try {
-      console.log('send request');
-      // const data = await axios.get(
-      //   `http://10.0.2.2:30122/tasks/assignedToMe/${state.user_id}`
-      // );
-      // console.log(data.data);
-      let data = await axios({
-        method: 'POST',
-        url: 'https://api.development.agentsoncloud.com/external/public/',
-        headers: {
-          'requsted-service': 'tasks',
-          'requsted-path': '/tasks/assignedToMe/:id',
-          'requsted-method': 'get',
-        },
-        data: {
+      // let data = await axios({
+      //   method: 'POST',
+      //   url: 'https://api.development.agentsoncloud.com/external/public/',
+      //   headers: {
+      //     'requsted-service': 'tasks',
+      //     'requsted-path': '/tasks/assignedToMe/:id',
+      //     'requsted-method': 'get',
+      //   },
+      //   data: {
+      //     id: state.user_id,
+      //   },
+      // });
+      const data = await axios(
+        requestBuilder('tasks', '/tasks/assignedToMe/:id', 'get', {
           id: state.user_id,
-        },
-      });
+        })
+      );
       data.data.forEach((element) => {
         element.created =
           element.created_date.split('-').reverse().join('-') +
@@ -105,19 +105,11 @@ export default function TasksLandingPage({ navigation }) {
       // const data = await axios.get(
       //   `http://10.0.2.2:30122/tasks/generalTasks/${state.user_id}`
       // );
-
-      let data = await axios({
-        method: 'POST',
-        url: 'https://api.development.agentsoncloud.com/external/public/',
-        headers: {
-          'requsted-service': 'tasks',
-          'requsted-path': '/tasks/generalTasks/:id',
-          'requsted-method': 'get',
-        },
-        data: {
+      const data = await axios(
+        requestBuilder('tasks', '/tasks/generalTasks/:id', 'get', {
           id: state.user_id,
-        },
-      });
+        })
+      );
       data.data.forEach((element) => {
         element.created =
           element.created_date.split('-').reverse().join('-') +
@@ -131,15 +123,9 @@ export default function TasksLandingPage({ navigation }) {
       dispatch(getTaskas([...data.data]));
 
       // const res = await axios.get('http://10.0.2.2:30122/tasks/allGeneralTasks/');
-      const res = await axios({
-        method: 'POST',
-        url: 'https://api.development.agentsoncloud.com/external/public/',
-        headers: {
-          'requsted-service': 'tasks',
-          'requsted-path': '/tasks/allGeneralTasks',
-          'requsted-method': 'get',
-        },
-      });
+      const res = await axios(
+        requestBuilder('tasks', '/tasks/allGeneralTasks', 'get')
+      );
       res.data.forEach((element) => {
         element.created =
           element.created_date.split('-').reverse().join('-') +
@@ -157,60 +143,49 @@ export default function TasksLandingPage({ navigation }) {
   };
 
   const getCreated = async () => {
-    // const data = await axios.get(
-    //   `http://10.0.2.2:30122/tasks/myTasks/${state.user_id}`
-    // );
-    const data = await axios({
-      method: 'POST',
-      url: 'https://api.development.agentsoncloud.com/external/public/',
-      headers: {
-        'requsted-service': 'tasks',
-        'requsted-path': '/tasks/myTasks/:id',
-        'requsted-method': 'get',
-      },
-      data: {
-        id: state.user_id,
-      },
-    });
-    data.data.forEach((element) => {
-      element.created =
-        element.created_date.split('-').reverse().join('-') +
-        ' at ' +
-        element.created_time;
-      element.deadline =
-        element.due_date.split('-').reverse().join('-') +
-        ' at ' +
-        element.due_time;
-    });
-    // dispatch(getTaskas([...data.data]));
+    try {
+      // const data = await axios.get(
+      //   `http://10.0.2.2:30122/tasks/myTasks/${state.user_id}`
+      // );
+      const data = await axios(
+        requestBuilder('tasks', '/tasks/myTasks/:id', 'get', {
+          id: state.user_id,
+        })
+      );
+      data.data.forEach((element) => {
+        element.created =
+          element.created_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.created_time;
+        element.deadline =
+          element.due_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.due_time;
+      });
+      // dispatch(getTaskas([...data.data]));
 
-    // const res = await axios.get(
-    //   `http://10.0.2.2:30122/tasks/myCompletedTasks/${state.user_id}`
-    // );
-
-    const res = await axios({
-      method: 'POST',
-      url: 'https://api.development.agentsoncloud.com/external/public/',
-      headers: {
-        'requsted-service': 'tasks',
-        'requsted-path': '/tasks/myCompletedTasks/:id',
-        'requsted-method': 'get',
-      },
-      data: {
-        id: state.user_id,
-      },
-    });
-    res.data.forEach((element) => {
-      element.created =
-        element.created_date.split('-').reverse().join('-') +
-        ' at ' +
-        element.created_time;
-      element.deadline =
-        element.due_date.split('-').reverse().join('-') +
-        ' at ' +
-        element.due_time;
-    });
-    dispatch(getTaskas([...data.data, ...res.data]));
+      // const res = await axios.get(
+      //   `http://10.0.2.2:30122/tasks/myCompletedTasks/${state.user_id}`
+      // );
+      const res = await axios(
+        requestBuilder('tasks', '/tasks/myCompletedTasks/:id', 'get', {
+          id: state.user_id,
+        })
+      );
+      res.data.forEach((element) => {
+        element.created =
+          element.created_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.created_time;
+        element.deadline =
+          element.due_date.split('-').reverse().join('-') +
+          ' at ' +
+          element.due_time;
+      });
+      dispatch(getTaskas([...data.data, ...res.data]));
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   const changeTab = (str) => {

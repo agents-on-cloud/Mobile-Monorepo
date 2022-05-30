@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import axios from 'axios';
+import { requestBuilder } from '../requestBuilder';
 
 DropDownPicker.setMode('BADGE');
 
@@ -50,13 +51,7 @@ export default function CreateTask({ navigation }) {
   ///////
 
   useEffect(() => {
-    const getUsers = async () => {
-      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-      const res = await axios.get(
-        'https://62207663ce99a7de195a41c3.mockapi.io/users/users'
-      );
-      setUsers(res.data);
-    };
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     getUsers();
   }, []);
 
@@ -70,6 +65,22 @@ export default function CreateTask({ navigation }) {
     });
     setAssigned(arr);
   }, [selctedUsers]);
+
+  const getUsers = async () => {
+    try {
+      // const res = await axios.get(
+      //   'https://62207663ce99a7de195a41c3.mockapi.io/users/users'
+      // );
+      const res = await axios(
+        requestBuilder('ciam', '/users/getallactiveusers', 'get')
+      );
+      console.log(res.data.users);
+      res.data.users.forEach((ele) => {
+        ele.user_name = ele.name;
+      });
+      setUsers(res.data.users);
+    } catch (error) {}
+  };
 
   //////////////////////// date and time picker //////////////////
 
@@ -230,71 +241,41 @@ export default function CreateTask({ navigation }) {
       if (claimed) {
         console.log(users_id);
         // const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-        const res = await axios({
-          method: 'POST',
-          url: 'https://api.development.agentsoncloud.com/external/public/',
-          headers: {
-            'requsted-service': 'tasks',
-            'requsted-path': '/tasks',
-            'requsted-method': 'post',
-          },
-          data: { ...newTask, id: state.user_id },
-        });
-        console.log('taaaaask Id', res.data.task_id);
-        // console.log(res.status);
+        const res = await axios(
+          requestBuilder('tasks', '/tasks', 'post', {
+            ...newTask,
+          })
+        );
         if (res.status) {
           // const as = await axios.post(
           //   'http://10.0.2.2:30122/tasks/task/assigneUser',
           //   { task_id: res.data.task_id, user_id: users_id }
           // );
-          console.log('assignee now');
-          console.log(res.data.task_id);
-          const as = await axios({
-            method: 'POST',
-            url: 'https://api.development.agentsoncloud.com/external/public/',
-            headers: {
-              'requsted-service': 'tasks',
-              'requsted-path': '/tasks/task/assigneUser',
-              'requsted-method': 'post',
-            },
-            data: {
+          const as = await axios(
+            requestBuilder('tasks', '/tasks/task/assigneUser', 'post', {
               id: state.user_id,
               task_id: res.data.task_id,
               user_id: users_id,
-            },
-          });
-          console.log(as.status);
-          console.log(as.data);
+            })
+          );
         }
       } else {
         users_id.forEach(async (ele) => {
           // const res = await axios.post('http://10.0.2.2:30122/tasks', newTask);
-          const res = await axios({
-            method: 'POST',
-            url: 'https://api.development.agentsoncloud.com/external/public/',
-            headers: {
-              'requsted-service': 'tasks',
-              'requsted-path': '/tasks',
-              'requsted-method': 'post',
-            },
-            data: newTask,
-          });
-          console.log('taaaaask Id', res.data.task_id);
+          const res = await axios(
+            requestBuilder('tasks', '/tasks', 'post', newTask)
+          );
           if (res.status) {
             // const as = await axios.post(
             //   'http://10.0.2.2:30122/tasks/task/assigneUser',
             //   { task_id: res.data.task_id, user_id: [ele] }
             // );
-            const as = await axios({
-              method: 'POST',
-              url: 'https://api.development.agentsoncloud.com/external/public/',
-              headers: {
-                'requsted-service': 'tasks',
-                'requsted-path': '/tasks/task/assigneUser',
-                'requsted-method': 'post',
-              },
-              data: { task_id: res.data.task_id, user_id: [ele] },
-            });
+            const as = await axios(
+              requestBuilder('tasks', '/tasks/task/assigneUser', 'post', {
+                task_id: res.data.task_id,
+                user_id: [ele],
+              })
+            );
           }
         });
       }

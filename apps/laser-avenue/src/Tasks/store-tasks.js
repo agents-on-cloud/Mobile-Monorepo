@@ -7,8 +7,8 @@ export const consumersStore = createSlice({
     fixSearchTasks: [],
     tasks: [],
     token: '',
-    user_id: '2457b45c-18fd-4caa-a43e-f9af85771e85',
-    user_name: 'user_name 1 ',
+    user_id: '11b5f01b-7d87-41a1-8a0e-6916f16d554c',
+    user_name: 'manager',
   },
   reducers: {
     increment: (state, action) => {
