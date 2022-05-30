@@ -30,7 +30,7 @@ useFocusEffect(
     const getUsers = async () => {
       try {
      
-        const res = await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":"2457b45c-18fd-4caa-a43e-f9af85771e85"}));
+        const res = await axios(requestBuilder('tasks','/tasks/assignedToMe/:id','get',{"id":dashboardStore.userToken.userId}));
         // dashboardStore.userToken.profile_id
         setCarouselItems(res.data)
         

@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import {loginFlagHandler,closeloginFlagHandler,componentsLoaderHandler} from '../../FinalLayout/store-finalLayout'
 import requestBuilder from '../../requestRebuilder  '
+import { useFocusEffect } from '@react-navigation/native';
 
 function Example() {
   const [date,setDate] =useState(new Date())
@@ -18,14 +19,18 @@ function Example() {
   const [filterFlag,setFilterFlag]=useState(false)
   const finalLayoutStore = useSelector(state => state.finalLayoutStore);
   const dispatch = useDispatch();
+  
 
-
-
-  useEffect(() => {
-    getData()
-   
-    
+  useFocusEffect(
+    React.useCallback(() => {
+      getData()
+  
     }, [])
+  );
+  
+
+
+
 
 async function getData() { 
   try {
@@ -35,9 +40,9 @@ dispatch(componentsLoaderHandler())
 const res =await axios(requestBuilder( "appointments", "/appointments/getAllappointments","get"))
 
 console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
-console.log(res.data.appointments);
+console.log(res.data.Appointments);
 console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
-setAllAppointments(res.data.appointments)
+setAllAppointments(res.data.Appointments)
 setgettingDAta(true)
 setFilterFlag(false)
 dispatch(componentsLoaderHandler())

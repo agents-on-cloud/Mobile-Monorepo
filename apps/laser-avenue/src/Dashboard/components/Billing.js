@@ -185,10 +185,10 @@ async function getData() {
     return (
         <View >
           {/* <Button onPress={()=>console.log('rrrrrrrrrrrr',AppointmentRevenue)}>Test</Button> */}
-         <Box flex={1} bg="grey.200"  safeAreaTop width="100%" maxW="300px" alignSelf="center" >
+         <Box flex={1} bg="grey.200" mt="60" safeAreaTop width="100%" maxW="300px" alignSelf="center" >
      
      
-          <Pressable cursor="pointer"  py="3" flex={1} onPress={() => navigation.navigate('BillingLandingPage')}>
+          <Pressable style={{position:'absolute',bottom:-16}} cursor="pointer"  py="3" flex={1} onPress={() => navigation.navigate('BillingLandingPage')}>
           <HStack bg="transparent" alignItems="center" w="200" safeAreaBottom  h="70" style={{borderRadius:10,borderColor:"teal",borderWidth:2}} >
         
             <Icon mb="1"   style={{fontSize:40,color:"teal" }}     name= "md-receipt"/>

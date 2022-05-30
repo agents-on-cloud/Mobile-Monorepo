@@ -21,14 +21,10 @@ function Hr({navigation}) {
   const tokenStore = useSelector(state => state.dashboard);
   const hrStore = useSelector(state => state.hrStore);
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log('heeeeeeeeeeereeeklkjdfdjlkjkjgggsdsgggggggggggggggeeeeeee we goooooo', hrStore.dueDate);
-    
-    
-
-     DateAndTimeHandler()
-     getData()
-     checkinhHandler()
+  useEffect(() => {  
+  DateAndTimeHandler()
+  getData()
+  checkinhHandler()
   }, [])
   
 
@@ -103,13 +99,11 @@ function Hr({navigation}) {
 
 
   async function checkOutHandler() {
-    console.log('ouuuuuuuuuuuuuuuut');
     setCheckOutNew(DateAndTimeHandler())
     setCheckOutFlag(true)
     await axios(requestRebuilder('providers','/checkOutClicked','put',{
       "providerUuid": tokenStore.userToken.profileId,
       "status":"out"})).then(()=>{
-       console.log('innnnnnnnnnnnnnnn');
        setCheckOutNew(DateAndTimeHandler())
        setCheckOutFlag(true)
       })}
@@ -135,29 +129,22 @@ function testHandler(params) {
   
     return (
       <ScrollView>
-        <Button onPress={()=>testHandler()}>Test</Button>
-
+        {/* <Button onPress={()=>testHandler()}>Test</Button> */}
     <Center  flex={1} px="3">
-
       <Pressable>
       {({
       isHovered,
       isFocused,
-      
       }) => {
-   
-      
-        return ( <View>
-     
-     <Box mt="4" maxW="96"  shadow={5}  pt="5"  pl="5"  pr="5" rounded="8" >
-            <HStack space={10}  w="300"  justifyContent="center" alignItems="center">
-
-             <Text style={{textAlign:'center'}}  color="coolGray.800" fontWeight="medium" fontSize="xl"> 
-            DR <Text>{tokenStore.userToken.firstName.toUpperCase() +" "+ tokenStore.userToken.lastName.toUpperCase()}</Text> 
-             </Text> 
-              <Avatar  bg="cyan.500" source={{
-        uri: "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?size=338&ext=jpg"
-        }}>
+      return ( <View>
+      <Box mt="4" maxW="96"  shadow={5}  pt="5"  pl="5"  pr="5" rounded="8" >
+      <HStack space={10}  w="300"  justifyContent="center" alignItems="center">
+      <Text style={{textAlign:'center'}}  color="coolGray.800" fontWeight="medium" fontSize="xl"> 
+       DR <Text>{tokenStore.userToken.firstName.toUpperCase() +" "+ tokenStore.userToken.lastName.toUpperCase()}</Text> 
+      </Text> 
+      <Avatar  bg="cyan.500" source={{
+      uri: "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?size=338&ext=jpg"
+       }}>
       </Avatar>
     
             </HStack>

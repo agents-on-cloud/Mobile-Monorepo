@@ -11,6 +11,7 @@ import jwt_decode from "jwt-decode";
 import AppointmentManager from '../Dashboard/components/AppointmentManager'
 import {selectedHandler} from '../FinalLayout/store-finalLayout'
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -20,10 +21,13 @@ function Dashboard({navigation}) {
   const dashboardStore = useSelector(state => state.dashboard);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // console.log('ooooooooo',dashboardStore.userToken.profileType.toLowerCase());
-    dispatch(selectedHandler(0))
-  }, [])
+
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(selectedHandler(0))
+  
+    }, [])
+  );
   
 
 
@@ -39,13 +43,13 @@ function Dashboard({navigation}) {
         <Tasks navigation={navigation}/>
         {/* //////////////////////////Appontment Manager/////////////////////////////////////// /*/}
     
-        {/* {dashboardStore.userToken.profileType.toLowerCase() =="manager" &&   <AppointmentManager navigation={navigation} />} */}
+        {dashboardStore.userToken.profileType.toLowerCase() =="manager" &&   <AppointmentManager navigation={navigation} />}
         {/* //////////////////////////Appontment Provider/////////////////////////////////////// */}
-        {/* {dashboardStore.userToken.profileType.toLowerCase() =="provider"   && <Appointment navigation={navigation} />} */}
+        {dashboardStore.userToken.profileType.toLowerCase() =="provider"   && <Appointment navigation={navigation} />}
         {/* //////////////////////////Billing/////////////////////////////////////////////////// */}
         <Billing navigation={navigation} />
         {/* //////////////////////////HR//////////////////////////////////////////////////////// */}
-        {/* <HR navigation={navigation}/> */}
+        <HR navigation={navigation}/>
        
         </ScrollView  >
        
