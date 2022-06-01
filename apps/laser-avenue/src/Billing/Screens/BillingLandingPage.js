@@ -40,6 +40,7 @@ export default function BillingLandingPage({navigation}) {
   const [AppointmentsDetails, setAppointmentsDetails] = useState([]);
   const [ProductsDetails, setProductsDetails] = useState([]);
   const [ProivderDetails, setProivderDetails] = useState([]);
+
   useEffect(() => {
     if (togle) {
       getCashRegister();
@@ -56,14 +57,9 @@ export default function BillingLandingPage({navigation}) {
   useEffect(() => {
     const getAppointmentsRevusesDetails = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -73,7 +69,7 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date:day,
+            date:today,
           },
         });
         setAppointmentsDetails(response.data.Response);
@@ -83,14 +79,9 @@ export default function BillingLandingPage({navigation}) {
     }
        const getPaidAmountForAppointmentRevenuesByDate = async ()=> {
         try {
-          var today = new Date();
-          var day =
-            today.getFullYear() +
-            '-' +
-            '0' +
-            (today.getMonth() + 1) +
-            '-' +
-            today.getDate();
+          let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
           let response = await axios({
             method: 'POST',
             url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -100,7 +91,7 @@ export default function BillingLandingPage({navigation}) {
               'requsted-method': 'get',
             },
             data: {
-              date:day,
+              date:today,
             },
           });
           setAppoinmentsRevenus(response.data.Response);
@@ -110,14 +101,9 @@ export default function BillingLandingPage({navigation}) {
       }
     const getProductsRevenueDetailsByDate =  async () =>{
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -127,7 +113,7 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
         setProivderDetails(response.data.Response);
@@ -137,14 +123,9 @@ export default function BillingLandingPage({navigation}) {
     }
     const getPaidAmountForProviderExpensesByDate = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -154,25 +135,23 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
-
+        console.log("ProviderExpenses" , setProviderExpenses);
+        console.log("SSSSSSSSSSS" , response.data)
         setProviderExpenses(response.data.Response);
       } catch (err) {
         console.log('erdddddr', err);
       }
     };
+
     const getPaidForInventoryExpenses = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -182,7 +161,7 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
         setInventoryExpenses(response.data.Response);
@@ -193,14 +172,9 @@ export default function BillingLandingPage({navigation}) {
 
     const getInventoryExpensesDetailsbyDate = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -210,7 +184,7 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
         setInvoiceDetailsForInventory(response.data.Response);
@@ -221,14 +195,9 @@ export default function BillingLandingPage({navigation}) {
 
     const getFacilitiesDetailsByDate = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -238,7 +207,7 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
         setFacilityDetails(response.data.Response);
@@ -248,14 +217,9 @@ export default function BillingLandingPage({navigation}) {
     };
     const getTotalPaidForFacilities = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -265,7 +229,7 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
         setEstablishmentExpenses(response.data.Response);
@@ -276,14 +240,9 @@ export default function BillingLandingPage({navigation}) {
 
     const getProductsRevenueDetails = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -293,25 +252,21 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
+        console.log("RESSSS" , response.data.Response);
         setProductsDetails(response.data.Response);
+
       } catch (err) {
         console.log('EERRR', err);
       }
     };
     const getProductsRevenue = async () => {
       try {
-        var today = new Date();
-        var day =
-          today.getFullYear() +
-          '-' +
-          '0' +
-          (today.getMonth() + 1) +
-          '-' +
-          today.getDate();
-        console.log('day', day);
+        let today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10);
         let response = await axios({
           method: 'POST',
           url: 'https://api.development.agentsoncloud.com/external/public/',
@@ -321,9 +276,10 @@ export default function BillingLandingPage({navigation}) {
             'requsted-method': 'get',
           },
           data: {
-            date: day,
+            date: today,
           },
         });
+        console.log("Products",response.data.Response);
         setProductRevenuse(response.data.Response);
       } catch (err) {
         console.log('EERRR', err);
@@ -1289,6 +1245,16 @@ export default function BillingLandingPage({navigation}) {
                               }}>
                               {' '}
                               Last Paid : {ele.paid_total} JD
+                            </Text>
+
+                            <Text
+                              style={{
+                                color: '#FFF',
+                                fontSize: 12,
+                                fontWeight: '500',
+                              }}>
+                              {' '}
+                              Type : {ele.PaymentMethod}
                             </Text>
                           </View>
                         );
