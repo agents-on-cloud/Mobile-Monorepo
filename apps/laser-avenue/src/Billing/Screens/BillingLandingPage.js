@@ -463,7 +463,7 @@ export default function BillingLandingPage({navigation}) {
                               borderRadius: 5,
                               textAlign: 'center',
                             }}>
-                            Actual: {item.ActualAmount} JD
+                            Actual Cash: {item.ActualAmountCash} JD
                           </Text>
                           <Text
                             style={{
@@ -471,7 +471,7 @@ export default function BillingLandingPage({navigation}) {
                               borderRadius: 5,
                               textAlign: 'center',
                             }}>
-                            Expected: {item.ExpectedAmount} JD
+                            Expected Cash: {item.ExpectedAmountCash} JD
                           </Text>
                         </View>
                       </View>
