@@ -4,7 +4,7 @@
     "files.exclude": {
         // "**/HR": true,
         // "**/CIAM": true,
-        "**/calendar": true,
+        // "**/calendar": true,
         // "**/FinalLayout": true,
         // "**/Appointment": true,
         // "**/Billing": true,

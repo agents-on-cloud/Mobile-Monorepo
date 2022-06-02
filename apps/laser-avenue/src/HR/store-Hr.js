@@ -19,7 +19,6 @@ export const hrStore=createSlice({
         let day = currentDate.getDate() + '';
         if (day.length === 1) day = '0' + day;
         state.dueDate=`${year+'-'+month +'-'+day}`
-        console.log('finaaaaaaaaaaly', state.dueDate);
         },
     }
 })

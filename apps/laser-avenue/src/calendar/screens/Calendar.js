@@ -129,7 +129,7 @@ const App = () => {
         </TouchableOpacity>
         <TextInput
           style={styles.inputStyle}
-          placeholder="Enter Event id"
+          placeholder="Enter Event Title to find  "
           onChangeText={(text) => setText(text)}
           value={text}
         />

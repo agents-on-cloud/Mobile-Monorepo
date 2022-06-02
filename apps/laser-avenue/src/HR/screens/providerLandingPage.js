@@ -44,9 +44,8 @@ function Hr({navigation}) {
     await axios(requestRebuilder('providers','/workingHours','post',{
       "providerUuid": tokenStore.userToken.profileId,
       "status": "latest"
-  })).then(results=>setProviders( results.data))
-  console.log('prrrrrrrrrrrrrrrrrovider',provider);
-    dispatch(componentsLoaderHandler())
+     })).then(results=>setProviders( results.data))
+     dispatch(componentsLoaderHandler())
   }
 
 
@@ -67,12 +66,7 @@ function Hr({navigation}) {
 
 
  function enableDisableHandler(results) {
-   
-  console.log('=========ddd=====dd=============ssjj=========');
   setTest(results.data)
-  console.log('resultsresultsresults',results.data);
-  console.log('====================================');
-
     if (results.data.length !==0) {
      let fullTime =results.data[results.data.length-1].checkIn.split(':')
      let hours= parseInt(fullTime[0]) 
@@ -114,22 +108,19 @@ function Hr({navigation}) {
       "providerUuid": tokenStore.userToken.profileId,
       "providerName": tokenStore.userToken.name,
       "ProviderId": tokenStore.userToken.user_id})).then((results)=>{
-        console.log('innnnnnnnn',results.data);
+    
         setCheckInNew(DateAndTimeHandler())
         setCheckInFlag(true)
       })
     
     }
   
-function testHandler(params) {
-  console.log('111111111111111111',CheckOutNew);
 
-}
 
   
     return (
       <ScrollView>
-        {/* <Button onPress={()=>testHandler()}>Test</Button> */}
+    
     <Center  flex={1} px="3">
       <Pressable>
       {({

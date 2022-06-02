@@ -5,7 +5,7 @@ import {Text} from 'react-native'
 import requestRebuilder  from '../../requestRebuilder  '
 import UsersModal from './usersModal'
 import { useDispatch, useSelector } from 'react-redux';
-import {saveUsers} from "../store-notification"
+import {notificationStore, saveUsers} from "../store-notification"
 import {onOpenUsers,onCloseUsers} from '../store-notification'
 
 
@@ -17,42 +17,42 @@ import {onOpenUsers,onCloseUsers} from '../store-notification'
 
 
 
-const Example = () => {
-    useEffect(() => {
-      console.log('sdfsdfsdfsdfsd',storeNotification.selectedUsers);
-    }, [])
+
+const Example = ({navigation}) => {
+  
     
     const storeNotification = useSelector(state => state.notification);
-
-
-
+    const dashboardStore = useSelector(state => state.dashboard);
+ 
     const [createForm,setCreateForm]=useState({
-        "notification_subject":"",
-        "sender_id":"1",
-        "users":storeNotification.selectedUsers,
-        "notification_type":1,
-        "notification_description":"",
-        "notification_status":"Soft",
-        "user_image":"https://st2.depositphotos.com/4226061/9064/v/950/depositphotos_90647730-stock-illustration-female-doctor-avatar-icon.jpg",
-        "channels":[
-            {"channel_type":1}
-        ],
-        "seclude_range":{
-            "from":"2022-02-20T07:13:00.000-05:00",
-            "to":"2022-02-28T07:13:00.000-05:00"
-        }
+    
+      "sender_id":dashboardStore.userToken.userId,
+      "user_image":"",
+      "notification_type":1,
+      "sender_name":dashboardStore.userToken.firstName,
+      "notification_status":"Soft",
+      "channels":[
+          {"channel_type":1}
+      ],
+      "notification_subject":"ge ge wellplayed ",
+      "notification_description":"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsu",
+          "users":storeNotification.selectedUsers,
+      "profileIds":[]
+    
     })
+
+    
+
+
+///////////////////////////////////
+
+///////////////////////////////////////
+
 
     const dispatch = useDispatch();
     useEffect(() => {
         getUsers()       
     }, [])
-
-    useEffect(() => {
-    console.log('pppppppppppppp',createForm);  
-    console.log('77777777777777',storeNotification.selectedUsers);  
-    }, [createForm])
-
 
 
     async function getUsers() {
@@ -63,7 +63,7 @@ const Example = () => {
 
   async function CreateNotiHandler() {
       try {
-        await axios(requestRebuilder('notifications',"/notifications/create","post",createForm)).then(results=>console.log('dsfsdfsdfsdfsf',results))
+        await axios(requestRebuilder('notifications',"/notifications/create","post",{...createForm, "users":storeNotification.selectedUsers})).then(()=>navigation.navigate('test'))
           
       } catch (error) {
           console.log('00000000000000',error);
@@ -107,12 +107,12 @@ const Example = () => {
     </Center>;
 };
 
-    export default () => {
+    export default ({navigation}) => {
         const storeNotification = useSelector(state => state.notification);
         return (
           <ScrollView>
             <Center flex={1} px="3">
-                <Example />
+                <Example navigation={navigation} />
                {storeNotification.users.length&& <UsersModal  />}
             </Center>
           </ScrollView>

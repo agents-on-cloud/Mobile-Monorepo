@@ -24,10 +24,8 @@ function Example() {
 
 
   useEffect(() => {
-console.log('fffffffffffffffffffffffffffffffff',dashboardStore.userToken.profileId);
     getData()
    
-    
     }, [])
 
 async function getData() { 
@@ -39,14 +37,12 @@ dispatch(componentsLoaderHandler())
 {
   provider_id:dashboardStore.userToken.profileId,
 }))
-console.log('kkkkkkk',res.data);
 setAllAppointments(res.data.Appointmentsforspecificprovider)
 setgettingDAta(true)
 setFilterFlag(false)
 dispatch(componentsLoaderHandler())
   
 } catch (error) {
-console.log('errorerror',error);
 setgettingDAta(true)
 setFilterFlag(false)
 dispatch(componentsLoaderHandler())
@@ -168,9 +164,9 @@ function AllHandler() {
             scale: isPressed ? 0.96 : 1
           }],
           transitionProperty: 'width',
-  transitionDuration: '2s',
+  transitionDuration: '.5s',
   transitionTimingFunction: 'linear',
-  transitionDelay: '1s'
+  transitionDelay: '.5s'
         }}>
               <HStack alignItems="center">
               <Avatar size="48px" source={{

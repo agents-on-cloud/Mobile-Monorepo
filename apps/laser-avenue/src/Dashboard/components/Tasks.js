@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
   const dispatch = useDispatch();
 
 const [carouselItems, setCarouselItems] = useState([]);
-const [ActiveSlide, setActiveSlide] = useState(1);
+const [ActiveSlide, setActiveSlide] = useState(0);
 // useEffect(() => {
 //   getUsers()
 // }, [])
@@ -40,7 +40,6 @@ useFocusEffect(
    
       };
 const testHadnler= async()=>{
-  console.log('hiiiiiiiiiiiiiiiiiiiiiii');
  
 try {
   await axios(requestBuilder('providers','/workingHours','post',{

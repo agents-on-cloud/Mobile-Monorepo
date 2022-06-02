@@ -19,7 +19,6 @@ function Example() {
   const [selctedUsers, setSelctedUsers] = useState([]);
   const [users, setUsers] = useState(storeNotification.users);
     useEffect(() => {
-      console.log('[[[ffdgdfg[[[[[[[[',storeNotification.users);
       setUsers(storeNotification.users)
     }, [])
 

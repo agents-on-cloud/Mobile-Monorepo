@@ -30,22 +30,23 @@ export const notificationStore=createSlice({
 
 
      saveUsers:(state,actions)=>{
-        console.log('====================================');
-        console.log(actions.payload);
-        console.log('====================================');
         let usersNames=[]
         for (let i = 0; i < actions.payload.length; i++) {
             usersNames.push({name:actions.payload[i].firstName +" "+ actions.payload[i].middleName,
-            profileId:actions.payload[i].profileId
+            profileId:actions.payload[i].userId
         
         })
             
         }
         state.users=usersNames
-        console.log(' state.users state.users state.users', state.users);
      },
      saveSelectedUsers:(state,actions)=>{
-        state.selectedUsers= actions.payload
+      state.selectedUsers= []
+        for (let i = 0; i < actions.payload.length; i++) {
+           
+         state.selectedUsers.push({"user_id":actions.payload[i]})
+        }
+     
      },
     }
 })

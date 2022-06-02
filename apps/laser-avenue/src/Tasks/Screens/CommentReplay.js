@@ -64,7 +64,6 @@ export default function CommentReplay({
       if (response.status) {
         const arr = comments.map((ele) => {
           if (ele.comment.comment_id === replay.comment_id) {
-            console.log('iam here');
             return {
               ...ele,
               replays: ele.replays.filter((el) => {

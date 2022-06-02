@@ -2,7 +2,6 @@ import  React,{useState,useEffect} from 'react';
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
-
 import MarketingLandingPage from './src/Marketing/Screens/MarketingLandingPage';
 import MainLandiingPage from './src/Layout/LandingPage'
 import BillingLandingPage from './src/Billing/Screens/BillingLandingPage'
@@ -42,8 +41,27 @@ import { createStackNavigator } from '@react-navigation/stack';
 import createNotification from '../laser-avenue/src/Notification/Screens/createNotification'
 
 
+import messaging from '@react-native-firebase/messaging';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import { Platform } from 'react-native';
+
+
 const Stack = createNativeStackNavigator();
 // const RootStack = createStackNavigator();
+
+async function saveTokenToDatabase(token) {
+  // Assume user is already signed in
+  const userId = auth().currentUser.uid;
+
+  // Add the token to the users datastore
+  await firestore()
+    .collection('users')
+    .doc(userId)
+    .update({
+      tokens: firestore.FieldValue.arrayUnion(token),
+    });
+}
 
 
 
@@ -54,11 +72,20 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
   function App() {
     useEffect(() => {
-      console.log('====================================');
-
-      console.log('====================================');
-      // SplashScreen.hide()
-    }, [])
+      // Get the device token
+      messaging()
+        .getToken()
+        .then(token => {
+        console.log('token========>',token);
+        
+        });
+  
+      // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
+  
+      return messaging().onTokenRefresh(token => {
+        saveTokenToDatabase(token);
+      });
+    }, []);
     
     const layoutSore = useSelector(state => state.finalLayoutStore);
     const dispatch = useDispatch();
@@ -70,33 +97,31 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
  
     return (
         <>
-
-          
-           <NavigationContainer>
-           {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
-           {layoutSore.componentsLoader  && <Loader1  />}
-           <Stack.Navigator    >
-           {<Stack.Screen name="SignIn" component={SignIn}  />}
-           {<Stack.Screen name="Dashboard" component={Dashboard}   />}
-           {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
-           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
-           {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
-           <Stack.Screen name="HrManager" component={HrManager}   />
-           <Stack.Screen name="HrProvider" component={HrProvider}   />
-           <Stack.Screen name="SignUp" component={SignUp}   />
-           <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
-           <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />
-           <Stack.Screen name="BillingLandingPage" component={BillingLandingPage} />
-           <Stack.Screen name="ConsumersLandingPage" component={ConsumersLandingPage} />
-           <Stack.Screen name="FacilitiesLandingPage" component={FacilitiesLandingPage} />
-           <Stack.Screen name="IncidentLandingPage" component={IncidentLandingPage} />
-           <Stack.Screen name="InventoryLandingPage" component={InventoryLandingPage} />
+          <NavigationContainer>
+          {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
+          {layoutSore.componentsLoader  && <Loader1  />}
+          <Stack.Navigator    >
+          {<Stack.Screen name="SignIn" component={SignIn}  />}
+          {<Stack.Screen name="Dashboard" component={Dashboard}   />}
+          {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
+          <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
+          {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
+          <Stack.Screen name="HrManager" component={HrManager}   />
+          <Stack.Screen name="HrProvider" component={HrProvider}   />
+          <Stack.Screen name="SignUp" component={SignUp}   />
+          <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
+          <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />
+          <Stack.Screen name="BillingLandingPage" component={BillingLandingPage} />
+          <Stack.Screen name="ConsumersLandingPage" component={ConsumersLandingPage} />
+          <Stack.Screen name="FacilitiesLandingPage" component={FacilitiesLandingPage} />
+          <Stack.Screen name="IncidentLandingPage" component={IncidentLandingPage} />
+          <Stack.Screen name="InventoryLandingPage" component={InventoryLandingPage} />
           <Stack.Screen name="KnowledgeBaseLandingPage" component={KnowledgeBaseLandingPage} />
           <Stack.Screen name="PerformanceLandingPage" component={PerformanceLandingPage} /> 
           <Stack.Screen name="ProviderLandingPage" component={ProviderLandingPage} />
           <Stack.Screen name="ServicesLandingPage" component={ServicesLandingPage} />
           <Stack.Screen name="SuppliersLandingPage" component={SuppliersLandingPage} />
-          <Stack.Screen name="TasksLandingPage" component={TasksLandingPage} />
+          <Stack.Screen name="TasksLandingPage" component={TasksLandingPage}  options={{title:'Tasks'}} />
           <Stack.Screen name="AppointmentLandingPage" component={AppointmentLandingPage} options={{title:'Appointments'}} />
           <Stack.Screen name="calendar" component={Calendar}   />
           <Stack.Screen name="AppointmentProviderLandingPage" component={AppointmentProviderLandingPage}   />
@@ -113,7 +138,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
          {/* //////////////////////////////////////////////////////////////////// */}
          {/* /////////////////////Tasks////////////////////////////////////////// */}
-         <Stack.Screen name="createTask" component={CreateTask} />
+         <Stack.Screen name="createTask" component={CreateTask} options={{title:'Tasks'}} />
          <Stack.Screen name="TaskFullView" component={TaskFullView} />
 
 
@@ -143,7 +168,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
          {/* //////////////////////////////////////////////////////////////////// ////*/}
          {/* /////////////////////Notification/////////////////////////////////////// */}
 
-         <Stack.Screen name="test" component={Test} />
+         <Stack.Screen name="test" component={Test} options={{title:'Notifications'}} />
          <Stack.Screen name="createNotification" component={createNotification} />
 
 
@@ -174,18 +199,18 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
      
  
        
-      </Stack.Navigator> 
- 
+          </Stack.Navigator> 
      
-  
-      {  layoutSore.componentsLoader==false && 
-          <>
-      { layoutSore.settingsFlag && < SettingsModal/>}
-      { ciamStore.ottpFlag && < OttpModel/>}
-      { layoutSore.loginFlag && <Layout />}
-      {/* {<Layout/>} */}
-      </>}
-      </NavigationContainer>
+         
+      
+          {  layoutSore.componentsLoader==false && 
+              <>
+          { layoutSore.settingsFlag && < SettingsModal/>}
+          { ciamStore.ottpFlag && < OttpModel/>}
+          { layoutSore.loginFlag && <Layout />}
+          {/* {<Layout/>} */}
+          </>}
+          </NavigationContainer>
     
       </>
     );

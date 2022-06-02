@@ -17,9 +17,7 @@ function Appointment({navigation}) {
 
      useFocusEffect(
       React.useCallback(() => {
-        console.log('daaaaaaaaaaaaaaaaaaash',dashboardStore.userToken.profileId);
         getAppointments()
-  
       }, [])
     );
   
@@ -47,10 +45,6 @@ await axios(requestBuilder( "appointments", "/appointments/getallappointmentsbyp
 }
 function appontmentHandler(results) {
   if (results.data.success) {
-    console.log('====================================');
-    console.log(results.data);
-    console.log('====================================');
-  
     setALLappointmentNumber(results.data.Appointmentsforspecificprovider.length)
    let rr=[]
       for (let i = 0; i < results.data.Appointmentsforspecificprovider.length; i++) {
@@ -60,9 +54,7 @@ function appontmentHandler(results) {
         }
         rr.sort((a, b) => a.timeStamp - b.timeStamp);
         setAppointmentData(rr)
-        console.log('oooooooooo',appointmentData);
        }else{
-         console.log('anaaaaaaaa hona ');
         setAppointmentData([])
         setALLappointmentNumber(0)
         hightStyle()

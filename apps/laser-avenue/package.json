@@ -42,6 +42,9 @@
     "react-native-vector-icons": "*",
     "react-redux": "*",
     "redux": "*",
-    "redux-thunk": "*"
+    "redux-thunk": "*",
+    "@react-native-firebase/messaging": "*",
+    "@react-native-firebase/auth": "*",
+    "@react-native-firebase/firestore": "*"
   }
 }

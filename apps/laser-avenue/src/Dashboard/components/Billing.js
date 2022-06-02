@@ -15,7 +15,7 @@ function Billing({navigation}) {
   const [ActiveSlide, setActiveSlide] = useState(1);
   const [extablishmentExpenses,setEstablishmentExpenses]=useState(1)
   const [providerExpenses,setproviderExpenses]=useState(1)
-  const [inventoryExpenses,setinventoryExpenses]=useState(1)
+  const [inventoryExpenses,setinventoryExpenses]=useState(20)
   const [productRevenue,setproductRevenue]=useState(1)
   const [AppointmentRevenue,setAppointmentRevenue]=useState(1)
   const [billing,setBilling]=useState([{name: 'Expenses', section1: extablishmentExpenses, section2: providerExpenses, section3: inventoryExpenses},{name: 'Revenues',  section1: productRevenue, section2: AppointmentRevenue}])
@@ -31,15 +31,12 @@ useEffect(() => {
 },[extablishmentExpenses,providerExpenses,inventoryExpenses,productRevenue,AppointmentRevenue])
 
 useEffect(() => {
-  console.log('productRevenueproductRevenueproductRevenue',productRevenue);
-  console.log('AppointmentRevenueAppointmentRevenueAppointmentRevenue',AppointmentRevenue);
  },[productRevenue,AppointmentRevenue])
 
 
 
 async function getData() {
       let expenseData=   await axios(requestBuilder('billing','/establishmentExpenses','get'))
-      console.log('expenseDataexpenseData',expenseData);
       for (let i = 0; i < expenseData.data.length; i++) {
         setEstablishmentExpenses(extablishmentExpenses+expenseData.data[i].paid_amount)
       }
@@ -53,17 +50,12 @@ async function getData() {
       }
 
       let AppointmentRevenueData= await axios(requestBuilder('billing','/AppointmentsRevenue','get'))
-      console.log('444444444444444444444444444',AppointmentRevenueData);
       let AppointmentRevenueTotal=0
       for (let i = 0; i < AppointmentRevenueData.data.length; i++) {
         AppointmentRevenueTotal= AppointmentRevenueTotal+AppointmentRevenueData.data[i].Paid_total
       }    
       setAppointmentRevenue(AppointmentRevenueTotal) 
-      console.log('6666666666666666666666666666',AppointmentRevenue); 
-
-      
       let productRevenueData= await axios(requestBuilder('billing','/ProductRevenuesItems','get'))
-      console.log('productRevenueDataproductRevenueData',productRevenueData.data);
       for (let i = 0; i < productRevenueData.data.length; i++) {
         setproductRevenue(productRevenue+productRevenueData.data[i].price)       
       }

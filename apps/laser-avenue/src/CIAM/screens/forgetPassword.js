@@ -8,13 +8,11 @@ const Example = () => {
   const [phoneNumber,setphoneNumber]=useState('')
 
 async function forgetHandler() {
-  console.log('ffffffffffffffffff');
 try {
   await axios(requestRebuilder('ciam','/users/forgetPasswordbyid/6f818474-dc8e-40d0-b5ca-b5fb5c58bc17','post',{phone:phoneNumber})).then(results=>console.log('resultsresults',results))
 } catch (error) {
-  console.log('====================================');
+
   console.log(error);
-  console.log('====================================');
 }
 
 

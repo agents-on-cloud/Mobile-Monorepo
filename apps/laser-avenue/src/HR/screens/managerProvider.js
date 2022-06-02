@@ -33,24 +33,30 @@ setToday(dayName)
   }
 
   async function providersHandler(results) {
-    console.log('beeeeeeeeeeesher',results);
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       let providerInfo=results.data
+   
+  
       for (let i = 0; i < providerInfo.length; i++) {
+        let whatIsDate=new Date(providerInfo[i].date)
         await axios(requestRebuilder('providers','/workingHours','post',{
             providerUuid :providerInfo[i].providerUuid ,
             status :'latest'
         
-          })).then(ele=>providerInfo[i].workingHours=ele.data)
+          })).then((ele)=>{
+            providerInfo[i].workingHours=ele.data
+            providerInfo[i].day=days[whatIsDate.getDay()].toLowerCase()
           
-      }
+          }) }
       setProviders(providerInfo)
-      console.log('providerInfoproviderInfo',providerInfo);
-      
+ 
+      console.log('providerInfoproviderInfoproviderInfo',providerInfo);
   }
   
     return (
       <ScrollView>
      {provider.map(item=> <Center  flex={1} px="3">
+  
 
       <Pressable>
       {({
@@ -61,6 +67,9 @@ setToday(dayName)
    
       
         return ( <View>
+               <Text style={{position:'absolute',right:14,top:30,fontSize:12}}>{item.date}</Text>
+               <Text style={{position:'absolute',right:14,top:50,fontSize:11}}>{item.day.toUpperCase()}</Text>
+
      
      <Box mt="4" maxW="96"  shadow={5}  pt="5"  pl="5"  pr="5" rounded="8" >
             <HStack space={10}  w="300"  justifyContent="center" alignItems="center">
@@ -78,9 +87,9 @@ setToday(dayName)
            <HStack >
              
              <Text italic  mt="5" fontSize="sm" color="coolGray.700"> Working Hours:</Text>
-          {item.workingHours.length !==0 &&   <Text pl="5"  mt="5" fontSize="sm" color="coolGray.700">{item.workingHours[0][today].from}</Text>}
+          {item.workingHours.length !==0 &&   <Text pl="5"  mt="5" fontSize="sm" color="coolGray.700">{item.workingHours[0][item.day].from}</Text>}
              <Text pl="5" mt="5" fontSize="sm" color="coolGray.700">  to</Text>
-            {item.workingHours.length !==0 &&   <Text pl="5"  mt="5" fontSize="sm" color="coolGray.700">{item.workingHours[0][today].to}</Text>}
+            {item.workingHours.length !==0 &&   <Text pl="5"  mt="5" fontSize="sm" color="coolGray.700">{item.workingHours[0][item.day].to}</Text>}
            
             </HStack>
             <HStack >
@@ -89,7 +98,7 @@ setToday(dayName)
               <Text pl="7" mt="2" fontSize="sm" color="coolGray.700">{item.checkIn} </Text>
               <Text pl="5" mt="2" fontSize="sm" color="coolGray.700">to</Text>
               {item.checkOut=='null' && <Text pl="6" mt="2" fontSize="sm" color="coolGray.700">____</Text>}
-             {item.checkOut !=='null' && <Text pl="6" mt="2" fontSize="sm" color="coolGray.700">{item.checkOut}</Text>}
+              {item.checkOut !=='null' && <Text pl="6" mt="2" fontSize="sm" color="coolGray.700">{item.checkOut}</Text>}
             
              </HStack>
              {/* <HStack space={5} pt="10"  w="300"  justifyContent="center" alignItems="center">

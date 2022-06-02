@@ -34,14 +34,10 @@ function Example() {
 
 async function getData() { 
   try {
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
+
 setgettingDAta(false)
 dispatch(componentsLoaderHandler())
 const res =await axios(requestBuilder( "appointments", "/appointments/getAllappointments","get"))
-
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
-console.log(res.data.Appointments);
-console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
 setAllAppointments(res.data.Appointments)
 setgettingDAta(true)
 setFilterFlag(false)
