@@ -49,13 +49,14 @@ function Basic() {
   const dispatch = useDispatch();
   const dashboardStore = useSelector(state => state.dashboard);
   const [listData, setListData] = useState([]);
+  const [updateNotification, setUpdateNotification] = useState([]);
   const [ChangeFlag, setChangeFlag] = React.useState(false);
 
 
   useFocusEffect(
     React.useCallback(() => {
       getData()
-    }, [ChangeFlag])
+    }, [ChangeFlag,updateNotification])
   );
 
   async function getData() {
@@ -135,7 +136,21 @@ function Basic() {
       </Pressable>
     </Box>;
 
+async function ReadHandler(payload) {
+
+     try {
+      await axios(requestBuilder('notifications','/notifications/updateUnread/:id','put',{
+        "id":payload.id,
+        "is_unread":!payload.is_unread
+    }))
+       
+     } catch (error) {
+      console.log('kkkkkkkkkkkkk',error); 
+       
+     }
+setUpdateNotification(!updateNotification)
     
+    }
 
   const renderHiddenItem = (data, rowMap) => <HStack flex="1" pl="2" >
     
@@ -181,27 +196,22 @@ function Basic() {
           </Text>
         </VStack>
       </Pressable>
-      <Pressable style={{position:"absolute",left:62}} w="63" h="70" cursor="pointer" bg="#8CC0DE" justifyContent="center" >
+      {/* ////////////////////////////////////////////////// */}
+      <Pressable style={{position:"absolute",left:62}} w="63" h="70" cursor="pointer"  justifyContent="center" >
         <VStack alignItems="center" space={2}>
           {/* <Icon as={<MaterialIcons name="delete" />} color="white" size="xs" /> */}
-    {   data.item.is_unread==true &&     <Checkbox   onPress={async ()=>   await axios(requestBuilder('notifications','/notifications/updateUnread/:id','put',{
-        "id":data.item.id,
-        "is_unread":!data.item.is_unread
-    }))}   />}
-    {    data.item.is_unread==false &&      <Checkbox  defaultIsChecked onPress={async ()=>  await axios(requestBuilder('notifications','/notifications/updateUnread/:id','put',{
-        "id":data.item.id,
-        "is_unread":!data.item.is_unread
-    }))}   />}
+    {   data.item.is_unread==true &&     <Button  h="70" style={{width:75,borderColor:"teal",borderWidth:1}}  onPress={ ()=> ReadHandler(data.item)  }   >Read</Button>}
+    {    data.item.is_unread==false &&      <Button  h="70" style={{width:75}}  onPress={ ()=> ReadHandler(data.item)}  >UnRead</Button>}
 
 
-          <Text color="white" fontSize="xs" fontWeight="medium">
+          {/* <Text color="white" fontSize="xs" fontWeight="medium">
             READ
-          </Text>
+          </Text> */}
         </VStack>
       </Pressable>
     </HStack>;
   return <Box bg="white" safeArea flex="1" shadow={9}>
-      <SwipeListView data={listData} renderItem={renderItem} renderHiddenItem={renderHiddenItem} rightOpenValue={-70} leftOpenValue={125} previewRowKey={"0"} previewOpenValue={-40} previewOpenDelay={3000} onRowDidOpen={onRowDidOpen} />
+      <SwipeListView data={listData} renderItem={renderItem} renderHiddenItem={renderHiddenItem} rightOpenValue={-70} leftOpenValue={130} previewRowKey={"0"} previewOpenValue={-40} previewOpenDelay={3000} onRowDidOpen={onRowDidOpen} />
     </Box>
 }
   export default ({navigation}) => {
