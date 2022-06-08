@@ -194,6 +194,8 @@ function Basic() {
     }))}   />}
 
 
+
+///
           <Text color="white" fontSize="xs" fontWeight="medium">
             READ
           </Text>
