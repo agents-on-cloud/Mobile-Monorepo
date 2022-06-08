@@ -41,10 +41,13 @@ import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useRef } from "react";
-import { Button, DrawerLayoutAndroid, Text, StyleSheet, View } from "react-native";
+import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,TouchableOpacity } from "react-native";
 import { Box, useDisclose, IconButton, Stagger, HStack, Center, NativeBaseProvider } from "native-base";
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import Collaborate from './src/FinalLayout/collobrate.js'
+import { useNavigation } from '@react-navigation/native';
+import CreateTask from "./src/Tasks/Screens/CreateTask.js"
+import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
 
 const Stack = createNativeStackNavigator();
@@ -67,8 +70,6 @@ async function saveTokenToDatabase(token) {
 
 /////////////////////////////////////////////////////
 
-import CreateTask from "./src/Tasks/Screens/CreateTask.js"
-import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
   function App() {
     const drawer = useRef(null);
@@ -94,7 +95,7 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
         saveTokenToDatabase(token);
       });
     }, []);
-    
+
     const layoutSore = useSelector(state => state.finalLayoutStore);
     const dispatch = useDispatch();
     const ciamStore = useSelector(state => state.ciamStore);
@@ -110,32 +111,32 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
         />
       </View>
     );
- 
+     
     return (
         <>
-        <DrawerLayoutAndroid
-        ref={drawer}
-        drawerWidth={300}
-        drawerPosition={"right"}
-        renderNavigationView={navigationView}
-        >
-           <Box alignItems="center" style={{position:'absolute',bottom:120,right:20,zIndex:isOpen?10:0}}>
-
+<DrawerLayoutAndroid
+ref={drawer}
+drawerWidth={300}
+drawerPosition={"right"}
+renderNavigationView={navigationView}
+>
+<NavigationContainer>
+<Box alignItems="center" style={{position:'absolute',bottom:120,left:20,zIndex:isOpen?10:0}}>
 <Stagger visible={isOpen} initial={{
 opacity: 0,
 scale: 0,
 translateY: 34
 }} animate={{
 translateY: 0,
-scale: 1,
+scale: 1.1,
 opacity: 1,
 transition: {
-  type: "spring",
-  mass: 0.8,
-  stagger: {
-    offset: 30,
-    reverse: true
-  }
+type: "spring",
+mass: 1,
+stagger: {
+offset: 30,
+reverse: true
+}
 }
 }} exit={{
 translateY: 34,
@@ -163,16 +164,25 @@ transition: {
 }} color="warmGray.50" />} />
 </Stagger>
 </Box>
-          <NavigationContainer>
-          { <Header style={{position:'fixed',top:0}} drawHandler={drawer} />}
+
+{/* ////////////////////////////// */}
+{/* ////////////////////////////// */}
+
+
+<Collaborate/>
+{/* /////////////////////////////// */}
+{/* ////////////////////////////// */}
+
+      
+          {<Header style={{position:'fixed',top:0}} drawHandler={drawer} />}
           {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
           {layoutSore.componentsLoader  && <Loader1  />}
-          <Stack.Navigator  screenOptions={{headerShown: false }}   >
-          {<Stack.Screen name="Dashboard" component={Dashboard}   />}
-          {<Stack.Screen name="SignIn" component={SignIn}  />}
+           <Stack.Navigator  screenOptions={{headerShown: false }}>
+          {<Stack.Screen name="Dashboard" component={Dashboard}/>}
+          {<Stack.Screen name="libraryTest" component={libraryTest}/>}
+          {<Stack.Screen name="SignIn" component={SignIn}/>}
           {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
-          {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
           <Stack.Screen name="HrManager" component={HrManager}   />
           <Stack.Screen name="HrProvider" component={HrProvider}   />
           <Stack.Screen name="SignUp" component={SignUp}   />
@@ -268,28 +278,37 @@ transition: {
        
           </Stack.Navigator> 
      
-         
+          
       
-          { layoutSore.componentsLoader==false && 
-              <>
+          { layoutSore.componentsLoader==false &&<>
           { layoutSore.settingsFlag && < SettingsModal/>}
           { ciamStore.ottpFlag && < OttpModel/>}
           { layoutSore.loginFlag && <Layout />}
           {<Layout/>}
           </>}
           </NavigationContainer>
-
           <HStack  justifyContent="center">
-        <IconButton w="50" h="50" style={{position:'absolute',right:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={onToggle} bg="cyan.400" icon={<Icon  style={{fontSize:20}}  name="flash" color="warmGray.50" _dark={{
-        color: "warmGray.50"
-      }} />} />
-      </HStack>
+          <IconButton bg={'#7F8487'} shadow={9} w="50" h="50" style={{position:'absolute',left:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={onToggle}  icon={<Icon  style={{fontSize:25,color:'#23C1E4'}}  name="flash" color="warmGray.50" _dark={{
+          color: "warmGray.50"
+          }} />} />
+          </HStack>
           </DrawerLayoutAndroid>
-      </>
+          </>
     );
   }
 
   const styles = StyleSheet.create({
+    collaborateBtns:{
+   width:100,
+   height:50,
+   backgroundColor:"#ecf0f1",
+   justifyContent:'center',
+   alignItems: "center",
+   marginBottom:10,
+   borderColor:'black',
+   borderWidth:0.5
+
+    },
     container: {
       flex: 1,
       alignItems: "center",

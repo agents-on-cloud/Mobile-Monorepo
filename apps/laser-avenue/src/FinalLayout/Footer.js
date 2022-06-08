@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import {settingsHandler,componentsLoaderHandler,selectedHandler } from './store-finalLayout'
 import { useDispatch, useSelector } from 'react-redux';
 import { wrap } from 'module';
+import {openCollaborateHandler} from '../FinalLayout/store-finalLayout'
 
 
  function Layout() {
@@ -56,6 +57,10 @@ import { wrap } from 'module';
     }, 200);
  
   }
+
+  function CollaborateHandler() {
+    dispatch(openCollaborateHandler())
+  }
   return (
 <View >
   <View >
@@ -63,26 +68,23 @@ import { wrap } from 'module';
 
 <TouchableOpacity
         style={styles.Homebutton}
-        // onPress={onPress}
+        onPress={homeHandler}
       >
           <Icon name="home"  style={styles.qrcodeIcon} />
         {/* <Text bold>Home</Text> */}
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.QrButton}
-        // onPress={onPress}
+      style={styles.QrButton}
       >
-            <Icon name="qrcode"  style={styles.qrcodeIcon} />
-             <Text bold style={styles.cameraIcon} >QR</Text>
-        {/* <Text bold>QR</Text> */}
+      <Icon name="qrcode"  style={styles.qrcodeIcon} />
+      <Text bold style={styles.cameraIcon} >QR</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={styles.Collabratebutton}
-        // onPress={onPress}
+      style={styles.Collabratebutton}
+      onPress={()=>CollaborateHandler()}
       >
-          <Icon name="window-restore"  style={styles.qrcodeIcon} />
-   
-        {/* <Text bold>Collabrate</Text> */}
+        
+      <Icon name="window-restore"  style={styles.qrcodeIcon} />
       </TouchableOpacity>
   
       </View>

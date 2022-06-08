@@ -1,25 +1,62 @@
-import React from "react";
-import { Center, ZStack, Box, NativeBaseProvider } from "native-base";
+import React from 'react';
+import {
+  NativeModules,
+  LayoutAnimation,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+} from 'react-native';
 
-const Example = () => {
-  return <Center h="40">
-      <Box mt="-32">
-        <ZStack mt="3" ml={-50}>
-          <Box bg="primary.700" size="20" rounded="lg" shadow={3} />
-          <Box bg="primary.500" mt="5" ml="5" size="20" rounded="lg" shadow={5} />
-          <Box bg="primary.300" mt="10" ml="10" size="20" rounded="lg" shadow={7} />
-        </ZStack>
-      </Box>
-    </Center>;
-};
+const { UIManager } = NativeModules;
 
-    export default () => {
-        return (
-          <NativeBaseProvider>
-            <Center flex={1} px="3">
-                <Example />
-            </Center>
-          </NativeBaseProvider>
-        );
-    };
-    
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+
+export default class App extends React.Component {
+  state = {
+    w: 0,
+    h: 0,
+  };
+
+  _onPress = () => {
+    LayoutAnimation.spring();
+    this.setState({w: this.state.w + 15, h: this.state.h + 15})
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={[styles.box, {width: this.state.w, height: this.state.h}]} />
+        <TouchableOpacity onPress={this._onPress}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Press me!</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  box: {
+    width: 200,
+    height: 200,
+    backgroundColor: 'red',
+  },
+  button: {
+    backgroundColor: 'black',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    marginTop: 15,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+});
