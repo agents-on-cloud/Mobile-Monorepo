@@ -110,6 +110,9 @@ backgroundColor:'transparent'
   },
 
 
+
+  
+
   QrButton:{
     width:'30%',
     height:70,
@@ -151,5 +154,6 @@ backgroundColor:'transparent'
 
 
 })
+  //  ////
 
 export default Layout
