@@ -14,9 +14,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 
-   
-
-
 function Example() {
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
