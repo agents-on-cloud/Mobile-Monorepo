@@ -1,12 +1,12 @@
 import  React,{useEffect,useState} from 'react';
 import { View,ScrollView } from 'react-native';
 import { Pressable, Text, Box, HStack, Button, Flex, Center,Avatar } from "native-base";
-import {increment} from '../store-Hr'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 import requestRebuilder  from '../../requestRebuilder  '
 import {componentsLoaderHandler} from '../../FinalLayout/store-finalLayout'
-import { setGestureState } from 'react-native-reanimated/lib/reanimated2/NativeMethods';
+import Geolocation from '@react-native-community/geolocation';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 function Hr({navigation}) {
@@ -20,14 +20,36 @@ function Hr({navigation}) {
   const [dueDate,setDueDate]=useState('')
   const tokenStore = useSelector(state => state.dashboard);
   const hrStore = useSelector(state => state.hrStore);
+  const [coordinates,setCoordinates]=useState({})
   const dispatch = useDispatch();
-  useEffect(() => {  
+
+  useFocusEffect(
+  React.useCallback(() => {
   DateAndTimeHandler()
   getData()
   checkinhHandler()
-  }, [])
-  
 
+       
+  Geolocation.getCurrentPosition(info=>setCoordinates({lat:info.coords.latitude,long:info.coords.longitude})  )
+
+    }, []));
+   Geolocation.watchPosition(success);
+  useEffect(() => {
+    
+    Geolocation.watchPosition(success);
+  }, [coordinates])
+  
+  function success(pos) {
+    console.log('qqqq  qqqqq',pos);
+    setCoordinates({lat:pos.coords.latitude,long:pos.coords.longitude})
+
+    
+  }
+
+function error(payload) {
+  console.log('payloadpayload',payload);
+  
+}
     function DateAndTimeHandler() {
 
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -120,7 +142,9 @@ function Hr({navigation}) {
   
     return (
       <ScrollView>
-    
+        <Text>Last gggggggggggg</Text>
+    <Text>longitude: {coordinates.long}</Text>
+    <Text>latitude: {coordinates.lat}</Text>
     <Center  flex={1} px="3">
       <Pressable>
       {({

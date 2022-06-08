@@ -33,18 +33,18 @@ import HrManager from './src/HR/screens/managerProvider.js'
 import Loader1 from './src/Loaders/loader1'
 import libraryTest from '../laser-avenue/src/FinalLayout/libraryTest'
 import AppointmentProviderLandingPage from './src/Appointment/Screens/AppointmentProviderLandingPage'
-import Splash from '../laser-avenue/src/FinalLayout/Splash.js'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createStackNavigator } from '@react-navigation/stack';
 // import SplashScreen from 'react-native-splash-screen'
 import createNotification from '../laser-avenue/src/Notification/Screens/createNotification'
-
-
 import messaging from '@react-native-firebase/messaging';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { Platform } from 'react-native';
+import { useRef } from "react";
+import { Button, DrawerLayoutAndroid, Text, StyleSheet, View } from "react-native";
+import { Box, useDisclose, IconButton, Stagger, HStack, Center, NativeBaseProvider } from "native-base";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -71,6 +71,13 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
   function App() {
+    const drawer = useRef(null);
+    const {
+      isOpen,
+      onToggle
+    } = useDisclose();
+    
+
     useEffect(() => {
       // Get the device token
       messaging()
@@ -79,7 +86,8 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
         console.log('token========>',token);
         
         });
-  
+
+
       // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
   
       return messaging().onTokenRefresh(token => {
@@ -93,16 +101,75 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 
 
  
-  
+    const navigationView = () => (
+      <View style={[styles.container, styles.navigationContainer]}>
+        <Text style={styles.paragraph}>I'm in the Drawer!</Text>
+        <Button
+          title="Close drawer"
+          onPress={() => drawer.current.closeDrawer()}
+        />
+      </View>
+    );
  
     return (
         <>
+        <DrawerLayoutAndroid
+        ref={drawer}
+        drawerWidth={300}
+        drawerPosition={"right"}
+        renderNavigationView={navigationView}
+        >
+           <Box alignItems="center" style={{position:'absolute',bottom:120,right:20,zIndex:isOpen?10:0}}>
+
+<Stagger visible={isOpen} initial={{
+opacity: 0,
+scale: 0,
+translateY: 34
+}} animate={{
+translateY: 0,
+scale: 1,
+opacity: 1,
+transition: {
+  type: "spring",
+  mass: 0.8,
+  stagger: {
+    offset: 30,
+    reverse: true
+  }
+}
+}} exit={{
+translateY: 34,
+scale: 0.5,
+opacity: 0,
+transition: {
+  duration: 100,
+  stagger: {
+    offset: 30,
+    reverse: true
+  }
+}
+}}>
+  <IconButton w="50" h="50" mb="4" variant="solid" bg="indigo.500" colorScheme="indigo" borderRadius="full" icon={<Icon   name="location-pin" _dark={{
+  color: "warmGray.50"
+}} color="warmGray.50" />} />
+  <IconButton w="50" h="50" mb="4" variant="solid" bg="yellow.400" colorScheme="yellow" borderRadius="full" icon={<Icon  _dark={{
+  color: "warmGray.50"
+}}  name="microphone" color="warmGray.50" />} />
+  <IconButton w="50" h="50" mb="4" variant="solid" bg="teal.400" colorScheme="teal" borderRadius="full" icon={<Icon  _dark={{
+  color: "warmGray.50"
+}}  name="video" color="warmGray.50" />} />
+  <IconButton w="50" h="50" mb="4" variant="solid" bg="red.500" colorScheme="red" borderRadius="full" icon={<Icon   name="photo-library" _dark={{
+  color: "warmGray.50"
+}} color="warmGray.50" />} />
+</Stagger>
+</Box>
           <NavigationContainer>
+          { <Header style={{position:'fixed',top:0}} drawHandler={drawer} />}
           {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
           {layoutSore.componentsLoader  && <Loader1  />}
-          <Stack.Navigator    >
-          {<Stack.Screen name="SignIn" component={SignIn}  />}
+          <Stack.Navigator  screenOptions={{headerShown: false }}   >
           {<Stack.Screen name="Dashboard" component={Dashboard}   />}
+          {<Stack.Screen name="SignIn" component={SignIn}  />}
           {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           {/* {<Stack.Screen name="libraryTest" component={libraryTest}  />} */}
@@ -203,17 +270,42 @@ import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
      
          
       
-          {  layoutSore.componentsLoader==false && 
+          { layoutSore.componentsLoader==false && 
               <>
           { layoutSore.settingsFlag && < SettingsModal/>}
           { ciamStore.ottpFlag && < OttpModel/>}
           { layoutSore.loginFlag && <Layout />}
-          {/* {<Layout/>} */}
+          {<Layout/>}
           </>}
           </NavigationContainer>
-    
+
+          <HStack  justifyContent="center">
+        <IconButton w="50" h="50" style={{position:'absolute',right:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={onToggle} bg="cyan.400" icon={<Icon  style={{fontSize:20}}  name="flash" color="warmGray.50" _dark={{
+        color: "warmGray.50"
+      }} />} />
+      </HStack>
+          </DrawerLayoutAndroid>
       </>
     );
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 16
+    },
+    navigationContainer: {
+      backgroundColor: "#ecf0f1"
+    },
+    paragraph: {
+      padding: 16,
+      fontSize: 15,
+      textAlign: "center"
+    }
+  });
+
   export default App
+
+

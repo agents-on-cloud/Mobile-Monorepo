@@ -1,12 +1,11 @@
 
 import  React,{useState,useEffect} from 'react';
-import { View , Modal} from 'react-native';
-import { NativeBaseProvider, Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack, Center, Pressable,Stagger,useDisclose,IconButton } from "native-base";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-
 import { useNavigation } from '@react-navigation/native';
-import {settingsHandler,componentsLoaderHandler,selectedHandler} from './store-finalLayout'
+import {settingsHandler,componentsLoaderHandler,selectedHandler } from './store-finalLayout'
 import { useDispatch, useSelector } from 'react-redux';
+import { wrap } from 'module';
 
 
  function Layout() {
@@ -58,53 +57,99 @@ import { useDispatch, useSelector } from 'react-redux';
  
   }
   return (
-<View>
+<View >
+  <View >
 
 
-
-        <Box  bg="white" safeAreaTop width="100%"  alignSelf="center">
-        <Center flex={1}></Center>
-        <HStack bg="teal.700" h="52" alignItems="center" safeAreaBottom shadow={6}>
-        <Button colorScheme={'teal'} opacity={layoutSore.selected == 0 ? 1 : 0.5}  flex={1} onPress={() => homeHandler() }>
-        <Center>
-        <Icon  mb="1" style={{fontSize:20 }}   color="white"   name="home"/> 
-              <Text color="white" fontSize="12">
-                Home
-              </Text>
-            </Center>
-          </Button>
-          <Button colorScheme={'teal'}  opacity={layoutSore.selected == 1 ? 1 : 0.5} py="2" flex={1} onPress={() => tasksHandler() }>
-            <Center>
-              <Icon colorScheme={'teal'}  mb="1" style={{fontSize:20 }}   color="white"   name="tasks" />
-              <Text color="white" fontSize="12">
-                Tasks
-              </Text>
-            </Center>
-          </Button>
-          <Button colorScheme={'teal'}  opacity={layoutSore.selected == 2 ? 1 : 0.6} py="2" flex={1} onPress={() =>  notificationHandler()}>
-            <Center>
-              <Icon mb="1"   style={{fontSize:20 }}   color="white"  name="bell-o" />
-              <Text color="white" fontSize="12">
-                Notifications
-              </Text>
-            </Center>
-          </Button>
-          <Button colorScheme={'teal'}  opacity={layoutSore.selected == 3 ? 1 : 0.6}  py="2" flex={1} onPress={() =>  settingHandler()} >
-          <Center>
-              <Icon mb="1"   style={{fontSize:20 }}   color="white"  name="gears" />
-              <Text color="white" fontSize="12">
-                Settings
-              </Text>
-            </Center>
-          </Button>
-       
-        </HStack>
-        
-      </Box>
-     
+<TouchableOpacity
+        style={styles.Homebutton}
+        // onPress={onPress}
+      >
+          <Icon name="home"  style={styles.qrcodeIcon} />
+        {/* <Text bold>Home</Text> */}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.QrButton}
+        // onPress={onPress}
+      >
+            <Icon name="qrcode"  style={styles.qrcodeIcon} />
+             <Text bold style={styles.cameraIcon} >QR</Text>
+        {/* <Text bold>QR</Text> */}
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.Collabratebutton}
+        // onPress={onPress}
+      >
+          <Icon name="window-restore"  style={styles.qrcodeIcon} />
+   
+        {/* <Text bold>Collabrate</Text> */}
+      </TouchableOpacity>
+  
+      </View>
 
 </View>
   );
 }
+
+const styles= StyleSheet.create({
+  cameraIcon:{
+fontSize:15,
+paddingLeft:48,
+
+// paddingTop:'20%'
+  },
+  qrcodeIcon:{
+    fontSize:35,
+    paddingLeft:45,
+    paddingTop:10
+      },
+  container:{
+width:'100%',
+flexDirection:'row',
+backgroundColor:'transparent'
+  },
+
+
+  QrButton:{
+    width:'30%',
+    height:70,
+    borderTopLeftRadius:60,
+    borderTopRightRadius:60,
+    backgroundColor:'red',
+    position:'absolute',
+    bottom:0,
+    left:'35%',
+    backgroundColor:'#EEEEEE',
+    borderWidth:1,
+    borderColor:'#11567C'
+
+  },
+
+  Collabratebutton:{
+    width:'35%',
+    height:50,
+    position:'absolute',
+    borderTopLeftRadius:100,
+    right:0,
+    bottom:0,
+    backgroundColor:'#EEEEEE',
+    borderWidth:.5,
+    borderColor:'#11567C'
+
+  },
+  Homebutton:{
+    borderTopRightRadius:100,
+    width:'35%',
+    height:50,
+    position:'absolute',
+    left:0,    bottom:0,
+    backgroundColor:'#EEEEEE',
+    borderWidth:.5,
+    borderColor:'#11567C'
+
+  }
+
+
+})
 
 export default Layout

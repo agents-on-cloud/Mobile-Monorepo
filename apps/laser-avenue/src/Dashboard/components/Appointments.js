@@ -100,7 +100,7 @@ function styleAppoint(params) {
       
       <Pressable variant="ghost"  onPress={()=>navigation.navigate('AppointmentProviderLandingPage')}>
      <Avatar   shadow={9} bg="teal"  alignSelf="center" size="xl" style={{position:'absolute',top:-30}}  >
-     <LottieView   style={{height:130}}  source={require('../../animation/appointments.json')} autoPlay loop  />
+     <LottieView   style={{height:130}}  source={require('../../animation/appointments.json')}   />
       </Avatar>
       </Pressable>
      

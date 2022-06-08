@@ -54,6 +54,10 @@ const Example = ({navigation}) => {
         getUsers()       
     }, [])
 
+    useEffect(() => {
+     console.log('createFormcreateForm',createForm);    
+  }, [createForm])
+
 
     async function getUsers() {
         const res= await axios(requestRebuilder('ciam',"/v1/users","get"))
