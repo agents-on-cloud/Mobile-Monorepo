@@ -193,9 +193,6 @@ function Basic() {
         "is_unread":!data.item.is_unread
     }))}   />}
 
-
-
-///
           <Text color="white" fontSize="xs" fontWeight="medium">
             READ
           </Text>
