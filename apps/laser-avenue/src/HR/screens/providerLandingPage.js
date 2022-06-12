@@ -18,6 +18,7 @@ function Hr({navigation}) {
   const [CheckOutNew,setCheckOutNew]=useState('____')
   const [today,setToday]=useState('')
   const [dueDate,setDueDate]=useState('')
+
   const tokenStore = useSelector(state => state.dashboard);
   const hrStore = useSelector(state => state.hrStore);
   const dispatch = useDispatch();
@@ -41,10 +42,11 @@ function Hr({navigation}) {
 
 
     dispatch(componentsLoaderHandler())
-    await axios(requestRebuilder('providers','/workingHours','post',{
-      "providerUuid": tokenStore.userToken.profileId,
+    await axios(requestRebuilder('hr','/getAllWorkingHours','post',{
+      "providerUuid": "087a5c8-7bf9-4ce9-af24-958465fa380a",
       "status": "latest"
-     })).then(results=>setProviders( results.data))
+     })).then(results=>setProviders(results.data))
+     
      dispatch(componentsLoaderHandler())
   }
 
@@ -52,10 +54,10 @@ function Hr({navigation}) {
 
   async function checkinhHandler() {
   
-    await axios(requestRebuilder('providers','/getAllTimeAttendance','post',{
-      "providerUuid": tokenStore.userToken.profileId,
+    await axios(requestRebuilder('hr','/getAllTimeAttendance','post',{
+      "providerUuid": tokenStore.userToken.userId,
       "date":hrStore.dueDate
-      // tokenStore.userToken.profileId
+      // tokenStore.userToken.userId
       // dueDate
      
   })).then(results=>enableDisableHandler(results))
@@ -82,21 +84,15 @@ function Hr({navigation}) {
     }else{
       setCheckInFlag(false)
     }
- 
-    
-  
 
-
-
-  
 }
 
 
   async function checkOutHandler() {
     setCheckOutNew(DateAndTimeHandler())
     setCheckOutFlag(true)
-    await axios(requestRebuilder('providers','/checkOutClicked','put',{
-      "providerUuid": tokenStore.userToken.profileId,
+    await axios(requestRebuilder('hr','/checkOutClicked','put',{
+      "providerUuid": tokenStore.userToken.userId,
       "status":"out"})).then(()=>{
        setCheckOutNew(DateAndTimeHandler())
        setCheckOutFlag(true)
@@ -104,23 +100,26 @@ function Hr({navigation}) {
 
 
  async function checkInHandler() {
-      await axios(requestRebuilder('providers','/checkInClicked','post',{
-      "providerUuid": tokenStore.userToken.profileId,
+      await axios(requestRebuilder('hr','/checkInClicked','post',{
+      "providerUuid": tokenStore.userToken.userId,
       "providerName": tokenStore.userToken.name,
-      "ProviderId": tokenStore.userToken.user_id})).then((results)=>{
+      "ProviderId": tokenStore.userToken.userId})).then((results)=>{
     
         setCheckInNew(DateAndTimeHandler())
         setCheckInFlag(true)
       })
     
     }
-  
+  function testHandler() {
+    console.log('ooooooooooooo',provider);
+    
+  }
 
 
   
     return (
       <ScrollView>
-    
+    {/* <Button onPress={()=>testHandler()}>Test</Button> */}
     <Center  flex={1} px="3">
       <Pressable>
       {({

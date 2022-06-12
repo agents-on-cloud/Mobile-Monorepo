@@ -46,7 +46,7 @@ function Dashboard({navigation}) {
         {/*///////////////////////////Appontment Provider/////////////////////////////////////// */}
         {dashboardStore.userToken.profileType?.toLowerCase() =="provider"   && <Appointment navigation={navigation} />}
         {/*///////////////////////////Billing/////////////////////////////////////////////////// */}
-        {dashboardStore.userToken.profileType?.toLowerCase() =="manager" &&     < Billing navigation={navigation} />}
+        {    < Billing navigation={navigation} />}
         {/*///////////////////////////HR//////////////////////////////////////////////////////// */}
         <HR navigation={navigation}/>
          {/*//////////////////////////////////////////////////////////////////////////////////// */}

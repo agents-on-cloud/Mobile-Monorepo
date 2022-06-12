@@ -3,14 +3,21 @@
   "affected": {
     "defaultBase": "master"
   },
+  "workspaceLayout": {
+    "appsDir": "demos",
+    "libsDir": "packages"
+  },
   "cli": {
     "defaultCollection": "@nrwl/react-native"
   },
   "implicitDependencies": {
+    "workspace.json": "*",
     "package.json": {
       "dependencies": "*",
       "devDependencies": "*"
     },
+    "tsconfig.base.json": "*",
+    "nx.json": "*",
     ".eslintrc.json": "*"
   },
   "tasksRunnerOptions": {
@@ -34,5 +41,13 @@
       }
     ]
   },
+  
+  "generators": {
+    "@nrwl/js:library": {
+      "buildable": true
+    }
+  },
+  
+  
   "defaultProject": "laser-avenue"
 }
