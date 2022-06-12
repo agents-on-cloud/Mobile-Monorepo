@@ -108,6 +108,11 @@ const goTask = id => {
     type:'assigned',
   });
 };
+function SetReminder() {
+  setTimeout(() => {
+    
+  }, timeout);}
+  
     const ref = useRef(null);
     const renderItem = useCallback(({ item, index }) => (
       
@@ -195,9 +200,10 @@ const goTask = id => {
             <View style={{backgroundColor:'#FAFAF6',height:108}}>
                 <Box h="9" w="150" alignItems="flex-start">
            
-                  <Button  style={{borderWidth:.5,borderColor:'white'}} h="10" w="100%">Change Status</Button>
+                
                   <Button onPress={()=>ClaimHandler()}  style={{borderWidth:.5,borderColor:'white'}} h="10" w="100%">Claim </Button>
                   <Button onPress={()=>deleteHadnler()} style={{borderWidth:.5,borderColor:'white'}} h="10" w="100%">Delete</Button>
+                  <Button onPress={()=>SetReminder()} style={{borderWidth:.5,borderColor:'white'}} h="10" w="100%">Set Reminder</Button>
                 
      
               </Box>

@@ -93,8 +93,7 @@ function Dashboard({navigation}) {
 
       
         <ScrollView >
-          <Pressable onPress={()=>dispatch(closeMenue())}>
-         
+        <Pressable onPress={()=>dispatch(closeMenue())}>
         {/*//////////////////////////Tasks //////////////////////////////////////////////////////*/}
         <Tasks navigation={navigation}/>
         {/*///////////////////////////Appontment Manager/////////////////////////////////////// /*/}
@@ -108,18 +107,18 @@ function Dashboard({navigation}) {
         {/*///////////////////////////HR//////////////////////////////////////////////////////// */}
         <HR navigation={navigation}/>
          {/*//////////////////////////////////////////////////////////////////////////////////// */}
-         </Pressable>
+        </Pressable>
         </ScrollView  >
 
         {/* <HStack  justifyContent="center">
         <IconButton  style={{position:'absolute',right:5,bottom:20,}} variant="solid" borderRadius="full" size="lg" onPress={onToggle} bg="cyan.400" icon={<Icon   name="dots-horizontal" color="warmGray.50" _dark={{
         color: "warmGray.50"
-      }} />} />
-      </HStack> */}
-       
+        }} />} />
+        </HStack> */}
+      
         {/* <View  style={{position:'absolute',right:5,bottom:20,}}>
-         <Button onPress={()=>navigation.navigate('createNotification')} bg="#2F8F9D"  width="62" height="62"  style={{borderRadius:100}}  ><Icon  style={{fontSize:37,paddingTop:9,color:"#F9F3EE"}} name="add-alert"/> </Button>
-         </View> */}
+        <Button onPress={()=>navigation.navigate('createNotification')} bg="#2F8F9D"  width="62" height="62"  style={{borderRadius:100}}  ><Icon  style={{fontSize:37,paddingTop:9,color:"#F9F3EE"}} name="add-alert"/> </Button>
+        </View> */}
          
         </View>
     );

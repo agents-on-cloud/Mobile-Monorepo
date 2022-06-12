@@ -43,11 +43,13 @@ import firestore from '@react-native-firebase/firestore';
 import { useRef } from "react";
 import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,TouchableOpacity } from "react-native";
 import { Box, useDisclose, IconButton, Stagger, HStack, Center, NativeBaseProvider } from "native-base";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Collaborate from './src/FinalLayout/collobrate.js'
 import { useNavigation } from '@react-navigation/native';
 import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
+import QuickActions from '../laser-avenue/src/FinalLayout/QuickActions.js'
+import {isQuickActionsOpenHandler} from '../laser-avenue/src/FinalLayout/store-finalLayout.js'
 
 
 const Stack = createNativeStackNavigator();
@@ -72,6 +74,7 @@ async function saveTokenToDatabase(token) {
 
 
   function App() {
+  
     const drawer = useRef(null);
     const {
       isOpen,
@@ -121,54 +124,10 @@ drawerPosition={"right"}
 renderNavigationView={navigationView}
 >
 <NavigationContainer>
-<Box alignItems="center" style={{position:'absolute',bottom:120,left:20,zIndex:isOpen?10:0}}>
-<Stagger visible={isOpen} initial={{
-opacity: 0,
-scale: 0,
-translateY: 34
-}} animate={{
-translateY: 0,
-scale: 1.1,
-opacity: 1,
-transition: {
-type: "spring",
-mass: 1,
-stagger: {
-offset: 30,
-reverse: true
-}
-}
-}} exit={{
-translateY: 34,
-scale: 0.5,
-opacity: 0,
-transition: {
-  duration: 100,
-  stagger: {
-    offset: 30,
-    reverse: true
-  }
-}
-}}>
-  <IconButton w="50" h="50" mb="4" variant="solid" bg="indigo.500" colorScheme="indigo" borderRadius="full" icon={<Icon   name="location-pin" _dark={{
-  color: "warmGray.50"
-}} color="warmGray.50" />} />
-  <IconButton w="50" h="50" mb="4" variant="solid" bg="yellow.400" colorScheme="yellow" borderRadius="full" icon={<Icon  _dark={{
-  color: "warmGray.50"
-}}  name="microphone" color="warmGray.50" />} />
-  <IconButton w="50" h="50" mb="4" variant="solid" bg="teal.400" colorScheme="teal" borderRadius="full" icon={<Icon  _dark={{
-  color: "warmGray.50"
-}}  name="video" color="warmGray.50" />} />
-  <IconButton w="50" h="50" mb="4" variant="solid" bg="red.500" colorScheme="red" borderRadius="full" icon={<Icon   name="photo-library" _dark={{
-  color: "warmGray.50"
-}} color="warmGray.50" />} />
-</Stagger>
-</Box>
 
+<QuickActions />
 {/* ////////////////////////////// */}
 {/* ////////////////////////////// */}
-
-
 <Collaborate/>
 {/* /////////////////////////////// */}
 {/* ////////////////////////////// */}
@@ -184,6 +143,7 @@ transition: {
           {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           <Stack.Screen name="HrManager" component={HrManager}   />
+
           <Stack.Screen name="HrProvider" component={HrProvider}   />
           <Stack.Screen name="SignUp" component={SignUp}   />
           <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
@@ -287,11 +247,13 @@ transition: {
           {<Layout/>}
           </>}
           </NavigationContainer>
+
           <HStack  justifyContent="center">
-          <IconButton bg={'#7F8487'} shadow={9} w="50" h="50" style={{position:'absolute',left:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={onToggle}  icon={<Icon  style={{fontSize:25,color:'#23C1E4'}}  name="flash" color="warmGray.50" _dark={{
-          color: "warmGray.50"
-          }} />} />
-          </HStack>
+<IconButton bg={'#7F8487'} shadow={9} w="50" h="50" style={{position:'absolute',left:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={()=>dispatch(isQuickActionsOpenHandler())}  icon={<Icon  style={{fontSize:30,color:'#23C1E4'}}  name="flash-outline" color="warmGray.50" _dark={{
+color: "warmGray.50"
+}} />} />
+</HStack>
+     
           </DrawerLayoutAndroid>
           </>
     );

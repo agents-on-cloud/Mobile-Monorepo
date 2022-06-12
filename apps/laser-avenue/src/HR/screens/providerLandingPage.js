@@ -63,7 +63,7 @@ function error(payload) {
 
 
     dispatch(componentsLoaderHandler())
-    await axios(requestRebuilder('providers','/workingHours','post',{
+    await axios(requestRebuilder('hr','/getAllWorkingHours','post',{
       "providerUuid": tokenStore.userToken.profileId,
       "status": "latest"
      })).then(results=>setProviders( results.data))
@@ -74,7 +74,7 @@ function error(payload) {
 
   async function checkinhHandler() {
   
-    await axios(requestRebuilder('providers','/getAllTimeAttendance','post',{
+    await axios(requestRebuilder('hr','/getAllTimeAttendance','post',{
       "providerUuid": tokenStore.userToken.profileId,
       "date":hrStore.dueDate
       // tokenStore.userToken.profileId

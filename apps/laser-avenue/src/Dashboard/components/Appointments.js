@@ -99,7 +99,7 @@ function styleAppoint(params) {
   }}>
       
       <Pressable variant="ghost"  onPress={()=>navigation.navigate('AppointmentProviderLandingPage')}>
-     <Avatar   shadow={9} bg="teal"  alignSelf="center" size="xl" style={{position:'absolute',top:-30}}  >
+     <Avatar   shadow={9} bg="teal"  alignSelf="center" size="xl" style={{position:'absolute',top:-40,left:40}}  >
      <LottieView   style={{height:130}}  source={require('../../animation/appointments.json')}   />
       </Avatar>
       </Pressable>
@@ -107,21 +107,23 @@ function styleAppoint(params) {
 
       <VStack space={3}  mt="100">
        <Box>
+         <View style={{position:'absolute',top:-80,right:10}}>
       <Center fontSize="xl"   >
-      <Text style={{fontSize:20,color:'gray.200'}}>  TOTAL APPOINTMENTS
+      <Text style={{fontSize:14,color:'gray.200'}}>  TODAY APPOINTMENTS
       </Text>    
       </Center>
       <Center    pb="20">
       <Text style={{fontSize:30,color:'teal'}}>  
-      + {ALLappointmentNumber}
+       {ALLappointmentNumber}
       </Text>     
       </Center>
+      </View>
       <HStack style={{marginBottom:30}}>
-      {ALLappointmentNumber <=5 && ALLappointmentNumber !==0&&  <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next {ALLappointmentNumber} Appointments</Text>}
-     {ALLappointmentNumber > 5 && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next 5 Appointments</Text>}
+      {/* {ALLappointmentNumber <=5 && ALLappointmentNumber !==0&&  <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next {ALLappointmentNumber} Appointments</Text>} */}
+     {/* {ALLappointmentNumber > 5 && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>Next 5 Appointments</Text>}
 
-     {ALLappointmentNumber ==0  && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>No Appointments </Text>}
-      <Button variant="ghost" bg="#d4d4d4"  onPress={()=>navigation.navigate('AppointmentProviderLandingPage')} style={{width:69 ,height:32,marginLeft:80}} shadow={1}><Text style={{fontSize:10}} >See More</Text></Button>
+     {ALLappointmentNumber ==0  && <Text style={{marginLeft:20,fontSize:17,color:'teal',marginBottom:18,paddingTop:6}}>No Appointments </Text>} */}
+      {/* <Button variant="ghost" bg="#d4d4d4"  onPress={()=>navigation.navigate('AppointmentProviderLandingPage')} style={{width:69 ,height:32,marginLeft:80}} shadow={1}><Text style={{fontSize:10}} >See More</Text></Button> */}
       </HStack>
        {appointmentData.map(item=> <Box   borderBottomWidth="1" _dark={{
       borderColor: "gray.600"
