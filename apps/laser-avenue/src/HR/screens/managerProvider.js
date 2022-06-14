@@ -27,7 +27,7 @@ setToday(dayName)
   async function getData() {
     dispatch(componentsLoaderHandler())
 
-    await axios(requestRebuilder('providers','/getAllTimeAttendance','post')).then(results=>providersHandler(results))
+    await axios(requestRebuilder('hr','/getAllTimeAttendance','post')).then(results=>providersHandler(results))
     dispatch(componentsLoaderHandler())
 
   }
@@ -39,7 +39,7 @@ setToday(dayName)
   
       for (let i = 0; i < providerInfo.length; i++) {
         let whatIsDate=new Date(providerInfo[i].date)
-        await axios(requestRebuilder('providers','/workingHours','post',{
+        await axios(requestRebuilder('hr','/getAllWorkingHours','post',{
             providerUuid :providerInfo[i].providerUuid ,
             status :'latest'
         

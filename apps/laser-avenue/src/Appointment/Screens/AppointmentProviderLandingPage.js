@@ -127,17 +127,13 @@ function AllHandler() {
       <Button  shadow={9}  style={{borderRadius:35,width:50,height:50}}  onPress={()=> showDate()}>
     
       <Icon
-                  name="calendar"
-                  size={20}
-                  color="white"
-          
+       name="calendar"
+       size={20}
+       color="white"
                 />
-     
       </Button>
       <Button shadow={9}  style={{borderRadius:35,width:50,height:50}}  onPress={()=>  AllHandler()}>
-   
        ALL
-   
       </Button>
       <Avatar bg="#82DBD8" shadow={9} style={{borderWidth:1, borderColor:'#D3DEDC'}} >
        

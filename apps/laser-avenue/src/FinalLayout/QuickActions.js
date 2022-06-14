@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, useDisclose, IconButton, Stagger, HStack, Center, NativeBaseProvider, } from "native-base";
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {Text,TouchableOpacity,StyleSheet} from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function QuickActions() {
     const layoutSore = useSelector(state => state.finalLayoutStore);
@@ -43,20 +44,20 @@ transition: {
   }
 }
 }}>
-  <IconButton onPress={ ()=> navigation.navigate('HrProvider')} w="50" h="50" mb="4" variant="solid" bg="indigo.500" colorScheme="indigo" borderRadius="full" icon={<Icon   name="text-box-check-outline" 
+  <IconButton onPress={ ()=> navigation.navigate('HrProvider')} w="50" h="50" mb="4" variant="solid" bg="indigo.500" colorScheme="indigo" borderRadius="full" icon={<Icon   name="check-circle-outline" 
   style={{fontSize:25}}
   _dark={{
   color: "warmGray.50"
 }} color="warmGray.50" />} />
-  <IconButton w="50" h="50" mb="4" variant="solid" bg="yellow.400" colorScheme="yellow" borderRadius="full" icon={<Icon  _dark={{
+  <IconButton onPress={ ()=> navigation.navigate('createTask')}  w="50" h="50" mb="4" variant="solid" bg="yellow.400" colorScheme="yellow" borderRadius="full" icon={<Icon  style={{fontSize:20}} _dark={{
   color: "warmGray.50"
-}}  name="microphone" color="warmGray.50" />} />
-  <IconButton w="50" h="50" mb="4" variant="solid" bg="teal.400" colorScheme="teal" borderRadius="full" icon={<Icon  _dark={{
+}}  name="add-task" color="warmGray.50" />} />
+  {/* <IconButton w="50" h="50" mb="4" variant="solid" bg="teal.400" colorScheme="teal" borderRadius="full" icon={<Icon    _dark={{
   color: "warmGray.50"
 }}  name="video" color="warmGray.50" />} />
   <IconButton w="50" h="50" mb="4" variant="solid" bg="red.500" colorScheme="red" borderRadius="full" icon={<Icon   name="photo-library" _dark={{
   color: "warmGray.50"
-}} color="warmGray.50" />} />
+}} color="warmGray.50" />} /> */}
 </Stagger>
 </Box>
 

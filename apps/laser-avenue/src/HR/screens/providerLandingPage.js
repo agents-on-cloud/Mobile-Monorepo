@@ -117,7 +117,7 @@ function error(payload) {
   async function checkOutHandler() {
     setCheckOutNew(DateAndTimeHandler())
     setCheckOutFlag(true)
-    await axios(requestRebuilder('providers','/checkOutClicked','put',{
+    await axios(requestRebuilder('hr','/checkOutClicked','put',{
       "providerUuid": tokenStore.userToken.profileId,
       "status":"out"})).then(()=>{
        setCheckOutNew(DateAndTimeHandler())
@@ -126,7 +126,7 @@ function error(payload) {
 
 
  async function checkInHandler() {
-      await axios(requestRebuilder('providers','/checkInClicked','post',{
+      await axios(requestRebuilder('hr','/checkInClicked','post',{
       "providerUuid": tokenStore.userToken.profileId,
       "providerName": tokenStore.userToken.name,
       "ProviderId": tokenStore.userToken.user_id})).then((results)=>{
@@ -142,9 +142,7 @@ function error(payload) {
   
     return (
       <ScrollView>
-        <Text>Last gggggggggggg</Text>
-    <Text>longitude: {coordinates.long}</Text>
-    <Text>latitude: {coordinates.lat}</Text>
+
     <Center  flex={1} px="3">
       <Pressable>
       {({
@@ -224,6 +222,9 @@ function error(payload) {
     <View style={{marginTop:50}}>
 
     </View>
+    <Text >Last gggggggggggg</Text>
+    <Text>longitude: {coordinates.long}</Text>
+    <Text style={{marginBottom:150}}>latitude: {coordinates.lat}</Text>
     </ScrollView>
     );
   }

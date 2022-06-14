@@ -7,19 +7,20 @@ export const dashboard=createSlice({
     initialState:{
         value:66,
         userToken:{
-        email: "hanadi@gmail.com",
+        email: "Mohammad@gmail.com",
         exp: 1654506398,
-        firstName: "Hanadi",
+        firstName: "Mohammad",
         iat: 1654505498,
         isActive: true,
-        lastName: "Tareq",
-        middleName: "Mohd",
-        phoneNumber: 795206419,
+        lastName: "Haroun",
+        middleName: "Fathi",
+        phoneNumber: 785854588,
         photo: null,
-        profileId: "8d350da6-cc4c-4f3f-8e6a-c63059739e2c",
+        profileId: "5fd5d2f1-f63e-450b-b012-dd6d6bd64353",
         profileType: "PROVIDER",
-        userId: "e2c219cc-bab5-4e4b-8b41-7c677805c34d"},
-        ShowMenuFlag77:false
+        userId: "5fd5d2f1-f63e-450b-b012-dd6d6bd64353"},
+        ShowMenuFlag77:false,
+        notificationModal:false
     },
     reducers:{
     increment:(state,action)=>{
@@ -36,10 +37,16 @@ export const dashboard=createSlice({
             closeMenue:(state,action)=>{
                 state.ShowMenuFlag77=false
                 },
+                notificationModalHandler:(state,action)=>{
+                    state.notificationModal=!state.notificationModal
+                    },
+                    closeModalHandler:(state,action)=>{
+                        state.notificationModal=false
+                        },
     }
 })
 
 
 
-export const {increment,saveToken,changeShowMenuFlag77,closeMenue} =dashboard.actions
+export const {increment,saveToken,changeShowMenuFlag77,closeMenue,notificationModalHandler,closeModalHandler} =dashboard.actions
 export default dashboard.reducer 

@@ -42,7 +42,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useRef } from "react";
 import { Button, DrawerLayoutAndroid, Text, StyleSheet, View,TouchableOpacity } from "react-native";
-import { Box, useDisclose, IconButton, Stagger, HStack, Center, NativeBaseProvider } from "native-base";
+import { Box, useDisclose, IconButton, Stagger, HStack, Center, NativeBaseProvider,Avatar } from "native-base";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Collaborate from './src/FinalLayout/collobrate.js'
 import { useNavigation } from '@react-navigation/native';
@@ -50,7 +50,6 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 import QuickActions from '../laser-avenue/src/FinalLayout/QuickActions.js'
 import {isQuickActionsOpenHandler} from '../laser-avenue/src/FinalLayout/store-finalLayout.js'
-
 
 const Stack = createNativeStackNavigator();
 // const RootStack = createStackNavigator();
@@ -67,21 +66,13 @@ async function saveTokenToDatabase(token) {
       tokens: firestore.FieldValue.arrayUnion(token),
     });
 }
-
-
-
 /////////////////////////////////////////////////////
-
-
-  function App() {
-  
+  function App() {  
     const drawer = useRef(null);
     const {
       isOpen,
       onToggle
     } = useDisclose();
-    
-
     useEffect(() => {
       // Get the device token
       messaging()
@@ -100,39 +91,72 @@ async function saveTokenToDatabase(token) {
     }, []);
 
     const layoutSore = useSelector(state => state.finalLayoutStore);
+    const dashboardStore = useSelector(state => state.dashboard);
     const dispatch = useDispatch();
     const ciamStore = useSelector(state => state.ciamStore);
 
 
  
     const navigationView = () => (
-      <View style={[styles.container, styles.navigationContainer]}>
-        <Text style={styles.paragraph}>I'm in the Drawer!</Text>
-        <Button
-          title="Close drawer"
-          onPress={() => drawer.current.closeDrawer()}
-        />
+        <View style={[styles.container, styles.navigationContainer]}>
+          <View style={{position:'absolute' ,top:100}}>
+    <Avatar style={{marginLeft:80,marginBottom:20}} size="80px" source={{
+          uri: 'https://cdn-icons-png.flaticon.com/512/387/387561.png'
+        }} />
+       
+       <Text style={{fontSize:20,color:'black'}}> {dashboardStore.userToken.firstName} {' '}{dashboardStore.userToken.middleName} {dashboardStore.userToken.lastName}</Text>
+       </View>
+       <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',alignItems:'center',marginTop:190}}>
+        <View >
+       <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10}} >
+       
+        <Text >Home</Text>
+      </TouchableOpacity>
       </View>
-    );
+      <View >
+      <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10,  shadowColor: 'black',
+    shadowOffset: {width: 4, height: 4},
+    shadowOpacity: 1,
+    shadowRadius: 3,}} >
+       
+       <Text >Incident</Text>
+     </TouchableOpacity>
+     </View>
+     <View >
+     <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,  shadowColor: 'black',borderRadius:10,
+    shadowOffset: {width: 4, height: 4},
+    shadowOpacity: 1,
+    shadowRadius: 3,}}>
+       
+       <Text >My Activity</Text>
+     </TouchableOpacity >
+     </View>
+     <View >
+     <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,borderRadius:10}} >
+       
+       <Text >Logout</Text>
+     </TouchableOpacity>
+     </View>
+  
+       </View>
+         </View>
+         );
      
-    return (
-        <>
-<DrawerLayoutAndroid
-ref={drawer}
-drawerWidth={300}
-drawerPosition={"right"}
-renderNavigationView={navigationView}
->
-<NavigationContainer>
-
-<QuickActions />
-{/* ////////////////////////////// */}
-{/* ////////////////////////////// */}
-<Collaborate/>
-{/* /////////////////////////////// */}
-{/* ////////////////////////////// */}
-
-      
+         return (
+          <>
+          <DrawerLayoutAndroid
+          ref={drawer}
+          drawerWidth={300}
+          drawerPosition={"right"}
+          renderNavigationView={navigationView}
+          >
+          <NavigationContainer>
+          <QuickActions />
+          {/* ////////////////////////////// */}
+          {/* ////////////////////////////// */}
+          <Collaborate/>
+          {/* /////////////////////////////// */}
+          {/* ////////////////////////////// */}
           {<Header style={{position:'fixed',top:0}} drawHandler={drawer} />}
           {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
           {layoutSore.componentsLoader  && <Loader1  />}
@@ -143,7 +167,6 @@ renderNavigationView={navigationView}
           {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           <Stack.Screen name="HrManager" component={HrManager}   />
-
           <Stack.Screen name="HrProvider" component={HrProvider}   />
           <Stack.Screen name="SignUp" component={SignUp}   />
           <Stack.Screen name="forgetPassword" component={ForgetPassword}   />
