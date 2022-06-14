@@ -27,19 +27,22 @@ setToday(dayName)
   async function getData() {
     dispatch(componentsLoaderHandler())
 
-    await axios(requestRebuilder('providers','/getAllTimeAttendance','post')).then(results=>providersHandler(results))
+    await axios(requestRebuilder('hr','/getAllTimeAttendance','post')).then(results=>providersHandler(results))
     dispatch(componentsLoaderHandler())
 
   }
 
   async function providersHandler(results) {
+    console.log('====================================');
+    console.log("resultsresultsresults",results.data);
+    console.log('====================================');
     var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       let providerInfo=results.data
    
   
       for (let i = 0; i < providerInfo.length; i++) {
         let whatIsDate=new Date(providerInfo[i].date)
-        await axios(requestRebuilder('providers','/workingHours','post',{
+        await axios(requestRebuilder('hr','/getAllWorkingHours','post',{
             providerUuid :providerInfo[i].providerUuid ,
             status :'latest'
         
@@ -75,7 +78,7 @@ setToday(dayName)
             <HStack space={10}  w="300"  justifyContent="center" alignItems="center">
 
               <Text style={{textAlign:'center'}}  color="coolGray.800" fontWeight="medium" fontSize="xl">
-            DR <Text>{item.providerName}</Text>
+            DR <Text>{item.employeeName}</Text>
             </Text>
               <Avatar  bg="cyan.500" source={{
       uri: "https://img.freepik.com/free-vector/doctor-character-background_1270-84.jpg?size=338&ext=jpg"

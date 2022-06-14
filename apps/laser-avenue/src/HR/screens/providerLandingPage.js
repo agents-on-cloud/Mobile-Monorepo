@@ -43,7 +43,7 @@ function Hr({navigation}) {
 
     dispatch(componentsLoaderHandler())
     await axios(requestRebuilder('hr','/getAllWorkingHours','post',{
-      "providerUuid": "087a5c8-7bf9-4ce9-af24-958465fa380a",
+      "providerUuid": tokenStore.userToken.userId,
       "status": "latest"
      })).then(results=>setProviders(results.data))
      
