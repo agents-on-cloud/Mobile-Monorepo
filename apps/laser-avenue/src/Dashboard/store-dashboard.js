@@ -34,13 +34,13 @@ export const dashboard=createSlice({
     changeShowMenuFlag77:(state,action)=>{
             state.ShowMenuFlag77=!state.ShowMenuFlag77
             },
-            closeMenue:(state,action)=>{
+    closeMenue:(state,action)=>{
                 state.ShowMenuFlag77=false
                 },
-                notificationModalHandler:(state,action)=>{
+    notificationModalHandler:(state,action)=>{
                     state.notificationModal=!state.notificationModal
                     },
-                    closeModalHandler:(state,action)=>{
+    closeModalHandler:(state,action)=>{
                         state.notificationModal=false
                         },
     }

@@ -13,6 +13,7 @@ import finalLayoutStore from "../src/FinalLayout/store-finalLayout.js"
 import { NativeBaseProvider,StatusBar,Box,HStack,Text} from "native-base";
 import ciamStore from '../src/CIAM/store-CIAM'
 import hrStore from '../src/HR/store-Hr.js'
+import searchStore from '../src/Search/search-store.js'
 
 
 
@@ -33,7 +34,8 @@ function main() {
           dashboard:dashboardReducer,
           finalLayoutStore:finalLayoutStore,
           ciamStore:ciamStore,
-          hrStore:hrStore
+          hrStore:hrStore,
+          searchStore:searchStore
         }
       })
     return(

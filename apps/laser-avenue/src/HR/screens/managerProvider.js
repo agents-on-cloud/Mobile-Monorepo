@@ -16,9 +16,9 @@ function Hr({navigation}) {
   const dispatch = useDispatch();
   useEffect(() => {
     var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-      let d=new Date()
-      var dayName = days[d.getDay()].toLocaleLowerCase();
-setToday(dayName)
+    let d=new Date()
+    var dayName = days[d.getDay()].toLocaleLowerCase();
+  setToday(dayName)
     getData()
     
 

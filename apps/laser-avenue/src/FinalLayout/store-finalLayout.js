@@ -8,7 +8,8 @@ export const finalLayoutStore=createSlice({
         componentsLoader:false,
         selected:0,
         openCollaborate:false,
-        isQuickActionsOpen:false
+        isQuickActionsOpen:false,
+        searchFlag:false
     },
     reducers:{
   
@@ -33,11 +34,14 @@ export const finalLayoutStore=createSlice({
     isQuickActionsOpenHandler:(state,action)=>{
         state.isQuickActionsOpen = !state.isQuickActionsOpen
     },
+    HeaderSearchHandler:(state,action)=>{
+        state.searchFlag = !state.searchFlag 
+    }
     }
     
 })
 
 
 
-export const {loginFlagHandler,closeloginFlagHandler,settingsHandler,componentsLoaderHandler,selectedHandler,openCollaborateHandler,isQuickActionsOpenHandler} =finalLayoutStore.actions
+export const {loginFlagHandler,closeloginFlagHandler,settingsHandler,componentsLoaderHandler,selectedHandler,openCollaborateHandler,isQuickActionsOpenHandler,HeaderSearchHandler} =finalLayoutStore.actions
 export default finalLayoutStore.reducer 

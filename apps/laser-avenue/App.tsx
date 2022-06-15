@@ -33,7 +33,7 @@ import HrManager from './src/HR/screens/managerProvider.js'
 import Loader1 from './src/Loaders/loader1'
 import libraryTest from '../laser-avenue/src/FinalLayout/libraryTest'
 import AppointmentProviderLandingPage from './src/Appointment/Screens/AppointmentProviderLandingPage'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import SplashScreen from 'react-native-splash-screen'
 import createNotification from '../laser-avenue/src/Notification/Screens/createNotification'
@@ -50,6 +50,9 @@ import CreateTask from "./src/Tasks/Screens/CreateTask.js"
 import TaskFullView from "./src/Tasks/Screens/TaskFullView.js"
 import QuickActions from '../laser-avenue/src/FinalLayout/QuickActions.js'
 import {isQuickActionsOpenHandler} from '../laser-avenue/src/FinalLayout/store-finalLayout.js'
+import searchSreen from '../laser-avenue/src/Search/searchSreen.js'
+import HeaderSearch from './src/FinalLayout/HeaderSearch.js'
+
 
 const Stack = createNativeStackNavigator();
 // const RootStack = createStackNavigator();
@@ -68,6 +71,7 @@ async function saveTokenToDatabase(token) {
 }
 /////////////////////////////////////////////////////
   function App() {  
+    const navigationRef = useNavigationContainerRef(); 
     const drawer = useRef(null);
     const {
       isOpen,
@@ -79,10 +83,7 @@ async function saveTokenToDatabase(token) {
         .getToken()
         .then(token => {
         console.log('token========>',token);
-        
         });
-
-
       // if(Platform.OS == 'ios') { messaging().getAPNSToken().then(token => { return saveTokenToDatabase(token); }); }
   
       return messaging().onTokenRefresh(token => {
@@ -96,52 +97,82 @@ async function saveTokenToDatabase(token) {
     const ciamStore = useSelector(state => state.ciamStore);
 
 
+const navigationView = () => {
  
-    const navigationView = () => (
-        <View style={[styles.container, styles.navigationContainer]}>
-          <View style={{position:'absolute' ,top:100}}>
-    <Avatar style={{marginLeft:80,marginBottom:20}} size="80px" source={{
-          uri: 'https://cdn-icons-png.flaticon.com/512/387/387561.png'
-        }} />
-       
-       <Text style={{fontSize:20,color:'black'}}> {dashboardStore.userToken.firstName} {' '}{dashboardStore.userToken.middleName} {dashboardStore.userToken.lastName}</Text>
-       </View>
-       <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',alignItems:'center',marginTop:190}}>
-        <View >
-       <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10}} >
-       
-        <Text >Home</Text>
-      </TouchableOpacity>
-      </View>
-      <View >
-      <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10,  shadowColor: 'black',
-    shadowOffset: {width: 4, height: 4},
-    shadowOpacity: 1,
-    shadowRadius: 3,}} >
-       
-       <Text >Incident</Text>
-     </TouchableOpacity>
-     </View>
-     <View >
-     <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,  shadowColor: 'black',borderRadius:10,
-    shadowOffset: {width: 4, height: 4},
-    shadowOpacity: 1,
-    shadowRadius: 3,}}>
-       
-       <Text >My Activity</Text>
-     </TouchableOpacity >
-     </View>
-     <View >
-     <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,borderRadius:10}} >
-       
-       <Text >Logout</Text>
-     </TouchableOpacity>
-     </View>
-  
-       </View>
-         </View>
-         );
-     
+
+return(
+    <View style={[styles.container, styles.navigationContainer]}>
+      <View style={{position:'absolute' ,top:100}}>
+<Avatar style={{marginLeft:80,marginBottom:20}} size="80px" source={{
+      uri: 'https://cdn-icons-png.flaticon.com/512/387/387561.png'
+    }} />
+   
+   <Text style={{fontSize:20,color:'black'}}> {dashboardStore.userToken.firstName} {' '}{dashboardStore.userToken.middleName} {dashboardStore.userToken.lastName}</Text>
+   <Text style={{fontSize:14,color:'grey',justifyContent:'center',alignItems:'center',alignContent:'center',textAlign:'center'}}> {dashboardStore.userToken.email}</Text>
+   </View>
+   <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',alignItems:'center',marginTop:190}}>
+    <View >
+   <TouchableOpacity onPress={() => navigationRef.navigate('Dashboard')} style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10, shadowColor: "#000",
+   shadowOffset: {
+   width: 0,
+   height: 12,
+   },
+   shadowOpacity: 0.58,
+   shadowRadius: 16.00,
+   
+   elevation: 24,
+      }} >
+  <Icon style={{fontSize:35,color:'#1EA0BD'}} name="home-circle"/>
+   
+  <Text > Home</Text>
+  </TouchableOpacity>
+  </View>
+  <View >
+  <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10,  shadowColor: "#000",
+shadowOffset: {
+width: 0,
+height: 12,
+},
+shadowOpacity: 0.58,
+shadowRadius: 16.00,
+
+elevation: 24,}} >
+    <Icon style={{fontSize:35,color:'#1EA0BD'}} name="kodi"/>
+   <Text >Incident</Text>
+ </TouchableOpacity>
+ </View>
+ <View >
+ <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,  shadowColor: "#000",
+shadowOffset: {
+width: 0,
+height: 12,
+},
+shadowOpacity: 0.58,
+shadowRadius: 16.00,
+
+elevation: 24,borderRadius:10}}>
+      <Icon style={{fontSize:35,color:'#1EA0BD'}} name="clipboard-text-multiple-outline"/>
+   <Text >Activity</Text>
+ </TouchableOpacity >
+ </View>
+ <View >
+ <TouchableOpacity onPress={() => navigationRef.navigate('SignIn')}  style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,borderRadius:10,shadowColor: "#000",
+shadowOffset: {
+width: 0,
+height: 12,
+},
+shadowOpacity: 0.58,
+shadowRadius: 16.00,
+
+elevation: 24,}} >
+            <Icon style={{fontSize:35,color:'#1EA0BD'}} name="logout"/>
+   <Text >Logout</Text>
+ </TouchableOpacity>
+ </View>
+ </View>
+ </View>
+     )}
+      ;
          return (
           <>
           <DrawerLayoutAndroid
@@ -150,21 +181,17 @@ async function saveTokenToDatabase(token) {
           drawerPosition={"right"}
           renderNavigationView={navigationView}
           >
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
           <QuickActions />
-          {/* ////////////////////////////// */}
-          {/* ////////////////////////////// */}
           <Collaborate/>
-          {/* /////////////////////////////// */}
-          {/* ////////////////////////////// */}
-          {<Header style={{position:'fixed',top:0}} drawHandler={drawer} />}
-          {layoutSore.loginFlag && <Header style={{position:'fixed',top:0}}/>}
+          {layoutSore.searchFlag==false && <Header  drawHandler={drawer} />}
+          {layoutSore.searchFlag==true && <HeaderSearch   />}
+          {layoutSore.loginFlag && <Header/>}
           {layoutSore.componentsLoader  && <Loader1  />}
            <Stack.Navigator  screenOptions={{headerShown: false }}>
           {<Stack.Screen name="Dashboard" component={Dashboard}/>}
           {<Stack.Screen name="libraryTest" component={libraryTest}/>}
           {<Stack.Screen name="SignIn" component={SignIn}/>}
-          {/* {<Stack.Screen name="Splash" component={Splash}  />} */}
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           <Stack.Screen name="HrManager" component={HrManager}   />
           <Stack.Screen name="HrProvider" component={HrProvider}   />
@@ -184,10 +211,8 @@ async function saveTokenToDatabase(token) {
           <Stack.Screen name="TasksLandingPage" component={TasksLandingPage}  options={{title:'Tasks'}} />
           <Stack.Screen name="AppointmentLandingPage" component={AppointmentLandingPage} options={{title:'Appointments'}} />
           <Stack.Screen name="calendar" component={Calendar}   />
+          <Stack.Screen name="searchSreen" component={searchSreen}   />
           <Stack.Screen name="AppointmentProviderLandingPage" component={AppointmentProviderLandingPage}   />
-   
-   
-         
          {/* /* /////////////////////Billing/////////////////////////////////////// */ }
        
 
@@ -227,7 +252,6 @@ async function saveTokenToDatabase(token) {
 
          {/* //////////////////////////////////////////////////////////////////// ////*/}
          {/* /////////////////////Notification/////////////////////////////////////// */}
-
          <Stack.Screen name="test" component={Test} options={{title:'Notifications'}} />
          <Stack.Screen name="createNotification" component={createNotification} />
 
@@ -254,30 +278,21 @@ async function saveTokenToDatabase(token) {
 
          {/* ////////////////////////////////////////////////////////////////////// */}
 
-
-
-     
- 
-       
           </Stack.Navigator> 
-     
-          
-      
           { layoutSore.componentsLoader==false &&<>
           { layoutSore.settingsFlag && < SettingsModal/>}
           { ciamStore.ottpFlag && < OttpModel/>}
           { layoutSore.loginFlag && <Layout />}
-          {<Layout/>}
+          {layoutSore.searchFlag==false &&<Layout/>}
           </>}
-          </NavigationContainer>
-
-          <HStack  justifyContent="center">
+  {layoutSore.searchFlag==false &&        <HStack  justifyContent="center">
 <IconButton bg={'#7F8487'} shadow={9} w="50" h="50" style={{position:'absolute',left:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={()=>dispatch(isQuickActionsOpenHandler())}  icon={<Icon  style={{fontSize:30,color:'#23C1E4'}}  name="flash-outline" color="warmGray.50" _dark={{
 color: "warmGray.50"
 }} />} />
-</HStack>
+</HStack>}
      
-          </DrawerLayoutAndroid>
+</NavigationContainer>
+</DrawerLayoutAndroid>
           </>
     );
   }
