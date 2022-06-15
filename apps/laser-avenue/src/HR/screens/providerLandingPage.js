@@ -68,6 +68,7 @@ function Hr({navigation}) {
 
 
  function enableDisableHandler(results) {
+ 
   setTest(results.data)
     if (results.data.length !==0) {
      let fullTime =results.data[results.data.length-1].checkIn.split(':')
@@ -100,10 +101,12 @@ function Hr({navigation}) {
 
 
  async function checkInHandler() {
+  console.log('resultsresults',DateAndTimeHandler());
       await axios(requestRebuilder('hr','/checkInClicked','post',{
       "providerUuid": tokenStore.userToken.userId,
-      "providerName": tokenStore.userToken.name,
-      "ProviderId": tokenStore.userToken.userId})).then((results)=>{
+      "employeeName": tokenStore.userToken.name,
+      "EmployeeId": tokenStore.userToken.userId})).then((results)=>{
+       
     
         setCheckInNew(DateAndTimeHandler())
         setCheckInFlag(true)
