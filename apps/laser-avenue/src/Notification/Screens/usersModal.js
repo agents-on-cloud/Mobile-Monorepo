@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { Button, Actionsheet, useDisclose, Box, Text, Center, NativeBaseProvider } from "native-base";
-import { Path } from "react-native-svg";
+// import { Path } from "react-native-svg";
 import { useDispatch, useSelector } from 'react-redux';
 import {onCloseUsers,saveSelectedUsers} from '../store-notification'
 import Icon from 'react-native-vector-icons/Ionicons';
