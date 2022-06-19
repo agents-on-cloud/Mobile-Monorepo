@@ -124,8 +124,8 @@ backgroundColor:'transparent'
     position:'absolute',
     bottom:0,
     left:'35%',
-    backgroundColor:'#EEEEEE',
-    borderWidth:1,
+    backgroundColor:'#DBD8E3',
+    // borderWidth:1,
     borderColor:'#11567C'
 
   },
@@ -137,8 +137,8 @@ backgroundColor:'transparent'
     borderTopLeftRadius:100,
     right:0,
     bottom:0,
-    backgroundColor:'#EEEEEE',
-    borderWidth:.5,
+    backgroundColor:'#E4E4E4',
+    // borderWidth:.5,
     borderColor:'#11567C'
 
   },
@@ -148,9 +148,18 @@ backgroundColor:'transparent'
     height:50,
     position:'absolute',
     left:0,    bottom:0,
-    backgroundColor:'#EEEEEE',
-    borderWidth:.5,
-    borderColor:'#11567C'
+    backgroundColor:'#E4E4E4',
+    // borderWidth:.5,
+    borderColor:'#11567C',
+    shadowColor: "black",
+        shadowOffset: {
+        width: 0,
+        height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+        
+        elevation: 24, 
 
   }
 

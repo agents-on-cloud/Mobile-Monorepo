@@ -112,7 +112,10 @@ return(
    </View>
    <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'center',alignItems:'center',marginTop:190}}>
     <View >
-   <TouchableOpacity onPress={() => navigationRef.navigate('Dashboard')} style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10, shadowColor: "#000",
+   <TouchableOpacity onPress={() => {navigationRef.navigate('HrProvider')
+   
+   drawer.current.closeDrawer()
+  }} style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10, shadowColor: "#000",
    shadowOffset: {
    width: 0,
    height: 12,
@@ -122,13 +125,13 @@ return(
    
    elevation: 24,
       }} >
-  <Icon style={{fontSize:35,color:'#1EA0BD'}} name="home-circle"/>
+  <Icon style={{fontSize:35,color:'#1EA0BD'}} name="badge-account-horizontal"/>
    
-  <Text > Home</Text>
+  <Text > My HR</Text>
   </TouchableOpacity>
   </View>
   <View >
-  <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10,  shadowColor: "#000",
+{ dashboardStore.userToken.profileType?.toLowerCase() =="manager" && <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',borderRadius:10,alignItems:'center',margin:10,  shadowColor: "#000",
 shadowOffset: {
 width: 0,
 height: 12,
@@ -137,9 +140,9 @@ shadowOpacity: 0.58,
 shadowRadius: 16.00,
 
 elevation: 24,}} >
-    <Icon style={{fontSize:35,color:'#1EA0BD'}} name="kodi"/>
-   <Text >Incident</Text>
- </TouchableOpacity>
+ <Icon style={{fontSize:35,color:'#1EA0BD'}} name="kodi"/>
+ <Text >Clinic HR</Text>
+ </TouchableOpacity>}
  </View>
  <View >
  <TouchableOpacity style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,  shadowColor: "#000",
@@ -156,7 +159,8 @@ elevation: 24,borderRadius:10}}>
  </TouchableOpacity >
  </View>
  <View >
- <TouchableOpacity onPress={() => navigationRef.navigate('SignIn')}  style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,borderRadius:10,shadowColor: "#000",
+ <TouchableOpacity onPress={() => {navigationRef.navigate('SignIn')
+  drawer.current.closeDrawer()}}  style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,borderRadius:10,shadowColor: "#000",
 shadowOffset: {
 width: 0,
 height: 12,
@@ -168,6 +172,23 @@ elevation: 24,}} >
             <Icon style={{fontSize:35,color:'#1EA0BD'}} name="logout"/>
    <Text >Logout</Text>
  </TouchableOpacity>
+ 
+ </View>
+ <View >
+ <TouchableOpacity onPress={() => {navigationRef.navigate('SignIn')
+  drawer.current.closeDrawer()}}  style={{width:100,height:100,backgroundColor:'#F9F9F9',justifyContent:'center',alignItems:'center',margin:10,borderRadius:10,shadowColor: "#000",
+shadowOffset: {
+width: 0,
+height: 12,
+},
+shadowOpacity: 0.58,
+shadowRadius: 16.00,
+
+elevation: 24,}} >
+            <Icon style={{fontSize:35,color:'#1EA0BD'}} name="cog-outline"/>
+   <Text >Settings</Text>
+ </TouchableOpacity>
+ 
  </View>
  </View>
  </View>
@@ -184,14 +205,14 @@ elevation: 24,}} >
           <NavigationContainer ref={navigationRef}>
           <QuickActions />
           <Collaborate/>
-          {layoutSore.searchFlag==false && <Header  drawHandler={drawer} />}
+          {layoutSore.searchFlag==false &&layoutSore.loginFlag && <Header  drawHandler={drawer} />}
           {layoutSore.searchFlag==true && <HeaderSearch   />}
-          {layoutSore.loginFlag && <Header/>}
+          {/* {layoutSore.loginFlag && <Header/>} */}
           {layoutSore.componentsLoader  && <Loader1  />}
            <Stack.Navigator  screenOptions={{headerShown: false }}>
+          {<Stack.Screen name="SignIn" component={SignIn}/>}
           {<Stack.Screen name="Dashboard" component={Dashboard}/>}
           {<Stack.Screen name="libraryTest" component={libraryTest}/>}
-          {<Stack.Screen name="SignIn" component={SignIn}/>}
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
           <Stack.Screen name="HrManager" component={HrManager}   />
           <Stack.Screen name="HrProvider" component={HrProvider}   />
@@ -282,10 +303,10 @@ elevation: 24,}} >
           { layoutSore.componentsLoader==false &&<>
           { layoutSore.settingsFlag && < SettingsModal/>}
           { ciamStore.ottpFlag && < OttpModel/>}
-          { layoutSore.loginFlag && <Layout />}
-          {layoutSore.searchFlag==false &&<Layout/>}
+       
+          {layoutSore.searchFlag==false && layoutSore.loginFlag &&<Layout/>}
           </>}
-  {layoutSore.searchFlag==false &&        <HStack  justifyContent="center">
+  {layoutSore.searchFlag==false &&  layoutSore.loginFlag  &&     <HStack  justifyContent="center">
 <IconButton bg={'#7F8487'} shadow={9} w="50" h="50" style={{position:'absolute',left:20,bottom:70}} variant="solid" borderRadius="full" size="lg" onPress={()=>dispatch(isQuickActionsOpenHandler())}  icon={<Icon  style={{fontSize:30,color:'#23C1E4'}}  name="flash-outline" color="warmGray.50" _dark={{
 color: "warmGray.50"
 }} />} />

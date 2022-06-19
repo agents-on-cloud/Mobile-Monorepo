@@ -19,6 +19,7 @@ export const dashboard=createSlice({
         profileId: "5fd5d2f1-f63e-450b-b012-dd6d6bd64353",
         profileType: "PROVIDER",
         userId: "5fd5d2f1-f63e-450b-b012-dd6d6bd64353"},
+        
         ShowMenuFlag77:false,
         notificationModal:false
     },

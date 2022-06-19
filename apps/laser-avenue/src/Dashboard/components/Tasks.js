@@ -142,7 +142,15 @@ function SetReminder() {
          {/* <Text>ddddddddddd{taskItem.id}</Text>  */}
         <Center>     
         <View style={{   borderColor:'black',
-        borderWidth:0.5, backgroundColor:'#DEEDF0' ,borderRadius:20, height: 95,width:380, padding: 30,marginBottom:15,marginTop:50,marginRight:10,     paddingLeft:10,marginBottom:50 }} >
+        backgroundColor:'#DEEDF0' ,borderRadius:20, height: 95,width:380, padding: 30,marginBottom:15,marginTop:50,marginRight:10,     paddingLeft:10,marginBottom:50,shadowColor: "#000",
+        shadowOffset: {
+        width: 0,
+        height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+        
+        elevation: 24, }} >
      <Image  style={{height:90,width:180,position:'absolute',right:0,backgroundSize:'cover'}} source={require('../../assests/2661180-removebg-preview.png')} />
  {/* <Center> */}
       <Text  style={{ fontSize: 20,color:'#06919D',marginLeft:30 }}>Your Today Tasks</Text>

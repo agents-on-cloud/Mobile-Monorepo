@@ -64,7 +64,7 @@ function error(payload) {
 
     dispatch(componentsLoaderHandler())
     await axios(requestRebuilder('hr','/getAllWorkingHours','post',{
-      "providerUuid": tokenStore.userToken.profileId,
+      "providerUuid": tokenStore.userToken.userId,
       "status": "latest"
      })).then(results=>setProviders( results.data))
      dispatch(componentsLoaderHandler())
@@ -75,7 +75,7 @@ function error(payload) {
   async function checkinhHandler() {
   
     await axios(requestRebuilder('hr','/getAllTimeAttendance','post',{
-      "providerUuid": tokenStore.userToken.profileId,
+      "providerUuid": tokenStore.userToken.userId,
       "date":hrStore.dueDate
       // tokenStore.userToken.profileId
       // dueDate
@@ -118,7 +118,7 @@ function error(payload) {
     setCheckOutNew(DateAndTimeHandler())
     setCheckOutFlag(true)
     await axios(requestRebuilder('hr','/checkOutClicked','put',{
-      "providerUuid": tokenStore.userToken.profileId,
+      "providerUuid": tokenStore.userToken.userId,
       "status":"out"})).then(()=>{
        setCheckOutNew(DateAndTimeHandler())
        setCheckOutFlag(true)
@@ -127,18 +127,15 @@ function error(payload) {
 
  async function checkInHandler() {
       await axios(requestRebuilder('hr','/checkInClicked','post',{
-      "providerUuid": tokenStore.userToken.profileId,
+      "providerUuid": tokenStore.userToken.userId,
       "providerName": tokenStore.userToken.name,
-      "ProviderId": tokenStore.userToken.user_id})).then((results)=>{
+      "ProviderId": tokenStore.userToken.userId})).then((results)=>{
     
         setCheckInNew(DateAndTimeHandler())
         setCheckInFlag(true)
       })
     
     }
-  
-
-
   
     return (
       <ScrollView>

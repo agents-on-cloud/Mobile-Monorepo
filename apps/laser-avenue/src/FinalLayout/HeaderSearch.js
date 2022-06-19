@@ -15,7 +15,7 @@ function HeaderSearch() {
     function backHandler() {
     
     }
-    function sayHello() {
+    function searchSubmit() {
         dispatch(searchInputHandler(text))
         console.log('Hello!');
       }
@@ -34,12 +34,9 @@ dispatch(HeaderSearchHandler())
 style={styles.input}
 onChangeText={onChangeText}
 value={text}
-onSubmitEditing={sayHello}
+onSubmitEditing={searchSubmit}
       />
 </View>
-
-
-
 
         </View>
     )
