@@ -56,8 +56,8 @@ const store=configureStore({
         <NativeBaseProvider>
         <NavigationContainer>
         <Stack.Navigator  >
+        <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="MainLandingPAge" component={MainLandiingPage} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
           <Stack.Screen name="MarketingLandingPage" component={MarketingLandingPage} />
           <Stack.Screen name="BillingLandingPage" component={BillingLandingPage} />
           <Stack.Screen name="ConsumersLandingPage" component={ConsumersLandingPage} />
