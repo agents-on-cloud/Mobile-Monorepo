@@ -51,6 +51,7 @@ function closeALLmodals() {
         <ScrollView >
         <Pressable onPress={()=>closeALLmodals() }>
         {/*//////////////////////////Tasks //////////////////////////////////////////////////////*/}
+        <Text>Firaaas</Text>
         <Tasks navigation={navigation}/>
         {/*///////////////////////////Appontment Manager/////////////////////////////////////// /*/}
         <NotificationCarousel navigation={navigation}/>
